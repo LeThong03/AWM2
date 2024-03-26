@@ -27,7 +27,6 @@
     justify-content: center;
     align-items: center;
     padding: 1rem;
-    border: 1px solid #fff;
     text-align: center;
     cursor: pointer;
     margin-bottom: 3rem; 
@@ -38,7 +37,7 @@
     font-family: var(--font-family);
     line-height: 21px;
     color: #fff;
-    word-spacing: 2px;
+    word-spacing: 1px;
 }
 
 .magazine__footer-links {
