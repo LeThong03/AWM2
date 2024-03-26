@@ -22,7 +22,7 @@ const Navbar = () => {
 
       <div className="magazine__navbar-sign">
         <p><Link to="/login">Sign in</Link></p> {/* Link to the sign-in page */}
-        <button type="button"><Link to="/regester">Sign up</Link></button> {/* Link to the sign-up page */}
+        <button type="button"><Link to="/signup">Sign up</Link></button> {/* Link to the sign-up page */}
       </div>
 
       <div className="magazine__navbar-menu">
@@ -40,7 +40,7 @@ const Navbar = () => {
 
             <div className="magazine__navbar-menu_container-links-sign">
               <p><Link to="/login">Sign in</Link></p> {/* Link to the sign-in page */}
-              <button type="button"><Link to="/regester">Sign up</Link></button> {/* Link to the sign-up page */}
+              <button type="button"><Link to="/signup">Sign up</Link></button> {/* Link to the sign-up page */}
             </div>
           </div>
         )}

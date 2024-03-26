@@ -3,11 +3,11 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; // Im
 
 import { Footer, Header, Wim, Features, Blog } from './containters';
 import { CTA, Navbar } from './components';
-
+import { Login, Regester} from './logins';
 
 import './app.css';
 
-const Home = () => {
+const HomePage = () => {
   return (
     <div className='gradient_bg'>
       <Navbar />
@@ -21,18 +21,18 @@ const Home = () => {
   );
 };
 
-const Login = () => {
+const LoginPage = () => {
   return (
-<div className='gradient_bg'>
-
+  <div>
+    <Login/>
     </div>
   );
 };
 
-const Register = () => {
+const RegisterPage = () => {
   return (
     <div>
-
+    <Regester/>
     </div>
   );
 };
@@ -40,7 +40,7 @@ const Register = () => {
 const NoPage = () => {
   return (
     <div>
-
+    <Login/>
     </div>
   );
 };
@@ -49,9 +49,9 @@ const App = () => {
   return (
     <Router>
       <Routes>
-        <Route path='/' element={<Home />} />
-        <Route path='/login' element={<Login />} />
-        <Route path='/signup' element={<Register />} />
+        <Route path='/' element={<HomePage />} />
+        <Route path='/login' element={<LoginPage />} />
+        <Route path='/signup' element={<RegisterPage />} />
         <Route path='*' element={<NoPage />} />
       </Routes>
     </Router>
