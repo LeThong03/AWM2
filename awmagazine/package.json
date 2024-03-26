@@ -1,5 +1,4 @@
 {
-<<<<<<< HEAD
   "name": "awmagazine",
   "version": "0.1.0",
   "private": true,
@@ -35,9 +34,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-=======
-  "dependencies": {
-    "mongodb": "^6.5.0"
->>>>>>> 890f8bebd938e23ea923920d154ab5cfdd83e833
   }
 }
