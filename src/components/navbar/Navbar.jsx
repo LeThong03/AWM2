@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { RiMenu3Line, RiCloseLine } from 'react-icons/ri';
+import { Link } from 'react-router-dom'; // Import Link component
 import './navbar.css';
 
 const Navbar = () => {
@@ -12,19 +13,16 @@ const Navbar = () => {
         </div>
 
         <div className="magazine__navbar-links_container">
-          <p><a href="#home">Home</a></p>
-          <p><a href="#new">News</a></p>
-          <p><a href="#event">Events</a></p>
-          <p><a href="#blog">Library</a></p>
+          <p><Link to="/">Home</Link></p>
+          <p><Link to="/news">News</Link></p>
+          <p><Link to="/events">Events</Link></p>
+          <p><Link to="/library">Library</Link></p>
         </div>
       </div>
 
       <div className="magazine__navbar-sign">
-
-        <p>Sign in</p>
-
-        <button type="button">Sign up</button>
-        
+        <p><Link to="/login">Sign in</Link></p> {/* Link to the sign-in page */}
+        <button type="button"><Link to="/regester">Sign up</Link></button> {/* Link to the sign-up page */}
       </div>
 
       <div className="magazine__navbar-menu">
@@ -34,15 +32,15 @@ const Navbar = () => {
         {toggleMenu && (
           <div className="magazine__navbar-menu_container scale-up-center">
             <div className="magazine__navbar-menu_container-links">
-              <p><a href="#">Home</a></p>
-              <p><a href="#">News</a></p>
-              <p><a href="#">Events</a></p>
-              <p><a href="#">Library</a></p>
+              <p><Link to="/">Home</Link></p>
+              <p><Link to="/news">News</Link></p>
+              <p><Link to="/events">Events</Link></p>
+              <p><Link to="/library">Library</Link></p>
             </div>
 
             <div className="magazine__navbar-menu_container-links-sign">
-              <p>Sign in</p>
-              <button type="button">Sign up</button>
+              <p><Link to="/login">Sign in</Link></p> {/* Link to the sign-in page */}
+              <button type="button"><Link to="/regester">Sign up</Link></button> {/* Link to the sign-up page */}
             </div>
           </div>
         )}
