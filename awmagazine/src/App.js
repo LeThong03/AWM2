@@ -1,9 +1,9 @@
 import React from 'react'
 
-import {Footer, Header, Wim, Features, Blog  } from './containters';
+import {Footer, Header, Wim, Features, Blog  } from './containers';
 import {CTA, Navbar, } from './components';
 
-import './app.css';
+import './App.css';
 
 const app = () => {
   return (
