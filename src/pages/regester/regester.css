@@ -26,6 +26,8 @@
   }
   
   .form-group {
+    font-size: 14px;
+    font-family: var(--font-family);
     margin-bottom: 15px;
   }
   

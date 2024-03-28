@@ -9,6 +9,7 @@ const Register = () => {
   const [password, setPassword] = useState('');
   const [dateOfBirth, setDateOfBirth] = useState('');
   const [gender, setGender] = useState('');
+  const [agreeTerms, setAgreeTerms] = useState(false); // New state for agree terms
 
   const handleFullNameChange = (event) => {
     setFullName(event.target.value);
@@ -28,6 +29,10 @@ const Register = () => {
 
   const handleGenderChange = (event) => {
     setGender(event.target.value);
+  };
+
+  const handleAgreeTermsChange = (event) => { // Function to handle agree terms change
+    setAgreeTerms(event.target.checked);
   };
 
   return (
@@ -54,6 +59,11 @@ const Register = () => {
               <option value="female">Female</option>
               <option value="other">Other</option>
             </select>
+          </div>
+          <div className="form-group">
+            <label>
+              <input type="checkbox" checked={agreeTerms} onChange={handleAgreeTermsChange} /> Agree to Terms
+            </label>
           </div>
           <button type="submit" className="btn-login">Register</button>
         </form>
