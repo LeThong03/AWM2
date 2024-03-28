@@ -31,7 +31,10 @@
     justify-content: flex-end;
     align-items: center;
 }
-
+.magazine__navbar-sign p a {
+    color: #ffffff; /* Initially, make the link text transparent */
+  }
+  
 .magazine__navbar-links_container p,
 .magazine__navbar-sign p,
 .magazine__navbar-menu_container p {
@@ -44,7 +47,9 @@
     margin: 0 1rem;
     cursor: pointer;
 }
-
+.magazine__navbar-menu_container p a {
+    color: #ffffff; /* Initially, make the link text transparent */
+  }
 .magazine__navbar-sign button,
 .magazine__navbar-menu_container button {
     padding: 0.5rem 1rem;
