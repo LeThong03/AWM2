@@ -17,6 +17,7 @@
   }
   
   h2 {
+    font-family: var(--font-family);
     text-align: center;
   }
   
@@ -37,6 +38,7 @@
   input[type="password"],
   input[type="date"],
   select {
+    font-family: var(--font-family);
     width: 100%;
     padding: 15px; /* Increase padding for input fields */
     border: 1px solid #ccc;
@@ -64,16 +66,19 @@
   }
   
   p {
+    font-family: var(--font-family);
     text-align: center;
     margin-top: 20px;
   }
   
   p a {
+    font-family: var(--font-family);
     color: #007bff;
     text-decoration: none;
   }
   
   p a:hover {
+    font-family: var(--font-family);
     text-decoration: underline;
   }
   

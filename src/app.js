@@ -37,6 +37,72 @@ const RegisterPage = () => {
   );
 };
 
+/*
+const AdminLoginPage = () => {
+  return (
+  <div>
+    </>
+    </div>
+  );
+};
+
+const CordinatorLoginPage = () => {
+  return (
+  <div>
+    </>
+    </div>
+  );
+};
+
+const StudentLoginPage = () => {
+  return (
+  <div>
+    </>
+    </div>
+  );
+};
+
+const GuestLoginPage = () => {
+  return (
+    <div>
+    </>
+    </div>
+  );
+};
+const LibaryPage = () => {
+  return (
+  <div>
+    </>
+    </div>
+  );
+};
+
+const EventsPage = () => {
+  return (
+    <div>
+    </>
+    </div>
+  );
+};
+
+const NewsPage = () => {
+  return (
+    <div>
+    </>
+    </div>
+  );
+};
+*/
+/*
+        <Route path='/home' element={<AdminLoginPage />} />
+        <Route path='/login' element={<CordinatorLoginPage />} />
+        <Route path='/signup' element={<StudentLoginPage />} />
+        <Route path='/home' element={<GuestLoginPage />} />
+        <Route path='/login' element={<LibaryPage />} />
+        <Route path='/signup' element={<EventsPage />} />
+        <Route path='/signup' element={<NewsPage />} />
+*/
+
 const NoPage = () => {
   return (
     <div className='gradient_bg'>
