@@ -3,7 +3,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const UserModel = require('./User'); // Import the UserModel
+const User = require('./User');
 
 const app = express();
 const port = 5000;
@@ -19,31 +19,12 @@ mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true 
 // Middleware
 app.use(bodyParser.json());
 
-// Route to handle user registration
-app.post('/api/register', async (req, res) => {
+// Route to handle user registration (Create operation)
+app.post('/signup', async (req, res) => {
   try {
-    const { fullName, email, password, dateOfBirth, gender, agreeTerms } = req.body;
-
-    // Check if user with this email already exists
-    const existingUser = await UserModel.findOne({ email });
-    if (existingUser) {
-      return res.status(400).json({ message: 'Email already exists' });
-    }
-
-    // Create a new user instance
-    const newUser = new UserModel({
-      fullName,
-      email,
-      password,
-      dateOfBirth,
-      gender,
-      agreeTerms,
-    });
-
-    // Save the user to the database
+    const newUser = new User(req.body);
     await newUser.save();
-
-    res.status(201).json({ message: 'User registered successfully' });
+    res.status(201).json({ message: 'User registered successfully', user: newUser });
   } catch (error) {
     console.error('Error registering user:', error);
     res.status(500).json({ message: 'Internal server error' });

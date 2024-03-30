@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { BackGround } from './imports'; // Ensure this import is correct
 import './register.css';
 
+
 const Register = () => {
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
@@ -70,7 +71,7 @@ const Register = () => {
     <div className="login-container" style={{ backgroundImage: `url(${BackGround})`, backgroundSize: 'cover', backgroundRepeat: 'no-repeat', backgroundPosition: 'center' }}>
       <div className="login-box">
         <h2>Register</h2>
-        <form className="login-form">
+        <form className="login-form" onSubmit={handleSubmit}>
           <div className="form-group">
             <input type="text" id="fullName" name="fullName" value={fullName} onChange={handleFullNameChange} placeholder="Full Name" />
           </div>
