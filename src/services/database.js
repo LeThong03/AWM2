@@ -1,5 +1,5 @@
 // server.js
-const express = require('express');
+/*const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const User = require('./models/User');
@@ -34,3 +34,4 @@ app.post('/signup', async (req, res) => {
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
+*/
