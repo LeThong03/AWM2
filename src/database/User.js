@@ -8,7 +8,7 @@ const userSchema = new mongoose.Schema({
   email: {
     type: String,
     required: true,
-    unique: true // Ensure email is unique
+    unique: true 
   },
   password: {
     type: String,
@@ -20,7 +20,7 @@ const userSchema = new mongoose.Schema({
   },
   gender: {
     type: String,
-    enum: ['male', 'female', 'other'], // Ensure gender is one of these values
+    enum: ['male', 'female', 'other'],
     required: true
   },
   agreeTerms: {
