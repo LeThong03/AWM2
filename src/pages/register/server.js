@@ -1,8 +1,9 @@
-// Import necessary packages
+// server.js
+
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const UserModel = require('../../services/User.js');
+const UserModel = require('./User'); // Import the UserModel
 
 const app = express();
 const port = 5000;

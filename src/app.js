@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; // Im
 
 import { Footer, Header, Wim, Features, Blog } from './containers';
 import { CTA, Navbar } from './components';
-import { Login, Regester, Error404} from './pages';
+import { Login, Register, Error404} from './pages';
 
 import './app.css';
 
@@ -32,7 +32,7 @@ const LoginPage = () => {
 const RegisterPage = () => {
   return (
     <div>
-    <Regester/>
+    <Register/>
     </div>
   );
 };

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { BackGround } from './imports'; // Ensure this import is correct
-import './regester.css';
+import './register.css';
 
 const Register = () => {
   const [fullName, setFullName] = useState('');
