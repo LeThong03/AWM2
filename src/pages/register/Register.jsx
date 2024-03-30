@@ -35,6 +35,37 @@ const Register = () => {
     setAgreeTerms(event.target.checked);
   };
 
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    // Create a new user object with form data
+    const newUser = {
+      fullName,
+      email,
+      password,
+      dateOfBirth,
+      gender,
+      agreeTerms,
+    };
+  
+    try {
+      // Send a POST request to the backend server
+      const response = await fetch('/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newUser),
+      });
+  
+      const data = await response.json();
+      console.log(data); // Log the response from the server
+      // Redirect or show a success message based on the response
+    } catch (error) {
+      console.error('Error registering user:', error);
+      // Handle error, show error message to the user, etc.
+    }
+  };
+  
   return (
     <div className="login-container" style={{ backgroundImage: `url(${BackGround})`, backgroundSize: 'cover', backgroundRepeat: 'no-repeat', backgroundPosition: 'center' }}>
       <div className="login-box">
