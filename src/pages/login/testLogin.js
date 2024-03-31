@@ -26,7 +26,7 @@ const loginCheck = async (email) => {
 };
 
 // Example usage:
-const email = "john@example.com"; // Use the user's email
+const email = "gcs2@example.com"; // Use the user's email
 
 loginCheck(email)
   .then(result => {
