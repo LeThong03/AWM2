@@ -1,41 +1,75 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom'; // Import useNavigate
-import { BackGround } from './imports'; // Ensure this import is correct
+import { Link, useNavigate } from 'react-router-dom';
+import { BackGround } from './imports';
 import './login.css';
 
 const Login = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const navigate = useNavigate(); // Initialize useNavigate
+  const [formData, setFormData] = useState({ fullName: '', password: '' });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
-  const handleUsernameChange = (event) => {
-    setUsername(event.target.value);
-  };
-
-  const handlePasswordChange = (event) => {
-    setPassword(event.target.value);
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    // Perform login logic here
-
-    // Assuming login is successful, navigate to homepage
-    navigate('/homepage'); // Navigate to homepage
+    if (!formData.fullName || !formData.password) {
+      setError('Full name and password are required.');
+      return;
+    }
+  
+    setLoading(true);
+    setError(null);
+  
+    try {
+      const response = await fetch('/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+    
+      console.log('Response status:', response.status);
+    
+      if (response.status === 200) {
+        setError(null);
+        navigate('/homepage');
+      } else if (response.status === 401) {
+        const data = await response.json();
+        setError(data.message || 'Invalid full name or password');
+      } else {
+        setError('Login failed. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      setError('An unexpected error occurred. Please try again later.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <div className="login-container" style={{ backgroundImage: `url(${BackGround})`, backgroundSize: 'cover', backgroundRepeat: 'no-repeat', backgroundPosition: 'center' }}>
+    <div className="login-container" style={{ backgroundImage: `url(${BackGround})` }}>
       <div className="login-box">
         <h2>Login</h2>
         <form className="login-form" onSubmit={handleSubmit}>
           <div className="form-group">
-            <input type="text" id="username" name="username" value={username} onChange={handleUsernameChange} onFocus={() => setUsername('')} placeholder="Username" />
+            <input type="text" name="fullName" value={formData.fullName} onChange={handleChange} placeholder="Full Name" />
           </div>
           <div className="form-group">
-            <input type="password" id="password" name="password" value={password} onChange={handlePasswordChange} onFocus={() => setPassword('')} placeholder="Password" />
+            <input type="password" name="password" value={formData.password} onChange={handleChange} placeholder="Password" />
           </div>
-          <button type="submit" className="btn-login">Login</button>
+          {error && <div className="error-message">{error}</div>}
+          <button type="submit" className="btn-login" disabled={loading}>
+            {loading ? 'Logging in...' : 'Login'}
+          </button>
         </form>
         <p>Don't have an account? <Link to="/signup">Sign up</Link></p>
       </div>
@@ -44,5 +78,3 @@ const Login = () => {
 };
 
 export default Login;
-//JohnDoe
-//12345678
