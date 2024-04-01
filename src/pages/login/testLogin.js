@@ -1,37 +1,37 @@
 const fetch = require('node-fetch');
+const readline = require('readline');
 
-const loginCheck = async (email) => {
+const loginCheck = async (fullName, password) => {
   try {
-    // Fetch all users' data
-    const url = 'http://localhost:5000/getAllUsers';
-    const response = await fetch(url);
-    const users = await response.json();
+    const response = await fetch('http://localhost:5000/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ fullName, password }),
+    });
 
-    // Log the users array
-    console.log('All users:', users);
+    const data = await response.json();
 
-    // Find the user with the provided email
-    const user = users.find(user => user.email === email);
-
-    // If user is found, return "User found"
-    if (user) {
-      return "User found";
+    if (response.status === 200) {
+      console.log('Login successful:', data.message);
+      console.log('User:', data.user); // If you want to see the user details
     } else {
-      return "User not found";
+      console.error('Login failed:', data.message);
     }
   } catch (error) {
     console.error('Error:', error);
-    return "An unexpected error occurred.";
   }
 };
 
-// Example usage:
-const email = "gcs2@example.com"; // Use the user's email
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
+});
 
-loginCheck(email)
-  .then(result => {
-    console.log(result);
-  })
-  .catch(error => {
-    console.error('Error:', error);
+rl.question('Enter your full name: ', (fullName) => {
+  rl.question('Enter your password: ', (password) => {
+    loginCheck(fullName, password);
+    rl.close();
   });
+});

@@ -100,7 +100,6 @@ const NewsPage = () => {
         <Route path='/home' element={<GuestLoginPage />} />
         <Route path='/login' element={<LibaryPage />} />
         <Route path='/signup' element={<EventsPage />} />
-        <Route path='/signup' element={<NewsPage />} />
 */
 
 const NoPage = () => {

@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { BackGround } from './imports';
-import './login.css';
+/*import React, { useState } from 'react';
+import { BackGround } from '../login/imports';
+import './loginTest.css';
 
-const Login = () => {
+const LoginTest = () => {
   const [formData, setFormData] = useState({ fullName: '', password: '' });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -76,4 +76,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default LoginTest;*/

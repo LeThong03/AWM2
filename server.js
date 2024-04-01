@@ -1,8 +1,7 @@
-// server.js
-
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const cors = require('cors'); // Import the cors middleware
 const bcrypt = require('bcrypt');
 const User = require('./User');
 
@@ -19,6 +18,9 @@ mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true 
 
 // Middleware
 app.use(bodyParser.json());
+
+// Enable CORS
+app.use(cors());
 
 // Route to fetch all users
 app.get('/getAllUsers', async (req, res) => {
@@ -43,27 +45,24 @@ app.post('/login', async (req, res) => {
   try {
     // Find the user in the database based on the provided full name
     const user = await User.findOne({ fullName });
+
     // If user is not found, return an error
     if (!user) {
-      return res.status(401).json({ message: 'Invalid full name or password' });
+      return res.status(401).json({ message: 'User not found' });
     }
-  
-    // Compare hashed passwords
-    const isPasswordValid = await bcrypt.compare(password, user.password);
-  
-    if (!isPasswordValid) {
-      return res.status(401).json({ message: 'Invalid full name or password' });
+
+    // Compare passwords
+    if (password !== user.password) {
+      return res.status(401).json({ message: 'Invalid password' });
     }
-  
+
     // If user is found and password matches, return success message
     res.status(200).json({ message: 'Login successful', user });
   } catch (error) {
     console.error('Error logging in user:', error);
     res.status(500).json({ message: 'An unexpected error occurred. Please try again later.' });
-  }  
+  }
 });
-
-
 
 // Start the server
 app.listen(port, () => {
