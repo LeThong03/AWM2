@@ -64,6 +64,43 @@ app.post('/login', async (req, res) => {
   }
 });
 
+// Route to handle user registration
+app.post('/register', async (req, res) => {
+  const { fullName, email, password, dateOfBirth, gender, agreeTerms } = req.body;
+
+  // Validate input
+  if (!fullName || !email || !password || !dateOfBirth || !gender || !agreeTerms) {
+    return res.status(400).json({ message: 'All fields are required' });
+  }
+
+  try {
+    // Check if email already exists
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(409).json({ message: 'Email already exists' });
+    }
+
+    // Create a new user
+    const newUser = new User({
+      fullName,
+      email,
+      password, // You should hash the password before saving it
+      dateOfBirth,
+      gender,
+      agreeTerms
+    });
+
+    // Save the user to the database
+    await newUser.save();
+
+    // Return success message
+    res.status(201).json({ message: 'User registered successfully' });
+  } catch (error) {
+    console.error('Error registering user:', error);
+    res.status(500).json({ message: 'An unexpected error occurred. Please try again later.' });
+  }
+});
+
 // Start the server
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);

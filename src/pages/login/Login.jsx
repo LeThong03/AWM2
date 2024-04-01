@@ -57,7 +57,7 @@ const Login = () => {
   };
 
   return (
-    <div className="login-container" style={{ backgroundImage: `url(${BackGround})` }}>
+    <div className="login-container" style={{ backgroundImage: `url(${BackGround})`, backgroundSize: 'cover', backgroundRepeat: 'no-repeat', backgroundPosition: 'center' }}>
       <div className="login-box">
         <h2>Login</h2>
         <form className="login-form" onSubmit={handleSubmit}>

@@ -5,87 +5,74 @@ import './register.css';
 
 
 const Register = () => {
-  const [fullName, setFullName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [dateOfBirth, setDateOfBirth] = useState('');
-  const [gender, setGender] = useState('');
-  const [agreeTerms, setAgreeTerms] = useState(false); // New state for agree terms
+  const [formData, setFormData] = useState({
+    fullName: '',
+    email: '',
+    password: '',
+    dateOfBirth: '',
+    gender: '',
+    agreeTerms: false
+  });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-  const handleFullNameChange = (event) => {
-    setFullName(event.target.value);
-  };
-
-  const handleEmailChange = (event) => {
-    setEmail(event.target.value);
-  };
-
-  const handlePasswordChange = (event) => {
-    setPassword(event.target.value);
-  };
-
-  const handleDateOfBirthChange = (event) => {
-    setDateOfBirth(event.target.value);
-  };
-
-  const handleGenderChange = (event) => {
-    setGender(event.target.value);
-  };
-
-  const handleAgreeTermsChange = (event) => { // Function to handle agree terms change
-    setAgreeTerms(event.target.checked);
+  const handleChange = (event) => {
+    const { name, value, type, checked } = event.target;
+    const newValue = type === 'checkbox' ? checked : value;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: newValue,
+    }));
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    // Create a new user object with form data
-    const newUser = {
-      fullName,
-      email,
-      password,
-      dateOfBirth,
-      gender,
-      agreeTerms,
-    };
-  
+    setLoading(true);
+    setError(null);
+
     try {
-      // Send a POST request to the backend server
-      const response = await fetch('/signup', {
+      const response = await fetch('http://localhost:5000/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(newUser),
+        body: JSON.stringify(formData),
       });
-  
-      const data = await response.json();
-      console.log(data); // Log the response from the server
-      // Redirect or show a success message based on the response
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log('Registration successful:', data.message);
+        // Redirect or perform other actions upon successful registration
+      } else {
+        setError('Registration failed. Please try again.');
+      }
     } catch (error) {
-      console.error('Error registering user:', error);
-      // Handle error, show error message to the user, etc.
+      console.error('Error:', error);
+      setError('An unexpected error occurred. Please try again later.');
+    } finally {
+      setLoading(false);
     }
   };
-  
+
   return (
     <div className="login-container" style={{ backgroundImage: `url(${BackGround})`, backgroundSize: 'cover', backgroundRepeat: 'no-repeat', backgroundPosition: 'center' }}>
-      <div className="login-box">
+      <div className="register-box">
         <h2>Register</h2>
-        <form className="login-form" onSubmit={handleSubmit}>
+        <form className="register-form" onSubmit={handleSubmit}>
           <div className="form-group">
-            <input type="text" id="fullName" name="fullName" value={fullName} onChange={handleFullNameChange} placeholder="Full Name" />
+            <input type="text" name="fullName" value={formData.fullName} onChange={handleChange} placeholder="Full Name" />
           </div>
           <div className="form-group">
-            <input type="email" id="email" name="email" value={email} onChange={handleEmailChange} placeholder="Email" />
+            <input type="email" name="email" value={formData.email} onChange={handleChange} placeholder="Email" />
           </div>
           <div className="form-group">
-            <input type="password" id="password" name="password" value={password} onChange={handlePasswordChange} placeholder="Password" />
+            <input type="password" name="password" value={formData.password} onChange={handleChange} placeholder="Password" />
           </div>
           <div className="form-group">
-            <input type="date" id="dateOfBirth" name="dateOfBirth" value={dateOfBirth} onChange={handleDateOfBirthChange} placeholder="Date of Birth" />
+            <input type="date" name="dateOfBirth" value={formData.dateOfBirth} onChange={handleChange} placeholder="Date of Birth" />
           </div>
           <div className="form-group">
-            <select id="gender" name="gender" value={gender} onChange={handleGenderChange}>
+            <select name="gender" value={formData.gender} onChange={handleChange}>
               <option value="">Select Gender</option>
               <option value="male">Male</option>
               <option value="female">Female</option>
@@ -94,10 +81,13 @@ const Register = () => {
           </div>
           <div className="form-group">
             <label>
-              <input type="checkbox" checked={agreeTerms} onChange={handleAgreeTermsChange} /> Agree to Terms
+              <input type="checkbox" name="agreeTerms" checked={formData.agreeTerms} onChange={handleChange} /> Agree to Terms
             </label>
           </div>
-          <button type="submit" className="btn-login">Register</button>
+          {error && <div className="error-message">{error}</div>}
+          <button type="submit" className="btn-register" disabled={loading}>
+            {loading ? 'Registering...' : 'Register'}
+          </button>
         </form>
         <p>Already have an account? <Link to="/login">Login</Link></p>
       </div>
