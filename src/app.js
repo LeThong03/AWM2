@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; // Im
 
 import { Footer, Header, Wim, Features, Blog } from './containers';
 import { CTA, Navbar } from './components';
-import { Login, Register, Error404} from './pages';
+import { Login, Register, Error404, RegisterSuccess} from './pages';
 
 import './app.css';
 
@@ -37,6 +37,13 @@ const RegisterPage = () => {
   );
 };
 
+const RegisterSuccessPage = () => {
+  return (
+    <div>
+    <RegisterSuccess/>
+    </div>
+  );
+};
 /*
 const AdminLoginPage = () => {
   return (
@@ -118,6 +125,7 @@ const App = () => {
         <Route path='/home' element={<HomePage />} />
         <Route path='/login' element={<LoginPage />} />
         <Route path='/signup' element={<RegisterPage />} />
+        <Route path='/signupsuccess' element={<RegisterSuccessPage />} />
         <Route path='*' element={<NoPage />} />
       </Routes>
     </Router>
