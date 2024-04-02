@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; // Im
 
 import { Footer, Header, Wim, Features, Blog } from './containers';
 import { CTA, Navbar } from './components';
-import { Login, Register, Error404, RegisterSuccess} from './pages';
+import { Login, Register, Error404, RegisterSuccess, Student } from './pages/';
 
 import './app.css';
 
@@ -44,70 +44,16 @@ const RegisterSuccessPage = () => {
     </div>
   );
 };
-/*
-const AdminLoginPage = () => {
-  return (
-  <div>
-    </>
-    </div>
-  );
-};
-
-const CordinatorLoginPage = () => {
-  return (
-  <div>
-    </>
-    </div>
-  );
-};
 
 const StudentLoginPage = () => {
   return (
-  <div>
-    </>
-    </div>
+    <div>
+          <Student/>
+   </div>
   );
 };
 
-const GuestLoginPage = () => {
-  return (
-    <div>
-    </>
-    </div>
-  );
-};
-const LibaryPage = () => {
-  return (
-  <div>
-    </>
-    </div>
-  );
-};
 
-const EventsPage = () => {
-  return (
-    <div>
-    </>
-    </div>
-  );
-};
-
-const NewsPage = () => {
-  return (
-    <div>
-    </>
-    </div>
-  );
-};
-*/
-/*
-        <Route path='/home' element={<AdminLoginPage />} />
-        <Route path='/login' element={<CordinatorLoginPage />} />
-        <Route path='/signup' element={<StudentLoginPage />} />
-        <Route path='/home' element={<GuestLoginPage />} />
-        <Route path='/login' element={<LibaryPage />} />
-        <Route path='/signup' element={<EventsPage />} />
-*/
 
 const NoPage = () => {
   return (
@@ -126,6 +72,7 @@ const App = () => {
         <Route path='/login' element={<LoginPage />} />
         <Route path='/signup' element={<RegisterPage />} />
         <Route path='/signupsuccess' element={<RegisterSuccessPage />} />
+        <Route path='/StudentPage' element={<StudentLoginPage />} />
         <Route path='*' element={<NoPage />} />
       </Routes>
     </Router>

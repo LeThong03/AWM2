@@ -14,15 +14,12 @@ const Navbar = () => {
 
         <div className="magazine__navbar-links_container">
           <p><Link to="/">Home</Link></p>
-          <p><Link to="/news">News</Link></p>
-          <p><Link to="/events">Events</Link></p>
           <p><Link to="/library">Library</Link></p>
         </div>
       </div>
 
       <div className="magazine__navbar-sign">
-        <p><Link to="/login">Sign in</Link></p>
-        <button type="button"><Link to="/signup">Sign up</Link></button> {/* Link to the sign-up page */}
+        <button type="button"><Link to="/login">Sign in</Link></button> {/* Link to the sign-up page */}
       </div>
 
       <div className="magazine__navbar-menu">
@@ -33,14 +30,11 @@ const Navbar = () => {
           <div className="magazine__navbar-menu_container scale-up-center">
             <div className="magazine__navbar-menu_container-links">
               <p><Link to="/">Home</Link></p>
-              <p><Link to="/news">News</Link></p>
-              <p><Link to="/events">Events</Link></p>
               <p><Link to="/library">Library</Link></p>
             </div>
 
             <div className="magazine__navbar-menu_container-links-sign">
-              <p><Link to="/login">Sign in</Link></p> {/* Link to the sign-in page */}
-              <button type="button"><Link to="/signup">Sign up</Link></button> {/* Link to the sign-up page */}
+              <button type="button"><Link to="/login">Sign in</Link></button> {/* Link to the sign-up page */}
             </div>
           </div>
         )}
