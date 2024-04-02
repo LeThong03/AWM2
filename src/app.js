@@ -44,6 +44,7 @@ const RegisterSuccessPage = () => {
     </div>
   );
 };
+
 /*
 const AdminLoginPage = () => {
   return (
@@ -60,6 +61,7 @@ const CordinatorLoginPage = () => {
     </div>
   );
 };
+*/
 
 const StudentLoginPage = () => {
   return (
@@ -68,7 +70,6 @@ const StudentLoginPage = () => {
    </div>
   );
 };
-
 
 
 const NoPage = () => {
