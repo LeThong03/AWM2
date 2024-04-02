@@ -44,6 +44,7 @@ const RegisterSuccessPage = () => {
     </div>
   );
 };
+
 /*
 const AdminLoginPage = () => {
   return (
