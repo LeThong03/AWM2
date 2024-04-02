@@ -44,6 +44,22 @@ const RegisterSuccessPage = () => {
     </div>
   );
 };
+/*
+const AdminLoginPage = () => {
+  return (
+  <div>
+    </>
+    </div>
+  );
+};
+
+const CordinatorLoginPage = () => {
+  return (
+  <div>
+    </>
+    </div>
+  );
+};
 
 const StudentLoginPage = () => {
   return (
