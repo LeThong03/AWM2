@@ -22,30 +22,30 @@ const Login = () => {
       setError('Full name and password are required.');
       return;
     }
-
+  
     setLoading(true);
     setError(null);
-
+  
     try {
-      console.log('Submitting form data:', formData); // Add this line
-      const response = await fetch('http://localhost:5000/login', { // Fix the URL here
+      console.log('Submitting form data:', formData);
+      const response = await fetch('http://localhost:5000/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(formData),
       });
-
-      console.log('Response:', response); // Add this line
-
-      const data = await response.json();
-
-      console.log('Data:', data); // Add this line
-
+  
+      console.log('Response:', response);
+  
+      const data = await response.json(); // Chỉ gọi response.json() một lần
+  
+      console.log('Data:', data);
+  
       if (response.ok) {
         console.log('Login successful:', data.message);
-        // Chuyển hướng đến trang Home
-        window.location.href = '/home';
+        // Chuyển hướng đến trang được chỉ định từ server
+        window.location.href = data.redirect;
       } else {
         setError('Invalid full name or password');
       }

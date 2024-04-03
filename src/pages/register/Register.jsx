@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { BackGround } from './imports'; // Ensure this import is correct
 import './register.css';
 
-
 const Register = () => {
   const [formData, setFormData] = useState({
     fullName: '',
@@ -11,9 +10,11 @@ const Register = () => {
     password: '',
     dateOfBirth: '',
     gender: '',
-    agreeTerms: false
+    agreeTerms: false,
+    faculty: '', // Add faculty field
+    role: '', // Add role field
   });
-  
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -78,6 +79,22 @@ const Register = () => {
               <option value="male">Male</option>
               <option value="female">Female</option>
               <option value="other">Other</option>
+            </select>
+          </div>
+          <div className="form-group">
+            <select name="faculty" value={formData.faculty} onChange={handleChange}>
+              <option value="">Select Faculty</option>
+              <option value="IT">IT</option>
+              <option value="Business">Business</option>
+              <option value="Design">Design</option>
+            </select>
+          </div>
+          <div className="form-group">
+            <select name="role" value={formData.role} onChange={handleChange}>
+              <option value="">Select Role</option>
+              <option value="student">Student</option>
+              <option value="faculty">Faculty</option>
+              <option value="staff">Staff</option>
             </select>
           </div>
           <div className="form-group">

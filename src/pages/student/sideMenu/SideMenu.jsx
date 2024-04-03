@@ -8,6 +8,13 @@ const SideMenu = (props) => {
     setCollapsed(!collapsed);
   };
 
+  const handleLogout = () => {
+    // Perform logout actions here
+    // For example, clear localStorage or session storage
+    // Then redirect to login page using window.location.href
+    window.location.href = '/login'; // Redirect to login page using window.location.href
+  };
+
   return (
     <div className={`sider ${collapsed ? 'collapsed' : ''}`}>
       <div className="trigger" onClick={toggle}>
@@ -37,9 +44,9 @@ const SideMenu = (props) => {
           <span>Settings</span>
         </li>
         <li>
-          <Link to="/login">
+          <button onClick={handleLogout}>
             <span>Logout</span>
-          </Link>
+          </button>
         </li>
       </ul>
     </div>

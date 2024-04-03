@@ -4,15 +4,17 @@ const bodyParser = require('body-parser');
 const cors = require('cors'); // Import the cors middleware
 const bcrypt = require('bcrypt');
 const User = require('./User');
+const Faculty = require('./Faculty'); // Import the Faculty model
 
 const app = express();
 const port = 5000;
 
 // Connect to MongoDB
-const MONGODB_URI = "mongodb+srv://unravengundam:22122003@test1.9oqrrcu.mongodb.net/";
+const MONGODB_URI = "mongodb+srv://admin:1234567890@awm.uh2y87l.mongodb.net/";
 mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
     console.log('Connected to MongoDB');
+    initializeFacultyCollection();
   })
   .catch(err => console.error(err));
 
@@ -32,6 +34,26 @@ app.get('/getAllUsers', async (req, res) => {
     res.status(500).json({ message: 'An unexpected error occurred. Please try again later.' });
   }
 });
+
+// Function to initialize Faculty collection with fixed records
+async function initializeFacultyCollection() {
+  try {
+    // Check if there are any faculties already
+    const existingFaculties = await Faculty.find();
+    if (existingFaculties.length === 0) {
+      // If no faculties, add fixed records
+      const faculties = [
+        { name: 'IT', description: 'Faculty of Information Technology' },
+        { name: 'Business', description: 'Faculty of Business' },
+        { name: 'Design', description: 'Faculty of Design' }
+      ];
+      await Faculty.insertMany(faculties);
+      console.log('Faculty collection initialized with fixed records');
+    }
+  } catch (error) {
+    console.error('Error initializing Faculty collection:', error);
+  }
+}
 
 // Route to handle user login
 app.post('/login', async (req, res) => {
@@ -57,19 +79,28 @@ app.post('/login', async (req, res) => {
     }
 
     // If user is found and password matches, return success message
-    res.status(200).json({ message: 'Login successful', user });
+    // Check user role and redirect accordingly
+    if (user.role === 'student') {
+      res.status(200).json({ message: 'Login successful', user, redirect: '/StudentPage' });
+    } else if (user.role === 'guest') {
+      res.status(200).json({ message: 'Login successful', user, redirect: '/home' });
+    } else {
+      // Handle other roles if needed
+      res.status(200).json({ message: 'Login successful', user, redirect: '/' });
+    }
   } catch (error) {
     console.error('Error logging in user:', error);
     res.status(500).json({ message: 'An unexpected error occurred. Please try again later.' });
   }
 });
 
+
 // Route to handle user registration
 app.post('/register', async (req, res) => {
-  const { fullName, email, password, dateOfBirth, gender, agreeTerms } = req.body;
+  const { fullName, email, password, dateOfBirth, gender, agreeTerms, faculty, role } = req.body;
 
   // Validate input
-  if (!fullName || !email || !password || !dateOfBirth || !gender || !agreeTerms) {
+  if (!fullName || !email || !password || !dateOfBirth || !gender || !agreeTerms || !faculty || !role) {
     return res.status(400).json({ message: 'All fields are required' });
   }
 
@@ -87,6 +118,8 @@ app.post('/register', async (req, res) => {
       password, // You should hash the password before saving it
       dateOfBirth,
       gender,
+      faculty,
+      role,
       agreeTerms
     });
 
