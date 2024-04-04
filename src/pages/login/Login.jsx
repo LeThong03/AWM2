@@ -42,7 +42,7 @@ const Login = () => {
       if (response.ok) {
         console.log('Login successful:', data.message);
         // Redirect to logined homepage with fullName as a query parameter
-        navigate(`/loginedhomepage?fullName=${encodeURIComponent(formData.fullName)}`);
+        navigate(`/home?fullName=${encodeURIComponent(formData.fullName)}`);
       } else {
         setError(data.message);
       }

@@ -34,6 +34,7 @@ const NavbarLogined = () => {
 
         <div className="magazine__navbar-links_container">
           <p>{userFullName && <Link to="/dashboard">My Dashboard</Link>}</p>
+          <p><Link to="/">Home</Link></p>
           <p><Link to="/library">Faculties</Link></p>
         </div>
       </div>

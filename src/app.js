@@ -11,15 +11,7 @@ const HomePage = () => {
     </div>
   );
 };
-/*
-const LoginedHomePage = () => {
-  return (
-    <div className='gradient_bg'>
-      <NavbarLogined/>
-    </div>
-  );
-};
-*/
+
 const LoginPage = () => {
   return (
   <div>

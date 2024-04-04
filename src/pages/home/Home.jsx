@@ -5,14 +5,14 @@ import Wim from './containers/wim/Wim';
 import Features from './containers/features/Features';
 import Blog from './containers/blog/Blog';
 import CTA from './components/cta/CTA';
-import Navbar from './components/navbar/Navbar';
+import NavbarLogined from './components/navbarLogined/NavbarLogined';
 
 import './home.css';
 
 const Home = () => {
   return (
     <div className="student-container">
-      <Navbar />
+      <NavbarLogined />
       <div className="main-content">
       <Header />
       <Wim />
