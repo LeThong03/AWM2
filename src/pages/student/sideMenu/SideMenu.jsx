@@ -29,12 +29,12 @@ const SideMenu = () => {
         </li>
         <li>
           <Link to="/submit-magazine">
-            {collapsed ? <FaNewspaper /> : <span>Submit Magazine</span>} {/* Use icon when collapsed */}
+            {collapsed ? <FaNewspaper /> : <span>Submission</span>} {/* Use icon when collapsed */}
           </Link>
         </li>
         <li>
           <Link to="/check-publish-status">
-            {collapsed ? <FaEye /> : <span>Publish Status</span>} {/* Use icon when collapsed */}
+            {collapsed ? <FaEye /> : <span>Status</span>} {/* Use icon when collapsed */}
           </Link>
         </li>
         <li>
