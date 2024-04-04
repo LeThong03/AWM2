@@ -14,7 +14,7 @@ const Navbar = () => {
 
         <div className="magazine__navbar-links_container">
           <p><Link to="/">Home</Link></p>
-          <p><Link to="/library">Library</Link></p>
+          <p><Link to="/library">Faculties</Link></p>
         </div>
       </div>
 

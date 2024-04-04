@@ -1,4 +1,4 @@
-import BackGround from '../../AObject/BackGround.jpg';
+import BackGround from '../../pictures/BackGround.jpg';
 
 export {
     BackGround,

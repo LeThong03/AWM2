@@ -1,26 +1,25 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; // Import Routes component
-
-import { Footer, Header, Wim, Features, Blog } from './containers';
-import { CTA, Navbar } from './components';
-import { Login, Register, Error404, RegisterSuccess, Student } from './pages/';
+import { Login, Register, Error404, RegisterSuccess, Student, Home } from './pages/';
 
 import './app.css';
 
 const HomePage = () => {
   return (
     <div className='gradient_bg'>
-      <Navbar />
-      <Header />
-      <Wim />
-      <Features />
-      <CTA />
-      <Blog />
-      <Footer />
+    <Home/>
     </div>
   );
 };
-
+/*
+const LoginedHomePage = () => {
+  return (
+    <div className='gradient_bg'>
+      <NavbarLogined/>
+    </div>
+  );
+};
+*/
 const LoginPage = () => {
   return (
   <div>

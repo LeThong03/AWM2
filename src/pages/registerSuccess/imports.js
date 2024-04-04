@@ -1,5 +1,5 @@
-import BackGround from '../../AObject/BackGround.jpg';
-import Icon from '../../AObject/Success.png';
+import BackGround from '../../pictures/BackGround.jpg';
+import Icon from '../../pictures/Success.png';
 
 export {
     BackGround,

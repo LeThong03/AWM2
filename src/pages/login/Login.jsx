@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { BackGround } from './imports';
+import { FaArrowLeft } from 'react-icons/fa'; // Importing the left arrow icon
 import './login.css';
 
 const Login = () => {
   const [formData, setFormData] = useState({ fullName: '', password: '' });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -21,30 +24,27 @@ const Login = () => {
       setError('Full name and password are required.');
       return;
     }
-
+  
     setLoading(true);
     setError(null);
-
+  
     try {
-      console.log('Submitting form data:', formData); // Add this line
-      const response = await fetch('http://localhost:5000/login', { // Fix the URL here
+      const response = await fetch('http://localhost:5000/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(formData),
       });
-
-      console.log('Response:', response); // Add this line
-
+  
       const data = await response.json();
-
-      console.log('Data:', data); // Add this line
-
+  
       if (response.ok) {
         console.log('Login successful:', data.message);
+        // Redirect to logined homepage with fullName as a query parameter
+        navigate(`/loginedhomepage?fullName=${encodeURIComponent(formData.fullName)}`);
       } else {
-        setError('Invalid full name or password');
+        setError(data.message);
       }
     } catch (error) {
       console.error('Error:', error);
@@ -54,8 +54,14 @@ const Login = () => {
     }
   };
 
+
   return (
     <div className="login-container" style={{ backgroundImage: `url(${BackGround})`, backgroundSize: 'cover', backgroundRepeat: 'no-repeat', backgroundPosition: 'center' }}>
+      <div className="nav-bar">
+        <button className="back-button" onClick={() => navigate('/')}>
+          <FaArrowLeft />
+        </button>
+      </div>
       <div className="login-box">
         <h2>Login</h2>
         <form className="login-form" onSubmit={handleSubmit}>
