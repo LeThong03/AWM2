@@ -1,7 +1,11 @@
+// SideMenu.js
+
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { FaHome, FaNewspaper, FaEye, FaCog, FaSignOutAlt } from 'react-icons/fa'; // Import icons from react-icons library
+import './sideMenu.css';
 
-const SideMenu = (props) => {
+const SideMenu = () => {
   const [collapsed, setCollapsed] = useState(true);
 
   const toggle = () => {
@@ -12,33 +16,35 @@ const SideMenu = (props) => {
     <div className={`sider ${collapsed ? 'collapsed' : ''}`}>
       <div className="trigger" onClick={toggle}>
         {collapsed ? (
-          <span>&#x2630;</span>
+          <span>&#x2630;</span> // Placeholder for collapsed icon
         ) : (
-          <span>&#x2715;</span>
+          <span>&#x2715;</span> // Placeholder for expanded icon
         )}
       </div>
       <ul className="menu">
         <li>
-          <Link to="/me">
-            <span>Dashboard</span>
+          <Link to="/dashboard">
+            {collapsed ? <FaHome /> : <span>Dashboard</span>} {/* Use icon when collapsed */}
           </Link>
         </li>
         <li>
-          <Link to="/attendance">
-            <span>Attendance</span>
+          <Link to="/submit-magazine">
+            {collapsed ? <FaNewspaper /> : <span>Submit Magazine</span>} {/* Use icon when collapsed */}
           </Link>
         </li>
         <li>
-          <Link to="/assignments">
-            <span>Assignments</span>
+          <Link to="/check-publish-status">
+            {collapsed ? <FaEye /> : <span>Publish Status</span>} {/* Use icon when collapsed */}
           </Link>
         </li>
         <li>
-          <span>Settings</span>
+          <Link to="/settings">
+            {collapsed ? <FaCog /> : <span>Settings</span>} {/* Use icon when collapsed */}
+          </Link>
         </li>
         <li>
           <Link to="/login">
-            <span>Logout</span>
+            {collapsed ? <FaSignOutAlt /> : <span>Logout</span>} {/* Use icon when collapsed */}
           </Link>
         </li>
       </ul>

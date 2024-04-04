@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import { BackGround } from './imports';
 import './login.css';
 
@@ -44,8 +43,6 @@ const Login = () => {
 
       if (response.ok) {
         console.log('Login successful:', data.message);
-        // Chuyển hướng đến trang Home
-        window.location.href = '/home';
       } else {
         setError('Invalid full name or password');
       }
