@@ -1,14 +1,14 @@
 const fetch = require('node-fetch');
 const readline = require('readline');
 
-const loginCheck = async (fullName, password) => {
+const loginCheck = async (username, password) => {
   try {
     const response = await fetch('http://localhost:5000/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ fullName, password }),
+      body: JSON.stringify({ username, password }),
     });
 
     const data = await response.json();
@@ -29,9 +29,9 @@ const rl = readline.createInterface({
   output: process.stdout
 });
 
-rl.question('Enter your full name: ', (fullName) => {
+rl.question('Enter your full name: ', (username) => {
   rl.question('Enter your password: ', (password) => {
-    loginCheck(fullName, password);
+    loginCheck(username, password);
     rl.close();
   });
 });

@@ -35,16 +35,16 @@ app.get('/getAllUsers', async (req, res) => {
 
 // Route to handle user login
 app.post('/login', async (req, res) => {
-  const { fullName, password } = req.body;
+  const { username, password } = req.body;
 
-  // Check if full name or password is empty
-  if (!fullName || !password) {
-    return res.status(400).json({ message: 'Full name and password are required' });
+  // Check if Username or password is empty
+  if (!username || !password) {
+    return res.status(400).json({ message: 'Username and password are required' });
   }
 
   try {
-    // Find the user in the database based on the provided full name
-    const user = await User.findOne({ fullName });
+    // Find the user in the database based on the provided Username
+    const user = await User.findOne({ username });
 
     // If user is not found, return an error
     if (!user) {
@@ -66,10 +66,10 @@ app.post('/login', async (req, res) => {
 
 // Route to handle user registration
 app.post('/register', async (req, res) => {
-  const { fullName, email, password, dateOfBirth, gender, agreeTerms } = req.body;
+  const { username, email, password, dateOfBirth, gender, agreeTerms } = req.body;
 
   // Validate input
-  if (!fullName || !email || !password || !dateOfBirth || !gender || !agreeTerms) {
+  if (!username || !email || !password || !dateOfBirth || !gender || !agreeTerms) {
     return res.status(400).json({ message: 'All fields are required' });
   }
 
@@ -82,7 +82,7 @@ app.post('/register', async (req, res) => {
 
     // Create a new user
     const newUser = new User({
-      fullName,
+      username,
       email,
       password, // You should hash the password before saving it
       dateOfBirth,

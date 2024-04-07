@@ -5,7 +5,7 @@ import { FaArrowLeft } from 'react-icons/fa'; // Importing the left arrow icon
 import './login.css';
 
 const Login = () => {
-  const [formData, setFormData] = useState({ fullName: '', password: '' });
+  const [formData, setFormData] = useState({ username: '', password: '' });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
@@ -20,8 +20,8 @@ const Login = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    if (!formData.fullName || !formData.password) {
-      setError('Full name and password are required.');
+    if (!formData.username || !formData.password) {
+      setError('Username and password are required.');
       return;
     }
   
@@ -41,8 +41,8 @@ const Login = () => {
   
       if (response.ok) {
         console.log('Login successful:', data.message);
-        // Redirect to logined homepage with fullName as a query parameter
-        navigate(`/home?fullName=${encodeURIComponent(formData.fullName)}`);
+        // Redirect to logined homepage with username as a query parameter
+        navigate(`/home?username=${encodeURIComponent(formData.username)}`);
       } else {
         setError(data.message);
       }
@@ -66,7 +66,7 @@ const Login = () => {
         <h2>Login</h2>
         <form className="login-form" onSubmit={handleSubmit}>
           <div className="form-group">
-            <input type="text" name="fullName" value={formData.fullName} onChange={handleChange} placeholder="Full Name" />
+            <input type="text" name="username" value={formData.username} onChange={handleChange} placeholder="Username" />
           </div>
           <div className="form-group">
             <input type="password" name="password" value={formData.password} onChange={handleChange} placeholder="Password" />
