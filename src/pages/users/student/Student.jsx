@@ -1,13 +1,16 @@
 import React from 'react';
 import './student.css';
 import SideMenu from './sideMenu/SideMenu';
+import SubmissionForm from './submissionForm/SubmissionForm';
+import DashBroad from './dashBoard/DashBoard';
+import Settings from './setting/Settings';
+import Status from './status/Status';
 
 const Student = () => {
   return (
     <div className="student-container">
       <SideMenu />
       <div className="main-content">
-        
       </div>
     </div>
   );

@@ -1,0 +1,44 @@
+.status-page {
+    max-width: 600px;
+    margin: auto;
+    padding: 20px;
+  }
+  
+  h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  .magazine-status {
+    margin-bottom: 30px;
+  }
+  
+  .magazine-status h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+  
+  .magazine-status p {
+    font-size: 16px;
+    margin-bottom: 5px;
+  }
+  
+  .comments {
+    margin-top: 10px;
+  }
+  
+  .comments h4 {
+    font-size: 18px;
+    margin-bottom: 5px;
+  }
+  
+  .comments ul {
+    list-style-type: none;
+    padding-left: 0;
+  }
+  
+  .comments li {
+    font-size: 14px;
+    margin-bottom: 5px;
+  }
+  
