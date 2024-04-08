@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { FaHome, FaCog, FaSignOutAlt, FaUser, FaChartBar } from 'react-icons/fa';
+import { FaHome, FaNewspaper, FaEye, FaCog, FaSignOutAlt, FaUser } from 'react-icons/fa';
 import './sideMenu.css';
 
 const SideMenu = () => {
@@ -39,22 +39,22 @@ const SideMenu = () => {
       </div>
       <ul className="menu">
         <li>
-          <Link to={`/Manager/dashboard?username=${username}`}>
+          <Link to={`/Student/dashboard?username=${username}`}>
             {collapsed ? <FaHome /> : <span>Dashboard</span>}
           </Link>
         </li>
         <li>
-          <Link to={`/Manager/view-reports?username=${username}`}>
-            {collapsed ? <FaChartBar /> : <span>View Faculty Magazines</span>}
+          <Link to={`/Student/submit-magazine?username=${username}`}>
+            {collapsed ? <FaNewspaper /> : <span>Submission</span>}
           </Link>
         </li>
         <li>
-          <Link to={`/Manager/manage-team?username=${username}`}>
-            {collapsed ? <FaUser /> : <span>Manage Magazine</span>}
+          <Link to={`/Student/check-publish-status?username=${username}`}>
+            {collapsed ? <FaEye /> : <span>Status</span>}
           </Link>
         </li>
         <li>
-          <Link to={`/Manager/settings?username=${username}`}>
+          <Link to={`/Student/settings?username=${username}`}>
             {collapsed ? <FaCog /> : <span>Settings</span>}
           </Link>
         </li>
@@ -73,7 +73,6 @@ const SideMenu = () => {
       </div>
     </div>
   );
-  
 };
 
 export default SideMenu;

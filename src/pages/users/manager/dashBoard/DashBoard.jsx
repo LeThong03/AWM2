@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './dashBoard.css'; // Import your CSS file for styling
 import { FaNewspaper, FaCheckCircle, FaBell } from 'react-icons/fa'; // Import icons from react-icons library
+import SideMenu from '../sideMenu/SideMenu';
 
 const DashBoard = () => {
   // Mock data for submitted magazines (replace with actual data from backend)
@@ -18,20 +19,23 @@ const DashBoard = () => {
   }, []);
 
   return (
-    <div className="dashboard">
-      <h2>My Dashboard</h2>
-      <div className="box-container">
-        <div className="box">
-          <FaNewspaper className="icon" />
-          <h3>All Magazines</h3>
-        </div>
-        <div className="box">
-          <FaCheckCircle className="icon" />
-          <h3>Status</h3>
-        </div>
-        <div className="box">
-          <FaBell className="icon" />
-          <h3>Notifications</h3>
+    <div>
+      <SideMenu />
+      <div className="dashboard">
+        <h2>My Dashboard</h2>
+        <div className="box-container">
+          <div className="box">
+            <FaNewspaper className="icon" />
+            <h3>All Magazines</h3>
+          </div>
+          <div className="box">
+            <FaCheckCircle className="icon" />
+            <h3>Status</h3>
+          </div>
+          <div className="box">
+            <FaBell className="icon" />
+            <h3>Notifications</h3>
+          </div>
         </div>
       </div>
     </div>

@@ -3,8 +3,12 @@
   margin: auto;
   padding: 20px;
 }
-
+.dashboard h2{
+  color: white;
+  font-family: var(--font-family);
+}
 .box-container {
+  font-family: var(--font-family);
   display: flex;
   justify-content: space-between;
   margin-bottom: 20px;

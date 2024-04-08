@@ -42,7 +42,7 @@ const Login = () => {
       if (response.ok) {
         console.log('Login successful:', data.message);
         // Check if user role is guest, navigate to Faculties page instead of Dashboard
-        if (data.role === 'guest') {
+        if (data.user.role === 'guest') {
           navigate('/library');
         } else {
           navigate(`/home?username=${encodeURIComponent(formData.username)}`);

@@ -1,109 +1,89 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
-const cors = require('cors'); // Import the cors middleware
-const bcrypt = require('bcrypt');
-const User = require('./User');
-const Faculty = require('./Faculty')
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { BackGround } from './imports';
+import { FaArrowLeft } from 'react-icons/fa'; // Importing the left arrow icon
+import './login.css';
 
-const app = express();
-const port = 5000;
+const Login = () => {
+  const [formData, setFormData] = useState({ username: '', password: '' });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
-// Connect to MongoDB
-const MONGODB_URI = "mongodb+srv://unravengundam:22122003@test1.9oqrrcu.mongodb.net/";
-mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => {
-    console.log('Connected to MongoDB');
-  })
-  .catch(err => console.error(err));
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    if (!formData.username || !formData.password) {
+      setError('Username and Password are required.');
+      return;
+    }
   
-
-// Middleware
-app.use(bodyParser.json());
-
-// Enable CORS
-app.use(cors());
-
-// Route to fetch all users
-app.get('/getAllUsers', async (req, res) => {
-  try {
-    const users = await User.find();
-    res.status(200).json(users);
-  } catch (error) {
-    console.error('Error fetching users:', error);
-    res.status(500).json({ message: 'An unexpected error occurred. Please try again later.' });
-  }
-});
-
-// Route to handle user login
-app.post('/login', async (req, res) => {
-  const { username, password } = req.body;
-
-  // Check if Username or password is empty
-  if (!username || !password) {
-    return res.status(400).json({ message: 'Username and password are required' });
-  }
-
-  try {
-    // Find the user in the database based on the provided Username
-    const user = await User.findOne({ username });
-
-    // If user is not found, return an error
-    if (!user) {
-      return res.status(401).json({ message: 'User not found' });
+    setLoading(true);
+    setError(null);
+  
+    try {
+      const response = await fetch('http://localhost:5000/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+  
+      const data = await response.json();
+  
+      if (response.ok) {
+        console.log('Login successful:', data.message);
+        console.log('User role:', data.user.role); // Log user role
+        // Check if user role is guest, navigate to Faculties page instead of Dashboard
+        if (data.user.role === 'guest') {
+          navigate('/library');
+        } else {
+          navigate(`/home?username=${encodeURIComponent(formData.username)}`);
+        }
+      } else {
+        setError(data.message);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      setError('An unexpected error occurred. Please try again later.');
+    } finally {
+      setLoading(false);
     }
+  };
 
-    // Compare passwords
-    if (password !== user.password) {
-      return res.status(401).json({ message: 'Invalid password' });
-    }
 
-    // If user is found and password matches, return success message
-    res.status(200).json({ message: 'Login successful', user });
-  } catch (error) {
-    console.error('Error logging in user:', error);
-    res.status(500).json({ message: 'An unexpected error occurred. Please try again later.' });
-  }
-});
+  return (
+    <div className="login-container" style={{ backgroundImage: `url(${BackGround})`, backgroundSize: 'cover', backgroundRepeat: 'no-repeat', backgroundPosition: 'center' }}>
+      <div className="nav-bar">
+        <button className="back-button" onClick={() => navigate('/')}>
+          <FaArrowLeft />
+        </button>
+      </div>
+      <div className="login-box">
+        <h2>Login</h2>
+        <form className="login-form" onSubmit={handleSubmit}>
+          <div className="form-group">
+            <input type="text" name="username" value={formData.username} onChange={handleChange} placeholder="Username" />
+          </div>
+          <div className="form-group">
+            <input type="password" name="password" value={formData.password} onChange={handleChange} placeholder="Password" />
+          </div>
+          {error && <div className="error-message">{error}</div>}
+          <button type="submit" className="btn-login" disabled={loading}>
+            {loading ? 'Logging in...' : 'Login'}
+          </button>
+        </form>
+      </div>
+    </div>
+  );
+};
 
-// Route to handle user registration
-app.post('/register', async (req, res) => {
-  const { username, email, password, dateOfBirth, gender, agreeTerms } = req.body;
-
-  // Validate input
-  if (!username || !email || !password || !dateOfBirth || !gender || !agreeTerms) {
-    return res.status(400).json({ message: 'All fields are required' });
-  }
-
-  try {
-    // Check if email already exists
-    const existingUser = await User.findOne({ email });
-    if (existingUser) {
-      return res.status(409).json({ message: 'Email already exists' });
-    }
-
-    // Create a new user
-    const newUser = new User({
-      username,
-      email,
-      password, // You should hash the password before saving it
-      dateOfBirth,
-      gender,
-      agreeTerms
-    });
-
-    // Save the user to the database
-    await newUser.save();
-
-    // Return success message
-    res.status(201).json({ message: 'User registered successfully' });
-  } catch (error) {
-    console.error('Error registering user:', error);
-    res.status(500).json({ message: 'An unexpected error occurred. Please try again later.' });
-  }
-});
-
-// Start the server
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
-});
+export default Login;
