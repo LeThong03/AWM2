@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors'); // Import the cors middleware
 const bcrypt = require('bcrypt');
 const User = require('./User');
+const Faculty = require('./Faculty')
 
 const app = express();
 const port = 5000;
@@ -15,6 +16,7 @@ mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true 
     console.log('Connected to MongoDB');
   })
   .catch(err => console.error(err));
+  
 
 // Middleware
 app.use(bodyParser.json());
@@ -37,13 +39,13 @@ app.get('/getAllUsers', async (req, res) => {
 app.post('/login', async (req, res) => {
   const { username, password } = req.body;
 
-  // Check if full name or password is empty
+  // Check if Username or password is empty
   if (!username || !password) {
-    return res.status(400).json({ message: 'Full name and password are required' });
+    return res.status(400).json({ message: 'Username and password are required' });
   }
 
   try {
-    // Find the user in the database based on the provided full name
+    // Find the user in the database based on the provided Username
     const user = await User.findOne({ username });
 
     // If user is not found, return an error

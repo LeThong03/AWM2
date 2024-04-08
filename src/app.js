@@ -1,7 +1,12 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; // Import Routes component
 import { Login, Register, Error404, RegisterSuccess, Home } from './pages/';
-import { Admin, Coordinator, Student, Manager, Guest } from './pages/users';
+
+import Dashboard from './pages/users/student/dashBoard/DashBoard';
+import SubmissionForm from './pages/users/student/submissionForm/SubmissionForm';
+import Status from './pages/users/student/status/Status';
+import Settings from './pages/users/student/settings/StudentSettings';
+
 
 import './app.css';
 
@@ -55,13 +60,7 @@ const CordinatorLoginPage = () => {
 };
 */
 
-const StudentLoginPage = () => {
-  return (
-    <div>
-          <Student/>
-   </div>
-  );
-};
+
 
 
 const NoPage = () => {
@@ -76,12 +75,34 @@ const App = () => {
   return (
     <Router>
       <Routes>
+        
         <Route path='/' element={<HomePage />} />
         <Route path='/home' element={<HomePage />} />
         <Route path='/login' element={<LoginPage />} />
         <Route path='/signup' element={<RegisterPage />} />
         <Route path='/signupsuccess' element={<RegisterSuccessPage />} />
-        <Route path='/StudentPage' element={<StudentLoginPage />} />
+        <Route path="/login" element={<Login />} />
+
+        <Route path="/Student/dashboard" element={<Dashboard />} />
+        <Route path="/Student/submit-magazine" element={<SubmissionForm />} />
+        <Route path="/Student/check-publish-status" element={<Status />} />
+        <Route path="/Student/settings" element={<Settings />} />
+
+        <Route path="/Student/dashboard" element={<Dashboard />} />
+        <Route path="/Student/submit-magazine" element={<SubmissionForm />} />
+        <Route path="/Student/check-publish-status" element={<Status />} />
+        <Route path="/Student/settings" element={<Settings />} />
+        
+        <Route path="/Student/dashboard" element={<Dashboard />} />
+        <Route path="/Student/submit-magazine" element={<SubmissionForm />} />
+        <Route path="/Student/check-publish-status" element={<Status />} />
+        <Route path="/Student/settings" element={<Settings />} />
+        
+        <Route path="/Student/dashboard" element={<Dashboard />} />
+        <Route path="/Student/submit-magazine" element={<SubmissionForm />} />
+        <Route path="/Student/check-publish-status" element={<Status />} />
+        <Route path="/Student/settings" element={<Settings />} />
+
         <Route path='*' element={<NoPage />} />
       </Routes>
     </Router>

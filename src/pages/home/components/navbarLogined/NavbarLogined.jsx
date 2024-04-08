@@ -7,15 +7,19 @@ const NavbarLogined = () => {
   const [toggleMenu, setToggleMenu] = useState(false);
   const navigate = useNavigate(); // Initialize useNavigate hook
   const location = useLocation(); // Initialize useLocation hook
-  const [userusername, setUserusername] = useState('');
+  const [user, setUser] = useState(null); // Include user state to hold user data
 
-  // Extract full name from URL query parameter
+  // Extract user data from URL query parameter
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
-    const usernameParam = searchParams.get('username');
-    if (usernameParam) {
-      setUserusername(usernameParam);
-    }
+    const userData = {
+      username: searchParams.get('username'),
+      role: searchParams.get('role') // Include role in user data
+    };
+    setUser(userData);
+    
+    // Log user role
+    console.log(`User role: ${userData.role}`);
   }, [location]);
 
   // Handle logout
@@ -33,20 +37,24 @@ const NavbarLogined = () => {
         </div>
 
         <div className="magazine__navbar-links_container">
-          <p>{userusername && <Link to="/dashboard">My Dashboard</Link>}</p>
-          <p><Link to="/">Home</Link></p>
+          {user && user.role !== 'guest' && user.username && ( // Display only if user is not a guest and is logged in
+            <p>
+              {/* Pass the username as a query parameter in the URL */}
+              <Link to={`/Student/dashboard?username=${user.username}`}>My Dashboard</Link>
+            </p>
+          )}
           <p><Link to="/library">Faculties</Link></p>
         </div>
       </div>
 
-      {userusername && ( // Display only if userusername is available
+      {user && user.username && ( // Display only if user data is available and user is logged in
         <div className="magazine__navbar-user">
-          <p className="user-username">{userusername}</p> {/* Add class to the <p> element */}
+          <p className="user-username">{user.username}</p> {/* Add class to the <p> element */}
         </div>
       )}
 
       <div className="magazine__navbar-sign">
-        {userusername ? (
+        {user ? (
           <button type="button" onClick={handleLogout}>Logout</button>
         ) : (
           <button type="button"><Link to="/login">Sign in</Link></button>
@@ -62,12 +70,17 @@ const NavbarLogined = () => {
         {toggleMenu && (
           <div className="magazine__navbar-menu_container scale-up-center">
             <div className="magazine__navbar-menu_container-links">
-              <p>{userusername && <Link to="/dashboard">My Dashboard</Link>}</p>
+              {user && user.role !== 'guest' && user.username && ( // Display only if user is not a guest and is logged in
+                <p>
+                  {/* Pass the username as a query parameter in the URL */}
+                  <Link to={`/Student/dashboard?username=${user.username}`}>My Dashboard</Link>
+                </p>
+              )}
               <p><Link to="/library">Faculties</Link></p>
             </div>
 
             <div className="magazine__navbar-menu_container-links-sign">
-              {userusername ? (
+              {user ? (
                 <button type="button" onClick={handleLogout}>Logout</button>
               ) : (
                 <button type="button"><Link to="/login">Sign in</Link></button>

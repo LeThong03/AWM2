@@ -4,9 +4,8 @@ const userSchema = new mongoose.Schema({
   username: String,
   email: String,
   password: String,
-  dateOfBirth: Date,
-  gender: String,
-  agreeTerms: Boolean
+  role: String,
+  faculty: String,
 });
 
 // Define the User model with the 'users' collection

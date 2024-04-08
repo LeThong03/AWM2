@@ -1,53 +1,76 @@
-// SideMenu.js
-
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { FaHome, FaNewspaper, FaEye, FaCog, FaSignOutAlt } from 'react-icons/fa'; // Import icons from react-icons library
+import React, { useState, useEffect } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { FaHome, FaNewspaper, FaEye, FaCog, FaSignOutAlt, FaUser } from 'react-icons/fa';
 import './sideMenu.css';
 
 const SideMenu = () => {
   const [collapsed, setCollapsed] = useState(true);
+  const [username, setUsername] = useState('');
+  const location = useLocation();
+  const navigate = useNavigate(); // Initialize useNavigate hook
+
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const usernameParam = searchParams.get('username');
+    if (usernameParam) {
+      setUsername(usernameParam);
+    }
+  }, [location]);
 
   const toggle = () => {
     setCollapsed(!collapsed);
+  };
+
+  const handleLogout = () => {
+    // Clear user information
+    setUsername('');
+    // Navigate to the login page
+    navigate('/login');
   };
 
   return (
     <div className={`sider ${collapsed ? 'collapsed' : ''}`}>
       <div className="trigger" onClick={toggle}>
         {collapsed ? (
-          <span>&#x2630;</span> // Placeholder for collapsed icon
+          <span>&#x2630;</span>
         ) : (
-          <span>&#x2715;</span> // Placeholder for expanded icon
+          <span>&#x2715;</span>
         )}
       </div>
       <ul className="menu">
         <li>
-          <Link to="/dashboard">
-            {collapsed ? <FaHome /> : <span>Dashboard</span>} {/* Use icon when collapsed */}
+          <Link to={`/Student/dashboard?username=${username}`}>
+            {collapsed ? <FaHome /> : <span>Dashboard</span>}
           </Link>
         </li>
         <li>
-          <Link to="/submit-magazine">
-            {collapsed ? <FaNewspaper /> : <span>Submission</span>} {/* Use icon when collapsed */}
+          <Link to={`/Student/submit-magazine?username=${username}`}>
+            {collapsed ? <FaNewspaper /> : <span>Submission</span>}
           </Link>
         </li>
         <li>
-          <Link to="/check-publish-status">
-            {collapsed ? <FaEye /> : <span>Status</span>} {/* Use icon when collapsed */}
+          <Link to={`/Student/check-publish-status?username=${username}`}>
+            {collapsed ? <FaEye /> : <span>Status</span>}
           </Link>
         </li>
         <li>
-          <Link to="/settings">
-            {collapsed ? <FaCog /> : <span>Settings</span>} {/* Use icon when collapsed */}
+          <Link to={`/Student/settings?username=${username}`}>
+            {collapsed ? <FaCog /> : <span>Settings</span>}
           </Link>
         </li>
         <li>
-          <Link to="/login">
-            {collapsed ? <FaSignOutAlt /> : <span>Logout</span>} {/* Use icon when collapsed */}
+          <Link to="/login" onClick={handleLogout}>
+            {collapsed ? <FaSignOutAlt /> : <span>Logout</span>}
           </Link>
         </li>
       </ul>
+      <div className="user-info">
+        {collapsed ? (
+          <FaUser />
+        ) : (
+          <p>{username}</p>
+        )}
+      </div>
     </div>
   );
 };

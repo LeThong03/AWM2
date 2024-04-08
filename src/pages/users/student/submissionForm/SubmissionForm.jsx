@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './submissionForm.css'; // Import your CSS file for styling
+import SideMenu from '../sideMenu/SideMenu';
 
 const SubmissionForm = () => {
   // State for form fields and errors
@@ -65,6 +66,7 @@ const SubmissionForm = () => {
 
   return (
     <div className="submission-form">
+      <SideMenu/>
       <h2>Submit Your Magazine</h2>
       <form onSubmit={handleSubmit}>
         <div className="form-group">

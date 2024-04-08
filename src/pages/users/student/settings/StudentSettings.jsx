@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './settings.css'; // Import your CSS file for styling
 import { FaUser } from 'react-icons/fa'; // Import icon from react-icons library
+import SideMenu from '../sideMenu/SideMenu';
 
 const Settings = () => {
   // State for student data and modified data
@@ -55,6 +56,7 @@ const Settings = () => {
 
   return (
     <div className="settings-page">
+    <SideMenu />
       <h2>Profile</h2>
       <div className="profile-info">
         <div className="profile-picture">

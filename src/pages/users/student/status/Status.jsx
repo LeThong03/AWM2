@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './status.css'; // Import your CSS file for styling
+import SideMenu from '../sideMenu/SideMenu';
 
 const Status = () => {
   // State for magazine status data
@@ -32,6 +33,7 @@ const Status = () => {
 
   return (
     <div className="status-page">
+      <SideMenu/>
       <h2>Magazine Status</h2>
       {magazineStatus.map((magazine) => (
         <div key={magazine.id} className="magazine-status">

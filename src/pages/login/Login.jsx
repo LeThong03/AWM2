@@ -21,7 +21,7 @@ const Login = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (!formData.username || !formData.password) {
-      setError('Full name and password are required.');
+      setError('Username and Password are required.');
       return;
     }
   
@@ -41,8 +41,12 @@ const Login = () => {
   
       if (response.ok) {
         console.log('Login successful:', data.message);
-        // Redirect to logined homepage with username as a query parameter
-        navigate(`/home?username=${encodeURIComponent(formData.username)}`);
+        // Check if user role is guest, navigate to Faculties page instead of Dashboard
+        if (data.role === 'guest') {
+          navigate('/library');
+        } else {
+          navigate(`/home?username=${encodeURIComponent(formData.username)}`);
+        }
       } else {
         setError(data.message);
       }
