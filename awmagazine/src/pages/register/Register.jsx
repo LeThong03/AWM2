@@ -61,7 +61,7 @@ const Register = () => {
         <h2>Register</h2>
         <form className="register-form" onSubmit={handleSubmit}>
           <div className="form-group">
-            <input type="text" name="username" value={formData.username} onChange={handleChange} placeholder="Username" />
+            <input type="text" name="username" value={formData.username} onChange={handleChange} placeholder="Full Name" />
           </div>
           <div className="form-group">
             <input type="email" name="email" value={formData.email} onChange={handleChange} placeholder="Email" />

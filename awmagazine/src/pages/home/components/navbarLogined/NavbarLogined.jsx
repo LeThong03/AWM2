@@ -9,7 +9,7 @@ const NavbarLogined = () => {
   const location = useLocation(); // Initialize useLocation hook
   const [userusername, setUserusername] = useState('');
 
-  // Extract Username from URL query parameter
+  // Extract full name from URL query parameter
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
     const usernameParam = searchParams.get('username');
