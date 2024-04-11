@@ -39,28 +39,23 @@ const SideMenu = () => {
       </div>
       <ul className="menu">
         <li>
-          <Link to={`/Manager/dashboard?username=${username}`}>
+          <Link to={`/manager/dashboard?username=${username}`}>
             {collapsed ? <FaHome /> : <span>Dashboard</span>}
           </Link>
         </li>
         <li>
-          <Link to={`/Manager/view-reports?username=${username}`}>
-            {collapsed ? <FaChartBar /> : <span>View Faculty Magazines</span>}
+          <Link to={`/manager/view-contributions?username=${username}`}>
+            {collapsed ? <FaChartBar /> : <span>View Contributions</span>}
           </Link>
         </li>
         <li>
-          <Link to={`/Manager/manage-team?username=${username}`}>
-            {collapsed ? <FaUser /> : <span>Manage Magazine</span>}
-          </Link>
-        </li>
-        <li>
-          <Link to={`/Manager/settings?username=${username}`}>
-            {collapsed ? <FaCog /> : <span>Settings</span>}
+          <Link to={`/manager/statistical-analysis?username=${username}`}>
+            {collapsed ? <FaUser /> : <span>Statistical Analysis</span>}
           </Link>
         </li>
         <li>
           <Link to="/login" onClick={handleLogout}>
-            {collapsed ? <FaSignOutAlt /> : <span>Logout</span>}
+            {collapsed ? <FaCog /> : <span>Logout</span>}
           </Link>
         </li>
       </ul>
@@ -73,7 +68,5 @@ const SideMenu = () => {
       </div>
     </div>
   );
-  
 };
-
 export default SideMenu;

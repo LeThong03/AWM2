@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import './dashBoard.css'; // Import your CSS file for styling
-import { FaNewspaper, FaChartBar, FaBell } from 'react-icons/fa'; // Import icons from react-icons library
+import { FaNewspaper, FaCheckCircle, FaBell } from 'react-icons/fa'; // Import icons from react-icons library
 import SideMenu from '../sideMenu/SideMenu';
 
-const ManagerDashboard = () => {
+const Dashboard = () => {
   // Mock data for submitted magazines (replace with actual data from backend)
   const [magazines, setMagazines] = useState([]);
 
@@ -22,22 +22,22 @@ const ManagerDashboard = () => {
     <div>
       <SideMenu />
       <div className="dashboard">
-        <h2>Manager Dashboard</h2>
+        <h2>My Dashboard</h2>
         <div className="box-container">
           <div className="box">
             <FaNewspaper className="icon" />
-            <h3>View Contributions</h3>
-            <p>View and manage all selected contributions</p>
+            <h3>View Magazines</h3>
+            <p>View and manage all magazines</p>
           </div>
           <div className="box">
-            <FaChartBar className="icon" />
-            <h3>Statistical Analysis</h3>
-            <p>Access statistical analysis related to contributions</p>
+            <FaCheckCircle className="icon" />
+            <h3>Review Status</h3>
+            <p>Review the status of submitted magazines</p>
           </div>
           <div className="box">
             <FaBell className="icon" />
             <h3>Notifications</h3>
-            <p>Receive notifications about new contributions</p>
+            <p>Receive notifications about new submissions</p>
           </div>
         </div>
       </div>
@@ -45,4 +45,4 @@ const ManagerDashboard = () => {
   );
 };
 
-export default ManagerDashboard;
+export default Dashboard;

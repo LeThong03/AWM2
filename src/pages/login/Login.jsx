@@ -41,11 +41,27 @@ const Login = () => {
   
       if (response.ok) {
         console.log('Login successful:', data.message);
-        // Check if user role is guest, navigate to Faculties page instead of Dashboard
-        if (data.user.role === 'guest') {
-          navigate('/library');
-        } else {
-          navigate(`/home?username=${encodeURIComponent(formData.username)}`);
+        console.log('User role:', data.user.role); // Log user role
+        // Check user role and navigate accordingly
+        switch (data.user.role) {
+          case 'admin':
+            navigate('/admin/dashboard');
+            break;
+          case 'student':
+            navigate('/student/dashboard');
+            break;
+          case 'manager':
+            navigate('/manager/dashboard');
+            break;
+          case 'coordinator':
+            navigate('/coordinator/dashboard');
+            break;
+          case 'guest':
+            navigate('/library');
+            break;
+          default:
+            // Handle unknown roles or other cases
+            break;
         }
       } else {
         setError(data.message);

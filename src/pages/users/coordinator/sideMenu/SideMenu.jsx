@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { FaHome, FaNewspaper, FaEye, FaCog, FaSignOutAlt, FaUser } from 'react-icons/fa';
+import { FaCog, FaSignOutAlt, FaUser, FaChartBar } from 'react-icons/fa';
+import { HiArchiveBox } from "react-icons/hi2";
+import { MdComment } from "react-icons/md";
+import { RxDashboard } from "react-icons/rx";
+
 import './sideMenu.css';
 
 const SideMenu = () => {
@@ -39,18 +43,23 @@ const SideMenu = () => {
       </div>
       <ul className="menu">
         <li>
-          <Link to={`/Student/dashboard?username=${username}`}>
-            {collapsed ? <FaHome /> : <span>Dashboard</span>}
+          <Link to={`/coordinator/dashboard?username=${username}`}>
+            {collapsed ? <RxDashboard /> : <span>Dashboard</span>}
           </Link>
         </li>
         <li>
-          <Link to={`/Student/submit-magazine?username=${username}`}>
-            {collapsed ? <FaNewspaper /> : <span>Submission</span>}
+          <Link to={`/coordinator/view-submissions?username=${username}`}>
+            {collapsed ? <HiArchiveBox  /> : <span>View Submissions</span>}
           </Link>
         </li>
         <li>
-          <Link to={`/Student/check-publish-status?username=${username}`}>
-            {collapsed ? <FaEye /> : <span>Status</span>}
+          <Link to={`/coordinator/comment?username=${username}`}>
+            {collapsed ? <MdComment /> : <span>Comment on Submissions</span>}
+          </Link>
+        </li>
+        <li>
+          <Link to={`/coordinator/statistical-analysis?username=${username}`}>
+            {collapsed ? <FaChartBar /> : <span>Statistical Analysis</span>}
           </Link>
         </li>
         <li>

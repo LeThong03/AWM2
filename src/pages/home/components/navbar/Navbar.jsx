@@ -30,7 +30,7 @@ const Navbar = () => {
           <div className="magazine__navbar-menu_container scale-up-center">
             <div className="magazine__navbar-menu_container-links">
               <p><Link to="/">Home</Link></p>
-              <p><Link to="/library">Library</Link></p>
+              <p><Link to="/library">Faculties</Link></p>
             </div>
 
             <div className="magazine__navbar-menu_container-links-sign">

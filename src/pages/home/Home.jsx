@@ -6,13 +6,14 @@ import Features from './containers/features/Features';
 import Blog from './containers/blog/Blog';
 import CTA from './components/cta/CTA';
 import NavbarLogined from './components/navbarLogined/NavbarLogined';
+import Navbar from './components/navbar/Navbar';
 
 import './home.css';
 
 const Home = () => {
   return (
     <div className="student-container">
-      <NavbarLogined />
+      <Navbar/>
       <div className="main-content">
       <Header />
       <Wim />
