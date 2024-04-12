@@ -16,6 +16,7 @@ import ManagerDashboard from './pages/users/manager/dashBoard/DashBoard';
 
 /*Admin*/
 import AdminDashboard from './pages/users/admin/dashBoard/DashBoard';
+import AdminRegister from './pages/users/admin/register/Register';
 
 import './app.css';
 
@@ -95,7 +96,8 @@ const App = () => {
 
         {/*Admin*/}
         <Route path="/admin/dashboard" element={<AdminDashboard/>} />
-
+        <Route path="/admin/register" element={<AdminRegister/>} />
+        
         <Route path='*' element={<NoPage />} />
       </Routes>
     </Router>

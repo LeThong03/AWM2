@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { FaHome, FaNewspaper, FaEye, FaCog, FaSignOutAlt, FaUser } from 'react-icons/fa';
+import { IoMdPersonAdd } from "react-icons/io";
 import './sideMenu.css';
 
 const SideMenu = () => {
@@ -39,22 +40,27 @@ const SideMenu = () => {
       </div>
       <ul className="menu">
         <li>
-          <Link to={`/Student/dashboard?username=${username}`}>
+          <Link to={`/admin/dashboard?username=${username}`}>
             {collapsed ? <FaHome /> : <span>Dashboard</span>}
           </Link>
         </li>
         <li>
-          <Link to={`/Student/submit-magazine?username=${username}`}>
+          <Link to={`/admin/submit-magazine?username=${username}`}>
             {collapsed ? <FaNewspaper /> : <span>Submission</span>}
           </Link>
         </li>
         <li>
-          <Link to={`/Student/check-publish-status?username=${username}`}>
+          <Link to={`/admin/check-publish-status?username=${username}`}>
             {collapsed ? <FaEye /> : <span>Status</span>}
           </Link>
         </li>
         <li>
-          <Link to={`/Student/settings?username=${username}`}>
+          <Link to={`/admin/register?username=${username}`}>
+            {collapsed ? <IoMdPersonAdd /> : <span>Settings</span>}
+          </Link>
+        </li>
+        <li>
+          <Link to={`/admin/settings?username=${username}`}>
             {collapsed ? <FaCog /> : <span>Settings</span>}
           </Link>
         </li>

@@ -42,22 +42,22 @@ const Login = () => {
       if (response.ok) {
         console.log('Login successful:', data.message);
         console.log('User role:', data.user.role); // Log user role
-        // Check user role and navigate accordingly
+        // Redirect to different routes based on the user's role
         switch (data.user.role) {
           case 'admin':
-            navigate('/admin/dashboard');
+            navigate(`/admin/dashboard?username=${encodeURIComponent(formData.username)}`);
             break;
           case 'student':
-            navigate('/student/dashboard');
+            navigate(`/student/dashboard?username=${encodeURIComponent(formData.username)}`);
             break;
           case 'manager':
-            navigate('/manager/dashboard');
+            navigate(`/manager/dashboard?username=${encodeURIComponent(formData.username)}`);
             break;
           case 'coordinator':
-            navigate('/coordinator/dashboard');
+            navigate(`/coordinator/dashboard?username=${encodeURIComponent(formData.username)}`);
             break;
           case 'guest':
-            navigate('/library');
+            navigate(`/library?username=${encodeURIComponent(formData.username)}`);
             break;
           default:
             // Handle unknown roles or other cases

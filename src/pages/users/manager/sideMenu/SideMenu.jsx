@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { FaHome, FaCog, FaSignOutAlt, FaUser, FaChartBar } from 'react-icons/fa';
+import { FaHome, FaSignOutAlt, FaUser, FaChartBar } from 'react-icons/fa';
 import './sideMenu.css';
 
 const SideMenu = () => {
@@ -55,7 +55,7 @@ const SideMenu = () => {
         </li>
         <li>
           <Link to="/login" onClick={handleLogout}>
-            {collapsed ? <FaCog /> : <span>Logout</span>}
+            {collapsed ? <FaSignOutAlt /> : <span>Logout</span>}
           </Link>
         </li>
       </ul>
