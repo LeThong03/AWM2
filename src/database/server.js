@@ -2,8 +2,9 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors'); // Import the cors middleware
+const bcrypt = require('bcrypt');
 const User = require('./User');
-const axios = require('axios');
+const Faculty = require('./Faculty')
 
 const app = express();
 const port = 5000;
@@ -29,6 +30,59 @@ app.get('/getAllUsers', async (req, res) => {
     res.status(200).json(users);
   } catch (error) {
     console.error('Error fetching users:', error);
+    res.status(500).json({ message: 'An unexpected error occurred. Please try again later.' });
+  }
+});
+
+// Route to handle user login
+app.post('/login', async (req, res) => {
+  const { username, password } = req.body;
+
+  // Check if full name or password is empty
+  if (!username || !password) {
+    return res.status(400).json({ message: 'Full name and password are required' });
+  }
+
+  try {
+    // Find the user in the database based on the provided full name
+    const user = await User.findOne({ username });
+
+    // If user is not found, return an error
+    if (!user) {
+      return res.status(401).json({ message: 'User not found' });
+    }
+
+    // Compare passwords
+    if (password !== user.password) {
+      return res.status(401).json({ message: 'Invalid password' });
+    }
+
+    // If user is found and password matches, return success message
+    res.status(200).json({ message: 'Login successful', user });
+  } catch (error) {
+    console.error('Error logging in user:', error);
+    res.status(500).json({ message: 'An unexpected error occurred. Please try again later.' });
+  }
+});
+
+// Route to fetch all users
+app.get('/getAllUsers', async (req, res) => {
+  try {
+    const users = await User.find();
+    res.status(200).json(users);
+  } catch (error) {
+    console.error('Error fetching users:', error);
+    res.status(500).json({ message: 'An unexpected error occurred. Please try again later.' });
+  }
+});
+
+// Route to fetch all Faculties
+app.get('/getAllFaculties', async (req, res) => {
+  try {
+    const faculties = await Faculty.find();
+    res.status(200).json(faculties);
+  } catch (error) {
+    console.error('Error fetching faculties:', error);
     res.status(500).json({ message: 'An unexpected error occurred. Please try again later.' });
   }
 });
@@ -68,6 +122,8 @@ app.delete('/deleteUser/:id', async (req, res) => {
     res.status(500).json({ message: 'An unexpected error occurred. Please try again later.' });
   }
 });
+
+
 
 // Start the server
 app.listen(port, () => {

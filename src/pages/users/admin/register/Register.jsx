@@ -8,13 +8,14 @@ class Register extends Component {
     super(props);
     this.state = {
       users: [],
-      roles: ['admin', 'manager', 'coordinator', 'student', 'guest'], // Predefined roles
-      faculties: [], // Placeholder for fetched faculties
+      roles: ['admin', 'manager', 'coordinator', 'student', 'guest'],
+      faculties: [],
       isEditing: false,
       editingUserId: '',
       formData: {
         username: '',
         email: '',
+        password: '', // Add password field to formData
         role: '',
         faculty: ''
       }
@@ -23,7 +24,7 @@ class Register extends Component {
 
   componentDidMount() {
     this.fetchUsers();
-    this.fetchFaculties(); // Fetch faculties when component mounts
+    this.fetchFaculties();
   }
 
   fetchUsers = async () => {
@@ -37,7 +38,7 @@ class Register extends Component {
 
   fetchFaculties = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/getAllFaculties'); // Assuming endpoint for fetching faculties
+      const response = await axios.get('http://localhost:5000/getAllFaculties');
       this.setState({ faculties: response.data });
     } catch (error) {
       console.error('Error fetching faculties:', error);
@@ -92,6 +93,7 @@ class Register extends Component {
       formData: {
         username: user.username,
         email: user.email,
+        password: '', // Clear password on edit
         role: user.role,
         faculty: user.faculty
       }
@@ -105,6 +107,7 @@ class Register extends Component {
       formData: {
         username: '',
         email: '',
+        password: '',
         role: '',
         faculty: ''
       }
@@ -126,6 +129,7 @@ class Register extends Component {
       formData: {
         username: '',
         email: '',
+        password: '',
         role: '',
         faculty: ''
       }
@@ -138,15 +142,16 @@ class Register extends Component {
       formData: {
         username: '',
         email: '',
+        password: '',
         role: '',
         faculty: ''
       }
     });
   };
-  
+
   render() {
     const { users, formData, isEditing, isAdding, roles, faculties } = this.state;
-  
+
     if (isAdding || isEditing) {
       return (
         <div className="user-table-container">
@@ -164,6 +169,13 @@ class Register extends Component {
               name="email"
               value={formData.email}
               placeholder="Email"
+              onChange={this.handleInputChange}
+            />
+            <input
+              type="password" // Change type to password
+              name="password"
+              value={formData.password}
+              placeholder="Password"
               onChange={this.handleInputChange}
             />
             <select
@@ -192,7 +204,7 @@ class Register extends Component {
         </div>
       );
     }
-  
+
     return (
       <div className="user-table-container">
         <SideMenu />
@@ -204,6 +216,7 @@ class Register extends Component {
               <th>No</th>
               <th>Username</th>
               <th>Email</th>
+              <th>Password</th> {/* Add password header */}
               <th>Role</th>
               <th>Faculty</th>
               <th>Action</th>
@@ -215,6 +228,7 @@ class Register extends Component {
                 <td>{index + 1}</td>
                 <td>{user.username}</td>
                 <td>{user.email}</td>
+                <td>{user.password}</td> {/* Display password */}
                 <td>{user.role}</td>
                 <td>{user.faculty}</td>
                 <td>
