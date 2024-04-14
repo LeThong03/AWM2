@@ -56,7 +56,7 @@ const SideMenu = () => {
         </li>
         <li>
           <Link to={`/admin/register?username=${username}`}>
-            {collapsed ? <IoMdPersonAdd /> : <span>Settings</span>}
+            {collapsed ? <IoMdPersonAdd /> : <span>Registration</span>}
           </Link>
         </li>
         <li>

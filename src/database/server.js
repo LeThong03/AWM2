@@ -2,8 +2,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors'); // Import the cors middleware
-const bcrypt = require('bcrypt');
 const User = require('./User');
+const axios = require('axios');
 
 const app = express();
 const port = 5000;
@@ -33,74 +33,41 @@ app.get('/getAllUsers', async (req, res) => {
   }
 });
 
-// Route to handle user login
-app.post('/login', async (req, res) => {
-  const { username, password } = req.body;
-
-  // Check if full name or password is empty
-  if (!username || !password) {
-    return res.status(400).json({ message: 'Full name and password are required' });
-  }
-
+// Route to add a new user
+app.post('/addUser', async (req, res) => {
   try {
-    // Find the user in the database based on the provided full name
-    const user = await User.findOne({ username });
-
-    // If user is not found, return an error
-    if (!user) {
-      return res.status(401).json({ message: 'User not found' });
-    }
-
-    // Compare passwords
-    if (password !== user.password) {
-      return res.status(401).json({ message: 'Invalid password' });
-    }
-
-    // If user is found and password matches, return success message
-    res.status(200).json({ message: 'Login successful', user });
-  } catch (error) {
-    console.error('Error logging in user:', error);
-    res.status(500).json({ message: 'An unexpected error occurred. Please try again later.' });
-  }
-});
-
-/* Route to handle user registration
-app.post('/register', async (req, res) => {
-  const { username, email, password, dateOfBirth, gender, agreeTerms } = req.body;
-
-  // Validate input
-  if (!username || !email || !password || !dateOfBirth || !gender || !agreeTerms) {
-    return res.status(400).json({ message: 'All fields are required' });
-  }
-
-  try {
-    // Check if email already exists
-    const existingUser = await User.findOne({ email });
-    if (existingUser) {
-      return res.status(409).json({ message: 'Email already exists' });
-    }
-
-    // Create a new user
-    const newUser = new User({
-      username,
-      email,
-      password, // You should hash the password before saving it
-      dateOfBirth,
-      gender,
-      agreeTerms
-    });
-
-    // Save the user to the database
+    const newUser = new User(req.body);
     await newUser.save();
-
-    // Return success message
-    res.status(201).json({ message: 'User registered successfully' });
+    res.status(201).json({ message: 'User added successfully' });
   } catch (error) {
-    console.error('Error registering user:', error);
+    console.error('Error adding user:', error);
     res.status(500).json({ message: 'An unexpected error occurred. Please try again later.' });
   }
 });
-*/
+
+// Route to update a user
+app.put('/updateUser/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    await User.findByIdAndUpdate(id, req.body);
+    res.status(200).json({ message: 'User updated successfully' });
+  } catch (error) {
+    console.error('Error updating user:', error);
+    res.status(500).json({ message: 'An unexpected error occurred. Please try again later.' });
+  }
+});
+
+// Route to delete a user
+app.delete('/deleteUser/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    await User.findByIdAndDelete(id);
+    res.status(200).json({ message: 'User deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting user:', error);
+    res.status(500).json({ message: 'An unexpected error occurred. Please try again later.' });
+  }
+});
 
 // Start the server
 app.listen(port, () => {
