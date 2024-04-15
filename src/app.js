@@ -10,6 +10,7 @@ import StudentSettings from './pages/users/student/settings/StudentSettings';
 
 /*Coordinator*/
 import CoordinatorDashboard from './pages/users/coordinator/dashBoard/DashBoard';
+import CoordinatorViewSubmition from './pages/users/coordinator/viewSubmission/ViewSubmission';
 
 /*Manager*/
 import ManagerDashboard from './pages/users/manager/dashBoard/DashBoard';
@@ -88,7 +89,7 @@ const App = () => {
         
         {/*Coordinator*/}
         <Route path="/coordinator/dashboard" element={<CoordinatorDashboard />} />
-
+        <Route path="/coordinator/viewsubmission" element={<CoordinatorViewSubmition />} />
         
         {/*Manager*/}
         <Route path="/manager/dashboard" element={<ManagerDashboard/>} />

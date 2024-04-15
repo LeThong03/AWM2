@@ -50,7 +50,7 @@ const SideMenu = () => {
         </li>
         <li>
           <Link to={`/Student/check-publish-status?username=${username}`}>
-            {collapsed ? <FaEye /> : <span>Status</span>}
+            {collapsed ? <FaEye /> : <span>View Submission</span>}
           </Link>
         </li>
         <li>

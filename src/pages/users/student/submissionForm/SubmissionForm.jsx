@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './submissionForm.css'; // Import your CSS file for styling
 import SideMenu from '../sideMenu/SideMenu';
 
@@ -14,7 +14,7 @@ const SubmissionForm = () => {
   const [formErrors, setFormErrors] = useState({});
 
   // Function to handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     // Validate form fields
     const errors = {};
@@ -34,16 +34,36 @@ const SubmissionForm = () => {
       errors.document = 'Document is required';
     }
     if (Object.keys(errors).length === 0) {
-      // Form is valid, handle submission (send data to backend, etc.)
-      console.log('Form submitted:', formData);
-      // Reset form fields
-      setFormData({
-        studentName: '',
-        magazineTitle: '',
-        magazineContent: '',
-        coverImage: null,
-        document: null
-      });
+      try {
+        // Form is valid, send data to backend
+        const formDataToSend = new FormData();
+        formDataToSend.append('studentName', formData.studentName);
+        formDataToSend.append('magazineTitle', formData.magazineTitle);
+        formDataToSend.append('magazineContent', formData.magazineContent);
+        formDataToSend.append('coverImage', formData.coverImage);
+        formDataToSend.append('document', formData.document);
+        
+        const response = await fetch('http://localhost:5000/submitMagazine', {
+          method: 'POST',
+          body: formDataToSend,
+        });
+
+        if (response.ok) {
+          console.log('Magazine submitted successfully');
+          // Reset form fields
+          setFormData({
+            studentName: '',
+            magazineTitle: '',
+            magazineContent: '',
+            coverImage: null,
+            document: null
+          });
+        } else {
+          console.error('Failed to submit magazine:', response.statusText);
+        }
+      } catch (error) {
+        console.error('Error submitting magazine:', error);
+      }
     } else {
       // Set formErrors state to display error messages
       setFormErrors(errors);
@@ -63,6 +83,17 @@ const SubmissionForm = () => {
       setFormErrors({ ...formErrors, [name]: '' });
     }
   };
+
+  useEffect(() => {
+    const searchParams = new URLSearchParams(window.location.search);
+    const username = searchParams.get('username');
+    if (username) {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        studentName: username
+      }));
+    }
+  }, []);
 
   return (
     <div className="submission-form">

@@ -48,7 +48,7 @@ const SideMenu = () => {
           </Link>
         </li>
         <li>
-          <Link to={`/coordinator/view-submissions?username=${username}`}>
+          <Link to={`/coordinator/viewsubmission?username=${username}`}>
             {collapsed ? <HiArchiveBox  /> : <span>View Submissions</span>}
           </Link>
         </li>

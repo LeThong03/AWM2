@@ -15,7 +15,7 @@ class Register extends Component {
       formData: {
         username: '',
         email: '',
-        password: '', // Add password field to formData
+        password: '',
         role: '',
         faculty: ''
       }
@@ -93,7 +93,7 @@ class Register extends Component {
       formData: {
         username: user.username,
         email: user.email,
-        password: '', // Clear password on edit
+        password: user.password,
         role: user.role,
         faculty: user.faculty
       }
@@ -216,7 +216,7 @@ class Register extends Component {
               <th>No</th>
               <th>Username</th>
               <th>Email</th>
-              <th>Password</th> {/* Add password header */}
+              <th>Password</th>
               <th>Role</th>
               <th>Faculty</th>
               <th>Action</th>

@@ -2,38 +2,35 @@ import React, { useState, useEffect } from 'react';
 import './status.css';
 import SideMenu from '../sideMenu/SideMenu';
 
-const Status = () => {
-  const [magazineStatus, setMagazineStatus] = useState([]);
+const useFetchMagazines = (username) => {
+  const [magazines, setMagazines] = useState([]);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchMagazines = async () => {
       try {
-        const mockData = [
-          {
-            id: 1,
-            title: 'Magazine 1',
-            status: 'Commented',
-            comments: [
-              'Good work! Keep it up.',
-              'Needs improvement in content.',
-              'Excellent cover design.'
-            ]
-          },
-          {
-            id: 2,
-            title: 'Magazine 2',
-            status: 'Published',
-            comments: []
-          },
-          // Add more magazine status data as needed
-        ];
-        setMagazineStatus(mockData);
+        const response = await fetch(`http://localhost:5000/fetchMagazines/${encodeURIComponent(username)}`);
+        if (response.ok) {
+          const data = await response.json();
+          setMagazines(data);
+        } else {
+          console.error('Failed to fetch magazines:', response.statusText);
+        }
       } catch (error) {
-        console.error('Error fetching magazine status data:', error);
+        console.error('Error fetching magazines:', error);
       }
     };
-    fetchData();
-  }, []);
+    fetchMagazines();
+  }, [username]); // Include username in the dependency array
+
+  return magazines;
+};
+
+const Status = () => {
+  // Extracting username from URL
+  const urlParams = new URLSearchParams(window.location.search);
+  const username = urlParams.get('username');
+
+  const magazines = useFetchMagazines(username);
 
   return (
     <div className="status-page">
@@ -41,9 +38,9 @@ const Status = () => {
       <div className="status-content">
         <h2>Magazine Status</h2>
         <div className="magazine-list">
-          {magazineStatus.map((magazine) => (
-            <div key={magazine.id} className="magazine-status">
-              <h3>{magazine.title}</h3>
+          {magazines.map((magazine) => (
+            <div key={magazine._id} className="magazine-status">
+              <h3>{magazine.magazineTitle}</h3>
               <p>Status: {magazine.status}</p>
               {magazine.comments.length > 0 && (
                 <div className="comments">

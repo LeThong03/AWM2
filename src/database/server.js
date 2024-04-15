@@ -5,6 +5,7 @@ const cors = require('cors'); // Import the cors middleware
 const bcrypt = require('bcrypt');
 const User = require('./User');
 const Faculty = require('./Faculty')
+const Express = require('./Express');
 
 const app = express();
 const port = 5000;
@@ -22,6 +23,8 @@ app.use(bodyParser.json());
 
 // Enable CORS
 app.use(cors());
+
+app.use('/', Express);
 
 // Route to fetch all users
 app.get('/getAllUsers', async (req, res) => {
@@ -87,6 +90,18 @@ app.get('/getAllFaculties', async (req, res) => {
   }
 });
 
+app.get('/fetchMagazines', async (req, res) => {
+  try {
+    // Assuming you have a Magazine model and you want to fetch all magazines
+    const magazines = await Magazine.find();
+    res.status(200).json(magazines);
+  } catch (error) {
+    console.error('Error fetching magazines:', error);
+    res.status(500).json({ message: 'An unexpected error occurred. Please try again later.' });
+  }
+});
+
+
 // Route to add a new user
 app.post('/addUser', async (req, res) => {
   try {
@@ -123,7 +138,36 @@ app.delete('/deleteUser/:id', async (req, res) => {
   }
 });
 
+app.post('/submitMagazine', async (req, res) => {
+  try {
+    const { studentName, magazineTitle, magazineContent, coverImage, document, faculty } = req.body;
 
+    // Find the coordinator of the faculty
+    const coordinator = await User.findOne({ faculty, role: 'coordinator' });
+
+    if (!coordinator) {
+      return res.status(404).json({ message: 'Coordinator not found for the specified faculty' });
+    }
+
+    // Create a new submission document
+    const newSubmission = new Submission({
+      studentName,
+      magazineTitle,
+      magazineContent,
+      coverImage,
+      document,
+      faculty,
+    });
+
+    // Save the submission to the database
+    await newSubmission.save();
+
+    res.status(201).json({ message: 'Magazine submitted successfully to the coordinator' });
+  } catch (error) {
+    console.error('Error submitting magazine:', error);
+    res.status(500).json({ message: 'An unexpected error occurred. Please try again later.' });
+  }
+});
 
 // Start the server
 app.listen(port, () => {
