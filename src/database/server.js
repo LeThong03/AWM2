@@ -5,6 +5,7 @@ const cors = require('cors'); // Import the cors middleware
 const bcrypt = require('bcrypt');
 const User = require('./User');
 const Faculty = require('./Faculty')
+const Submission = require('./Submission');
 const Express = require('./Express');
 
 const app = express();
@@ -142,13 +143,6 @@ app.post('/submitMagazine', async (req, res) => {
   try {
     const { studentName, magazineTitle, magazineContent, coverImage, document, faculty } = req.body;
 
-    // Find the coordinator of the faculty
-    const coordinator = await User.findOne({ faculty, role: 'coordinator' });
-
-    if (!coordinator) {
-      return res.status(404).json({ message: 'Coordinator not found for the specified faculty' });
-    }
-
     // Create a new submission document
     const newSubmission = new Submission({
       studentName,
@@ -162,7 +156,7 @@ app.post('/submitMagazine', async (req, res) => {
     // Save the submission to the database
     await newSubmission.save();
 
-    res.status(201).json({ message: 'Magazine submitted successfully to the coordinator' });
+    res.status(201).json({ message: 'Magazine submitted successfully' });
   } catch (error) {
     console.error('Error submitting magazine:', error);
     res.status(500).json({ message: 'An unexpected error occurred. Please try again later.' });
