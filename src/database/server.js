@@ -1,12 +1,12 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const cors = require('cors'); // Import the cors middleware
-const bcrypt = require('bcrypt');
+const cors = require('cors');
+const multer = require('multer');
+
 const User = require('./User');
-const Faculty = require('./Faculty')
+const Faculty = require('./Faculty');
 const Submission = require('./Submission');
-const Express = require('./Express');
 
 const app = express();
 const port = 5000;
@@ -25,7 +25,8 @@ app.use(bodyParser.json());
 // Enable CORS
 app.use(cors());
 
-app.use('/', Express);
+// Serve uploaded files statically
+app.use('/uploads', express.static('uploads'));
 
 // Route to fetch all users
 app.get('/getAllUsers', async (req, res) => {
@@ -69,18 +70,7 @@ app.post('/login', async (req, res) => {
   }
 });
 
-// Route to fetch all users
-app.get('/getAllUsers', async (req, res) => {
-  try {
-    const users = await User.find();
-    res.status(200).json(users);
-  } catch (error) {
-    console.error('Error fetching users:', error);
-    res.status(500).json({ message: 'An unexpected error occurred. Please try again later.' });
-  }
-});
-
-// Route to fetch all Faculties
+// Route to fetch all faculties
 app.get('/getAllFaculties', async (req, res) => {
   try {
     const faculties = await Faculty.find();
@@ -91,17 +81,35 @@ app.get('/getAllFaculties', async (req, res) => {
   }
 });
 
-app.get('/fetchMagazines', async (req, res) => {
+// Route to fetch submission based on username
+app.get('/fetchSubmission', async (req, res) => {
   try {
-    // Assuming you have a Magazine model and you want to fetch all magazines
-    const magazines = await Magazine.find();
-    res.status(200).json(magazines);
+    const username = req.query.username;
+    const submissions = await Submission.find({ studentName: username });
+    res.status(200).json(submissions);
   } catch (error) {
-    console.error('Error fetching magazines:', error);
+    console.error('Error fetching submissions:', error);
     res.status(500).json({ message: 'An unexpected error occurred. Please try again later.' });
   }
 });
 
+// Route to get faculty based on username
+app.get('/getFaculty', async (req, res) => {
+  const { username } = req.query;
+
+  try {
+    const user = await User.findOne({ username });
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    res.status(200).json({ faculty: user.faculty });
+  } catch (error) {
+    console.error('Error fetching faculty:', error);
+    res.status(500).json({ message: 'An unexpected error occurred. Please try again later.' });
+  }
+});
 
 // Route to add a new user
 app.post('/addUser', async (req, res) => {
@@ -139,18 +147,34 @@ app.delete('/deleteUser/:id', async (req, res) => {
   }
 });
 
-app.post('/submitMagazine', async (req, res) => {
+// Configure Multer for file upload
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/'); // Destination folder for uploaded files
+  },
+  filename: function (req, file, cb) {
+    // Generate a unique filename
+    cb(null, Date.now() + '-' + file.originalname);
+  }
+});
+
+const upload = multer({ storage: storage });
+
+// Route to handle magazine submission
+app.post('/submitMagazine', upload.fields([{ name: 'coverImage', maxCount: 1 }, { name: 'document', maxCount: 1 }]), async (req, res) => {
   try {
-    const { studentName, magazineTitle, magazineContent, coverImage, document, faculty } = req.body;
+    const { studentName, faculty, magazineTitle, magazineContent } = req.body;
+    const coverImage = req.files['coverImage'][0].filename;
+    const document = req.files['document'][0].filename;
 
     // Create a new submission document
     const newSubmission = new Submission({
       studentName,
+      faculty,
       magazineTitle,
       magazineContent,
       coverImage,
-      document,
-      faculty,
+      document
     });
 
     // Save the submission to the database

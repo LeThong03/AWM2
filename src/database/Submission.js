@@ -2,10 +2,11 @@ const mongoose = require('mongoose');
 
 const submissionSchema = new mongoose.Schema({
   studentName: String,
+  faculty: String,
   magazineTitle: String,
   magazineContent: String,
-  coverImage: String, // Store the URL of the cover image
-  document: String, // Store the URL of the document (PDF)
+  coverImage: String,
+  document: String,
 });
 
 const Submission = mongoose.model('Submission', submissionSchema);

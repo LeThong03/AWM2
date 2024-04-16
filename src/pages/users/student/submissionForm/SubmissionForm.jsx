@@ -6,6 +6,7 @@ const SubmissionForm = () => {
   // State for form fields and errors
   const [formData, setFormData] = useState({
     studentName: '',
+    faculty: '',
     magazineTitle: '',
     magazineContent: '',
     coverImage: null,
@@ -37,12 +38,15 @@ const SubmissionForm = () => {
       try {
         // Form is valid, send data to backend
         const formDataToSend = new FormData();
+        // Append form data to formDataToSend
         formDataToSend.append('studentName', formData.studentName);
+        formDataToSend.append('faculty', formData.faculty);
         formDataToSend.append('magazineTitle', formData.magazineTitle);
         formDataToSend.append('magazineContent', formData.magazineContent);
         formDataToSend.append('coverImage', formData.coverImage);
         formDataToSend.append('document', formData.document);
-        
+
+        // Send formDataToSend to the server
         const response = await fetch('http://localhost:5000/submitMagazine', {
           method: 'POST',
           body: formDataToSend,
@@ -53,6 +57,7 @@ const SubmissionForm = () => {
           // Reset form fields
           setFormData({
             studentName: '',
+            faculty: '',
             magazineTitle: '',
             magazineContent: '',
             coverImage: null,
@@ -74,6 +79,7 @@ const SubmissionForm = () => {
   const handleChange = (e) => {
     const { name, files } = e.target;
     if (files) {
+      // No need to handle file changes here since Multer will handle it
       setFormData({ ...formData, [name]: files[0] });
     } else {
       setFormData({ ...formData, [name]: e.target.value });
@@ -92,6 +98,20 @@ const SubmissionForm = () => {
         ...prevFormData,
         studentName: username
       }));
+      // Fetch faculty based on the username
+      fetch(`http://localhost:5000/getFaculty?username=${username}`)
+        .then(response => response.json())
+        .then(data => {
+          if (data.faculty) {
+            setFormData(prevFormData => ({
+              ...prevFormData,
+              faculty: data.faculty
+            }));
+          } else {
+            console.error('Faculty not found for username:', username);
+          }
+        })
+        .catch(error => console.error('Error fetching faculty:', error));
     }
   }, []);
 
@@ -101,6 +121,24 @@ const SubmissionForm = () => {
       <h2>Submit Your Magazine</h2>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
+          <label htmlFor="studentName">Username:</label>
+          <input
+            type="text"
+            id="studentName"
+            name="studentName"
+            value={formData.studentName}
+            disabled // Disable user input
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="faculty">Faculty:</label>
+          <input
+            type="text"
+            id="faculty"
+            name="faculty"
+            value={formData.faculty}
+            disabled // Disable user input
+          />
         </div>
         <div className="form-group">
           <label htmlFor="magazineTitle">Magazine Title:</label>

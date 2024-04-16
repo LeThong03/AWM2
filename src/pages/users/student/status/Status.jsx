@@ -2,59 +2,62 @@ import React, { useState, useEffect } from 'react';
 import './status.css';
 import SideMenu from '../sideMenu/SideMenu';
 
-const useFetchMagazines = (username) => {
-  const [magazines, setMagazines] = useState([]);
+const Status = () => {
+  const [submissions, setSubmissions] = useState([]);
 
   useEffect(() => {
-    const fetchMagazines = async () => {
+    const fetchSubmissions = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/fetchMagazines/${encodeURIComponent(username)}`);
+        const username = new URLSearchParams(window.location.search).get('username');
+        const response = await fetch(`http://localhost:5000/fetchSubmission?username=${encodeURIComponent(username)}`);
         if (response.ok) {
           const data = await response.json();
-          setMagazines(data);
+          setSubmissions(data);
         } else {
-          console.error('Failed to fetch magazines:', response.statusText);
+          console.error('Failed to fetch submissions:', response.statusText);
         }
       } catch (error) {
-        console.error('Error fetching magazines:', error);
+        console.error('Error fetching submissions:', error);
       }
     };
-    fetchMagazines();
-  }, [username]); // Include username in the dependency array
-
-  return magazines;
-};
-
-const Status = () => {
-  // Extracting username from URL
-  const urlParams = new URLSearchParams(window.location.search);
-  const username = urlParams.get('username');
-
-  const magazines = useFetchMagazines(username);
+    fetchSubmissions();
+  }, []);
 
   return (
     <div className="status-page">
       <SideMenu />
       <div className="status-content">
-        <h2>Magazine Status</h2>
-        <div className="magazine-list">
-          {magazines.map((magazine) => (
-            <div key={magazine._id} className="magazine-status">
-              <h3>{magazine.magazineTitle}</h3>
-              <p>Status: {magazine.status}</p>
-              {magazine.comments.length > 0 && (
-                <div className="comments">
-                  <h4>Comments:</h4>
-                  <ul>
-                    {magazine.comments.map((comment, index) => (
-                      <li key={index}>{comment}</li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-            </div>
-          ))}
-        </div>
+        <h2 className="status-title">Submitted Magazines</h2>
+        <table className="magazine-table">
+          <thead>
+            <tr>
+              <th>Student Name</th>
+              <th>Faculty</th>
+              <th>Title</th>
+              <th>Content</th>
+              <th>Cover Image</th>
+              <th>Document</th>
+              <th>Submission Date</th>
+              <th>Status</th>
+              <th>Comment</th>
+            </tr>
+          </thead>
+          <tbody>
+            {submissions.map((submission) => (
+              <tr key={submission._id}>
+                <td>{submission.studentName}</td>
+                <td>{submission.faculty}</td>
+                <td>{submission.magazineTitle}</td>
+                <td>{submission.magazineContent}</td>
+                <td><img src={`http://localhost:5000/uploads/${submission.coverImage}`} alt={submission.magazineTitle} width="100" /></td>
+                <td><a href={`http://localhost:5000/uploads/${submission.document}`} target="_blank" rel="noopener noreferrer">View Document</a></td>
+                <td>{new Date(submission.createdAt).toLocaleDateString()}</td>
+                <td>{submission.status}</td>
+                <td>{submission.Comment}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   );
