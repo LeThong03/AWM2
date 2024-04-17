@@ -93,6 +93,24 @@ app.get('/fetchSubmission', async (req, res) => {
   }
 });
 
+// Route to fetch submission based on username Faculty
+app.get('/coordinatorFetchSubmission', async (req, res) => {
+  try {
+    const username = req.query.username;
+    // Assuming there's a field in the user document that stores the faculty information
+    const coordinator = await User.findOne({ username }); // Fetch the coordinator document based on the username
+    if (!coordinator) {
+      return res.status(404).json({ message: 'Coordinator not found.' });
+    }
+    // Fetch submissions based on the coordinator's faculty
+    const submissions = await Submission.find({ faculty: coordinator.faculty });
+    res.status(200).json(submissions);
+  } catch (error) {
+    console.error('Error fetching submissions:', error);
+    res.status(500).json({ message: 'An unexpected error occurred. Please try again later.' });
+  }
+});
+
 // Route to get faculty based on username
 app.get('/getFaculty', async (req, res) => {
   const { username } = req.query;
@@ -187,6 +205,59 @@ app.post('/submitMagazine', upload.fields([{ name: 'coverImage', maxCount: 1 }, 
   }
 });
 
+app.get('/submissionWindow/:faculty', async (req, res) => {
+  const faculty = req.params.faculty;
+
+  try {
+    // Fetch submission window for the specified faculty
+    const submissionWindow = await SubmissionWindow.findOne({ faculty });
+
+    if (submissionWindow) {
+      res.status(200).json(submissionWindow);
+    } else {
+      res.status(404).json({ message: 'Submission window not found for the specified faculty.' });
+    }
+  } catch (error) {
+    console.error('Error fetching submission window:', error);
+    res.status(500).json({ message: 'An unexpected error occurred. Please try again later.' });
+  }
+});
+
+// Route to update or create submission window
+app.post('/updateSubmissionWindow', async (req, res) => {
+  const { faculty, startTime, endTime } = req.body;
+
+  try {
+    // Update or create submission window for the specified faculty
+    await SubmissionWindow.findOneAndUpdate({ faculty }, { startTime, endTime }, { new: true, upsert: true });
+
+    res.status(200).json({ message: 'Submission window updated successfully.' });
+  } catch (error) {
+    console.error('Error updating submission window:', error);
+    res.status(500).json({ message: 'An unexpected error occurred. Please try again later.' });
+  }
+});
+
+// Route to create a new submission window
+app.post('/createSubmissionWindow', async (req, res) => {
+  const { faculty, startTime, endTime } = req.body;
+
+  try {
+    const existingWindow = await SubmissionWindow.findOne({ faculty });
+
+    if (existingWindow) {
+      return res.status(400).json({ message: 'Submission window already exists for this faculty.' });
+    }
+
+    const newSubmissionWindow = new SubmissionWindow({ faculty, startTime, endTime });
+    await newSubmissionWindow.save();
+
+    res.status(201).json({ message: 'Submission window created successfully.' });
+  } catch (error) {
+    console.error('Error creating submission window:', error);
+    res.status(500).json({ message: 'An unexpected error occurred. Please try again later.' });
+  }
+});
 // Start the server
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);

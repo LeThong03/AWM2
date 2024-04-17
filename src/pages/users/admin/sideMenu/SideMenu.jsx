@@ -45,23 +45,8 @@ const SideMenu = () => {
           </Link>
         </li>
         <li>
-          <Link to={`/admin/submit-magazine?username=${username}`}>
-            {collapsed ? <FaNewspaper /> : <span>Submission</span>}
-          </Link>
-        </li>
-        <li>
-          <Link to={`/admin/check-publish-status?username=${username}`}>
-            {collapsed ? <FaEye /> : <span>Status</span>}
-          </Link>
-        </li>
-        <li>
           <Link to={`/admin/register?username=${username}`}>
             {collapsed ? <IoMdPersonAdd /> : <span>Registration</span>}
-          </Link>
-        </li>
-        <li>
-          <Link to={`/admin/settings?username=${username}`}>
-            {collapsed ? <FaCog /> : <span>Settings</span>}
           </Link>
         </li>
         <li>

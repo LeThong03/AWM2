@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import './status.css';
 import SideMenu from '../sideMenu/SideMenu';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEdit, faFilePdf } from '@fortawesome/free-solid-svg-icons';
 
 const Status = () => {
   const [submissions, setSubmissions] = useState([]);
@@ -23,41 +25,54 @@ const Status = () => {
     fetchSubmissions();
   }, []);
 
+  const handleEdit = (submissionId) => {
+    // Implement edit functionality here
+    console.log(`Editing submission with ID: ${submissionId}`);
+  };
+
   return (
     <div className="status-page">
       <SideMenu />
       <div className="status-content">
         <h2 className="status-title">Submitted Magazines</h2>
-        <table className="magazine-table">
-          <thead>
-            <tr>
-              <th>Student Name</th>
-              <th>Faculty</th>
-              <th>Title</th>
-              <th>Content</th>
-              <th>Cover Image</th>
-              <th>Document</th>
-              <th>Submission Date</th>
-              <th>Status</th>
-              <th>Comment</th>
-            </tr>
-          </thead>
-          <tbody>
-            {submissions.map((submission) => (
-              <tr key={submission._id}>
-                <td>{submission.studentName}</td>
-                <td>{submission.faculty}</td>
-                <td>{submission.magazineTitle}</td>
-                <td>{submission.magazineContent}</td>
-                <td><img src={`http://localhost:5000/uploads/${submission.coverImage}`} alt={submission.magazineTitle} width="100" /></td>
-                <td><a href={`http://localhost:5000/uploads/${submission.document}`} target="_blank" rel="noopener noreferrer">View Document</a></td>
-                <td>{new Date(submission.createdAt).toLocaleDateString()}</td>
-                <td>{submission.status}</td>
-                <td>{submission.Comment}</td>
+        <div className="magazine-table-container">
+          <table className="magazine-table">
+            <thead>
+              <tr>
+                <th>Student Name</th>
+                <th>Faculty</th>
+                <th>Title</th>
+                <th>Content</th>
+                <th>Cover Image</th>
+                <th>Document</th>
+                <th>Submission Date</th>
+                <th>Status</th>
+                <th>Comment</th>
+                <th>Edit</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {submissions.map((submission) => (
+                <tr key={submission._id}>
+                  <td>{submission.studentName}</td>
+                  <td>{submission.faculty}</td>
+                  <td>{submission.magazineTitle}</td>
+                  <td>{submission.magazineContent}</td>
+                  <td><img src={`http://localhost:5000/uploads/${submission.coverImage}`} alt={submission.magazineTitle} className="cover-image" /></td>
+                  <td>
+                    <a href={`http://localhost:5000/uploads/${submission.document}`} target="_blank" rel="noopener noreferrer" className="document-link">
+                      <FontAwesomeIcon icon={faFilePdf} /> Download PDF
+                    </a>
+                  </td>
+                  <td>{new Date(submission.createdAt).toLocaleDateString()}</td>
+                  <td>{submission.status}</td>
+                  <td>{submission.Comment}</td>
+                  <td><button className="edit-button" onClick={() => handleEdit(submission._id)}><FontAwesomeIcon icon={faEdit} /></button></td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );

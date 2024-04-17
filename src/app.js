@@ -11,6 +11,7 @@ import StudentSettings from './pages/users/student/settings/StudentSettings';
 /*Coordinator*/
 import CoordinatorDashboard from './pages/users/coordinator/dashBoard/DashBoard';
 import CoordinatorViewSubmition from './pages/users/coordinator/viewSubmission/ViewSubmission';
+import CoordinatorSubmissionWindow from './pages/users/coordinator/submissionWindow/SubmissionWindow';
 
 /*Manager*/
 import ManagerDashboard from './pages/users/manager/dashBoard/DashBoard';
@@ -90,7 +91,8 @@ const App = () => {
         {/*Coordinator*/}
         <Route path="/coordinator/dashboard" element={<CoordinatorDashboard />} />
         <Route path="/coordinator/viewsubmission" element={<CoordinatorViewSubmition />} />
-        
+        <Route path="/coordinator/submissionwindow" element={<CoordinatorSubmissionWindow />} />
+
         {/*Manager*/}
         <Route path="/manager/dashboard" element={<ManagerDashboard/>} />
 

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { FaCog, FaSignOutAlt, FaUser, FaChartBar } from 'react-icons/fa';
-import { HiArchiveBox } from "react-icons/hi2";
+import { FaSignOutAlt, FaUser } from 'react-icons/fa';
 import { MdComment } from "react-icons/md";
 import { RxDashboard } from "react-icons/rx";
+import { BsWindowPlus } from "react-icons/bs";
 
 import './sideMenu.css';
 
@@ -48,23 +48,13 @@ const SideMenu = () => {
           </Link>
         </li>
         <li>
+          <Link to={`/coordinator/submissionwindow?username=${username}`}>
+            {collapsed ? <BsWindowPlus /> : <span>Portal</span>}
+          </Link>
+        </li>
+        <li>
           <Link to={`/coordinator/viewsubmission?username=${username}`}>
-            {collapsed ? <HiArchiveBox  /> : <span>View Submissions</span>}
-          </Link>
-        </li>
-        <li>
-          <Link to={`/coordinator/comment?username=${username}`}>
-            {collapsed ? <MdComment /> : <span>Comment on Submissions</span>}
-          </Link>
-        </li>
-        <li>
-          <Link to={`/coordinator/statistical-analysis?username=${username}`}>
-            {collapsed ? <FaChartBar /> : <span>Statistical Analysis</span>}
-          </Link>
-        </li>
-        <li>
-          <Link to={`/Student/settings?username=${username}`}>
-            {collapsed ? <FaCog /> : <span>Settings</span>}
+            {collapsed ? <MdComment  /> : <span>View Submissions</span>}
           </Link>
         </li>
         <li>
