@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import { FaEdit, FaTrash } from 'react-icons/fa';
+
 import './register.css';
 import SideMenu from '../sideMenu/SideMenu';
 
@@ -232,9 +234,13 @@ class Register extends Component {
                 <td>{user.role}</td>
                 <td>{user.faculty}</td>
                 <td>
-                  <button onClick={() => this.handleEditUser(user)}>Edit</button>
-                  <button onClick={() => this.handleDelete(user._id)}>Delete</button>
-                </td>
+                <button onClick={() => this.handleEditUser(user)} style={{ color:'blue'}}> 
+                <FaEdit /> Edit
+                </button>                  
+                <button onClick={() => this.handleDelete(user._id)} style={{ color: 'red' }}>
+                  <FaTrash /> Delete
+                  </button>                
+                  </td>
               </tr>
             ))}
           </tbody>

@@ -26,7 +26,7 @@ const DashBoard = () => {
         <div className="box-container">
           <div className="box">
             <FaNewspaper className="icon" />
-            <h3>All Magazines</h3>
+            <h3>Registration</h3>
           </div>
           <div className="box">
             <FaCheckCircle className="icon" />

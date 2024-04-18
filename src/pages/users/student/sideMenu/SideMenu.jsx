@@ -54,11 +54,6 @@ const SideMenu = () => {
           </Link>
         </li>
         <li>
-          <Link to={`/Student/settings?username=${username}`}>
-            {collapsed ? <FaCog /> : <span>Settings</span>}
-          </Link>
-        </li>
-        <li>
           <Link to="/login" onClick={handleLogout}>
             {collapsed ? <FaSignOutAlt /> : <span>Logout</span>}
           </Link>

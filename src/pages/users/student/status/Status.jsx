@@ -25,6 +25,21 @@ const Status = () => {
     fetchSubmissions();
   }, []);
 
+  // Function to format date and time in Hanoi timezone
+  const formatSubmissionDate = (submissionDate) => {
+    const options = {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric',
+      second: 'numeric',
+      hour12: true,
+      timeZone: 'Asia/Ho_Chi_Minh' // Set timezone to Hanoi
+    };
+    return new Date(submissionDate).toLocaleString('en-US', options);
+  };
+
   const handleEdit = (submissionId) => {
     // Implement edit functionality here
     console.log(`Editing submission with ID: ${submissionId}`);
@@ -39,33 +54,29 @@ const Status = () => {
           <table className="magazine-table">
             <thead>
               <tr>
-                <th>Student Name</th>
-                <th>Faculty</th>
+                <th>No</th>
                 <th>Title</th>
                 <th>Content</th>
-                <th>Cover Image</th>
                 <th>Document</th>
                 <th>Submission Date</th>
                 <th>Status</th>
                 <th>Comment</th>
-                <th>Edit</th>
+                <th>Action</th>
               </tr>
             </thead>
             <tbody>
-              {submissions.map((submission) => (
+              {submissions.map((submission, index) => (
                 <tr key={submission._id}>
-                  <td>{submission.studentName}</td>
-                  <td>{submission.faculty}</td>
+                  <td>{index + 1}</td>
                   <td>{submission.magazineTitle}</td>
                   <td>{submission.magazineContent}</td>
-                  <td><img src={`http://localhost:5000/uploads/${submission.coverImage}`} alt={submission.magazineTitle} className="cover-image" /></td>
                   <td>
                     <a href={`http://localhost:5000/uploads/${submission.document}`} target="_blank" rel="noopener noreferrer" className="document-link">
                       <FontAwesomeIcon icon={faFilePdf} /> Download PDF
                     </a>
                   </td>
-                  <td>{new Date(submission.createdAt).toLocaleDateString()}</td>
-                  <td>{submission.status}</td>
+                  <td>{formatSubmissionDate(submission.submissionDate)}</td> {/* Convert submission date to Hanoi timezone */}
+                  <td>{submission.submissionStatus}</td> {/* Adjust with the actual field name from your database */}
                   <td>{submission.Comment}</td>
                   <td><button className="edit-button" onClick={() => handleEdit(submission._id)}><FontAwesomeIcon icon={faEdit} /></button></td>
                 </tr>

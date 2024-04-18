@@ -1,7 +1,7 @@
 import React from 'react';
 import { FaArrowLeft } from 'react-icons/fa'; // Import the FaArrowLeft icon
 import { useNavigate } from 'react-router-dom';
-import { Cosmos } from './imports'; // Importing the Cosmos image from the imports folder
+import { Cosmos, Space1 } from './imports'; // Importing the Cosmos image from the imports folder
 import './magazines.css';
 
 const Library = () => {
@@ -13,24 +13,24 @@ const Library = () => {
         <button className="back-button" onClick={() => navigate('/home')}>
           <FaArrowLeft />
         </button>
-        <h2>World-Class Library</h2>
+        <h2>Library</h2>
       </div>
       <div className="magazine-container">
         {/* Example magazines */}
         <div className="magazine">
           <img src={Cosmos} alt="Magazine 1" />
           <div className="magazine-info">
-            <h3>Magazine Title 1</h3>
-            <p>Category: Category 1</p>
-            <p>Author: Author 1</p>
+            <h3>Quantum Computer Chronicles:</h3>
+            <p>Faculty: Faculty of Engineering</p>
+            <p>Author: LeDangThong</p>
           </div>
         </div>
         <div className="magazine">
-          <img src={Cosmos} alt="Magazine 2" />
+          <img src={Space1} alt="Magazine 2" />
           <div className="magazine-info">
-            <h3>Magazine Title 2</h3>
-            <p>Category: Category 2</p>
-            <p>Author: Author 2</p>
+            <h3>Space the final frontier:</h3>
+            <p>Category: Faculty of Engineering</p>
+            <p>Author: LeDangThong</p>
           </div>
         </div>
         {/* Add more magazines here */}

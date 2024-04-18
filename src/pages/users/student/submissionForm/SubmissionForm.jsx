@@ -10,7 +10,9 @@ const SubmissionForm = () => {
     magazineTitle: '',
     magazineContent: '',
     coverImage: null,
-    document: null
+    document: null,
+    submissionDate: new Date().toISOString(), // Default submission date
+    submissionStatus: 'pending' // Default submission status
   });
   const [formErrors, setFormErrors] = useState({});
 
@@ -45,6 +47,8 @@ const SubmissionForm = () => {
         formDataToSend.append('magazineContent', formData.magazineContent);
         formDataToSend.append('coverImage', formData.coverImage);
         formDataToSend.append('document', formData.document);
+        formDataToSend.append('submissionDate', formData.submissionDate); // Include submission date
+        formDataToSend.append('submissionStatus', formData.submissionStatus); // Include submission status
 
         // Send formDataToSend to the server
         const response = await fetch('http://localhost:5000/submitMagazine', {
@@ -61,7 +65,9 @@ const SubmissionForm = () => {
             magazineTitle: '',
             magazineContent: '',
             coverImage: null,
-            document: null
+            document: null,
+            submissionDate: new Date().toISOString(), // Reset submission date to current date
+            submissionStatus: 'pending' // Reset submission status to pending
           });
         } else {
           console.error('Failed to submit magazine:', response.statusText);
@@ -114,6 +120,21 @@ const SubmissionForm = () => {
         .catch(error => console.error('Error fetching faculty:', error));
     }
   }, []);
+
+  // Function to format date and time in Hanoi timezone
+  const formatSubmissionDate = () => {
+    const submissionDate = new Date(formData.submissionDate);
+    const options = {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric',
+      second: 'numeric',
+      timeZone: 'Asia/Ho_Chi_Minh', // Hanoi timezone (Indochina Time - ICT)
+    };
+    return submissionDate.toLocaleString('en-US', options);
+  };
 
   return (
     <div className="submission-form">
@@ -197,6 +218,18 @@ const SubmissionForm = () => {
             <span className="error">{formErrors.document}</span>
           )}
         </div>
+        {/* Include submission date and status */}
+        <div className="form-group">
+          <label htmlFor="submissionDate">Submission Date:</label>
+          <input
+            type="text"
+            id="submissionDate"
+            name="submissionDate"
+            value={formatSubmissionDate()}
+            readOnly // Make the input field read-only
+          />
+        </div>
+        <input type="hidden" name="submissionStatus" value={formData.submissionStatus} />
         <button type="submit">Submit</button>
       </form>
     </div>

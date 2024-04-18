@@ -74,7 +74,7 @@ const App = () => {
   return (
     <Router>
       <Routes>
-        {/*Student*/}
+        {/*Pages*/}
         <Route path='/' element={<HomePage />} />
         <Route path='/home' element={<HomePage />} />
         <Route path='/login' element={<LoginPage />} />
@@ -86,7 +86,6 @@ const App = () => {
         <Route path="/student/dashboard" element={<StudentDashboard />} />
         <Route path="/student/submit-magazine" element={<StudentSubmissionForm />} />
         <Route path="/student/check-publish-status" element={<StudentStatus />} />
-        <Route path="/student/settings" element={<StudentSettings />} />
         
         {/*Coordinator*/}
         <Route path="/coordinator/dashboard" element={<CoordinatorDashboard />} />

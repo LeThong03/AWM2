@@ -14,6 +14,12 @@
     text-align: center;
 }
 
+.side-menu-container{
+  flex-direction: column;
+  align-items: Left;
+  justify-content: Left;
+  text-align: Left;
+}
   
   .submission-window-container h2 {
     font-size: 24px;

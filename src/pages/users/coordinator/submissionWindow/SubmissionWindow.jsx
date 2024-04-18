@@ -103,7 +103,6 @@ const CoordinatorSubmissionWindow = () => {
 
   return (
     <div className="submission-window-container">
-      <SideMenu />
       <h2>Submission Window</h2>
       {/* Faculty input (disabled) */}
       <label htmlFor="faculty"> Faculty:</label>
@@ -123,6 +122,9 @@ const CoordinatorSubmissionWindow = () => {
           {submissionWindowExists ? 'Update Submission Window' : 'Add New Submission Window'}
         </button>
       </form>
+      <div className="side-menu-container">
+        <SideMenu/>
+      </div>
     </div>
   );
 };

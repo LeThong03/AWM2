@@ -36,6 +36,12 @@
   background-color: #f8f8f8; /* Lighter gray background for headers */
 }
 
+.user-table button{
+background-color: transparent;
+border: none;
+cursor: pointer;
+}
+
 .add-user-form,
 .edit-user-form {
   margin-top: 20px;
