@@ -225,7 +225,7 @@ app.get('/submissionWindow/:faculty', async (req, res) => {
 });
 
 // Route to update the submission window
-app.post('/updateSubmissionWindow', async (req, res) => {
+app.put('/updateSubmissionWindow', async (req, res) => {
   const { faculty, startTime, endTime } = req.body;
 
   try {
@@ -250,6 +250,7 @@ app.post('/updateSubmissionWindow', async (req, res) => {
     res.status(500).json({ message: 'An unexpected error occurred. Please try again later.' });
   }
 });
+
 
 // Route to create a new submission window
 app.post('/createSubmissionWindow', async (req, res) => {
