@@ -7,6 +7,7 @@ const multer = require('multer');
 const User = require('./User');
 const Faculty = require('./Faculty');
 const Submission = require('./Submission');
+const SubmissionWindow = require('./SubmissionWindow')
 
 const app = express();
 const port = 5000;
@@ -223,15 +224,27 @@ app.get('/submissionWindow/:faculty', async (req, res) => {
   }
 });
 
-// Route to update or create submission window
+// Route to update the submission window
 app.post('/updateSubmissionWindow', async (req, res) => {
   const { faculty, startTime, endTime } = req.body;
 
   try {
-    // Update or create submission window for the specified faculty
-    await SubmissionWindow.findOneAndUpdate({ faculty }, { startTime, endTime }, { new: true, upsert: true });
+    // Find the submission window for the specified faculty
+    const submissionWindow = await SubmissionWindow.findOne({ faculty });
 
-    res.status(200).json({ message: 'Submission window updated successfully.' });
+    if (!submissionWindow) {
+      return res.status(404).json({ message: 'Submission window not found for the specified faculty.' });
+    }
+
+    // Update the submission window with the provided start and end times
+    submissionWindow.startTime = startTime;
+    submissionWindow.endTime = endTime;
+
+    // Save the updated submission window
+    await submissionWindow.save();
+
+    // Respond with the updated submission window
+    res.status(200).json(submissionWindow);
   } catch (error) {
     console.error('Error updating submission window:', error);
     res.status(500).json({ message: 'An unexpected error occurred. Please try again later.' });
@@ -258,6 +271,7 @@ app.post('/createSubmissionWindow', async (req, res) => {
     res.status(500).json({ message: 'An unexpected error occurred. Please try again later.' });
   }
 });
+
 // Start the server
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);

@@ -25,7 +25,7 @@ const CoordinatorSubmissionWindow = () => {
         setFaculty(data.faculty); // Set faculty received from the server
         fetchSubmissionWindow(data.faculty); // Fetch submission window based on the faculty
       } else {
-        console.error('Failed to fetch faculty:', response.statusText);
+        throw new Error(`Failed to fetch faculty: ${response.statusText}`);
       }
     } catch (error) {
       console.error('Error fetching faculty:', error);
@@ -45,7 +45,7 @@ const CoordinatorSubmissionWindow = () => {
         // If submission window is not found, set the flag to false
         setSubmissionWindowExists(false);
       } else {
-        console.error('Failed to fetch submission window:', response.statusText);
+        throw new Error(`Failed to fetch submission window: ${response.statusText}`);
       }
     } catch (error) {
       console.error('Error fetching submission window:', error);
@@ -55,29 +55,15 @@ const CoordinatorSubmissionWindow = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      // Send updated submission window data to the server
-      const response = await fetch(`http://localhost:5000/updateSubmissionWindow`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ faculty, startTime, endTime }) // Include faculty in the request body
-      });
-      if (response.ok) {
-        console.log(`${faculty} submission window time updated successfully`);
+      if (submissionWindowExists) {
+        // If submission window exists, update it
+        await updateSubmissionWindow();
       } else {
-        console.error('Failed to update submission window time:', response.statusText);
+        // Otherwise, create a new submission window
+        await createNewSubmissionWindow();
       }
     } catch (error) {
-      console.error('Error updating submission window time:', error);
-    }
-  };
-
-  const handleButtonClick = () => {
-    if (submissionWindowExists) {
-      // If submission window exists, update it
-      handleSubmit();
-    } else {
-      // If submission window doesn't exist, create a new one
-      createNewSubmissionWindow();
+      console.error('Error handling submission:', error);
     }
   };
 
@@ -94,10 +80,30 @@ const CoordinatorSubmissionWindow = () => {
         // Fetch the newly created submission window
         await fetchSubmissionWindow(faculty);
       } else {
-        console.error('Failed to create new submission window:', response.statusText);
+        throw new Error(`Failed to create new submission window: ${response.statusText}`);
       }
     } catch (error) {
       console.error('Error creating new submission window:', error);
+    }
+  };
+
+  const updateSubmissionWindow = async () => {
+    try {
+      // Update the existing submission window for the specified faculty
+      const response = await fetch(`http://localhost:5000/updateSubmissionWindow`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ faculty, startTime, endTime }) // Update with new values
+      });
+      if (response.ok) {
+        console.log(`Submission window updated for ${faculty}`);
+        // Fetch the updated submission window
+        await fetchSubmissionWindow(faculty);
+      } else {
+        throw new Error(`Failed to update submission window: ${response.statusText}`);
+      }
+    } catch (error) {
+      console.error('Error updating submission window:', error);
     }
   };
 
@@ -114,11 +120,11 @@ const CoordinatorSubmissionWindow = () => {
       />
       <form onSubmit={handleSubmit}>
         <label>Start Date & Time:</label>
-        <input type="datetime-local" value={startTime} onChange={(e) => setStartTime(e.target.value)} required />
+        <input type="datetime-local" value={startTime ? new Date(startTime).toISOString().slice(0, 16) : ''} onChange={(e) => setStartTime(e.target.value)} required />
         <label>End Date & Time:</label>
-        <input type="datetime-local" value={endTime} onChange={(e) => setEndTime(e.target.value)} required />
-        {/* Render button based on submission window existence */}
-        <button type="button" onClick={handleButtonClick}>
+        <input type="datetime-local" value={endTime ? new Date(endTime).toISOString().slice(0, 16) : ''} onChange={(e) => setEndTime(e.target.value)} required />
+        {/* Render button to create or update submission window */}
+        <button type="submit">
           {submissionWindowExists ? 'Update Submission Window' : 'Add New Submission Window'}
         </button>
       </form>
