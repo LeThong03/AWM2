@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './viewSubmission.css';
 import SideMenu from '../sideMenu/SideMenu';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit, faFilePdf } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faFilePdf, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 
 const ViewSubmission = () => {
   const [submissions, setSubmissions] = useState([]);
@@ -15,8 +15,9 @@ const ViewSubmission = () => {
   useEffect(() => {
     const fetchSubmissions = async () => {
       try {
-        const username = new URLSearchParams(window.location.search).get('username'); 
-        const response = await fetch(`http://localhost:5000/coordinatorFetchSubmission?username=${encodeURIComponent(username)}`);                if (response.ok) {
+        const username = new URLSearchParams(window.location.search).get('username');
+        const response = await fetch(`http://localhost:5000/coordinatorFetchSubmission?username=${encodeURIComponent(username)}`);
+        if (response.ok) {
           const data = await response.json();
           setSubmissions(data);
         } else {
@@ -71,7 +72,8 @@ const ViewSubmission = () => {
         comment: ''
       });
       // Refetch submissions to reflect the changes
-      const response = await fetch(`http://localhost:5000/fetchStudentSubmissions`);
+      const username = new URLSearchParams(window.location.search).get('username');
+      const response = await fetch(`http://localhost:5000/coordinatorFetchSubmission?username=${encodeURIComponent(username)}`);
       if (response.ok) {
         const data = await response.json();
         setSubmissions(data);
@@ -80,6 +82,37 @@ const ViewSubmission = () => {
       }
     } catch (error) {
       console.error('Error updating submission:', error);
+    }
+  };
+
+  const handleCancelEdit = () => {
+    setEditingSubmission(null);
+    setEditedSubmission({
+      submissionStatus: '',
+      comment: ''
+    });
+  };
+
+  const handleDeleteSubmission = async (submissionId) => {
+    try {
+      // Make API call to delete the submission
+      await fetch(`http://localhost:5000/deleteSubmission/${submissionId}`, {
+        method: 'DELETE',
+      });
+      // Reset the status back to default (Pending) and delete the comment
+      const updatedSubmissions = submissions.map(submission => {
+        if (submission._id === submissionId) {
+          return {
+            ...submission,
+            submissionStatus: 'pending',
+            comment: ''
+          };
+        }
+        return submission;
+      });
+      setSubmissions(updatedSubmissions);
+    } catch (error) {
+      console.error('Error deleting submission:', error);
     }
   };
 
@@ -92,6 +125,7 @@ const ViewSubmission = () => {
           <table className="magazine-table">
             <thead>
               <tr>
+                <th>No</th>
                 <th>Student Name</th>
                 <th>Faculty</th>
                 <th>Title</th>
@@ -104,8 +138,9 @@ const ViewSubmission = () => {
               </tr>
             </thead>
             <tbody>
-              {submissions.map((submission) => (
+              {submissions.map((submission, index) => (
                 <tr key={submission._id}>
+                  <td>{index + 1}</td>
                   <td>{submission.studentName}</td>
                   <td>{submission.faculty}</td>
                   <td>{submission.magazineTitle}</td>
@@ -125,12 +160,21 @@ const ViewSubmission = () => {
                           <option value="Pending">Pending</option>
                           <option value="Accepted">Accepted</option>
                           <option value="Rejected">Rejected</option>
+                          <option value="Approved For Publication">Approved For Publication</option>
                         </select>
                         <textarea value={editedSubmission.comment} onChange={handleCommentChange} />
-                        <button onClick={handleSubmitEdit}>Save</button>
+                        <button className="save-button" onClick={handleSubmitEdit}>Save</button>
+                        <button className="cancel-button" onClick={handleCancelEdit}>Cancel</button>
                       </div>
                     ) : (
-                      <button className="edit-button" onClick={() => handleEdit(submission._id)}><FontAwesomeIcon icon={faEdit} /></button>
+                      <div>
+                        <button className="edit-button" onClick={() => handleEdit(submission._id)}>
+                          <FontAwesomeIcon icon={faEdit} /> Edit
+                        </button>
+                        <button className="delete-button" onClick={() => handleDeleteSubmission(submission._id)}>
+                          <FontAwesomeIcon icon={faTrashAlt} /> Delete
+                        </button>
+                      </div>
                     )}
                   </td>
                 </tr>

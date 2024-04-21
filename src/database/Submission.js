@@ -15,3 +15,5 @@ const submissionSchema = new mongoose.Schema({
 const Submission = mongoose.model('Submission', submissionSchema);
 
 module.exports = Submission;
+/*3 Status of the submission ( Pending,  Accepted, Rejected)
+"  submissionStatus: { type: String, default: 'Pending' }, // Default submission status to 'pending'"*/

@@ -6,7 +6,6 @@ import { Login, Register, Error404, RegisterSuccess, Home, Magazines } from './p
 import StudentDashboard from './pages/users/student/dashBoard/DashBoard';
 import StudentSubmissionForm from './pages/users/student/submissionForm/SubmissionForm';
 import StudentStatus from './pages/users/student/status/Status';
-import StudentSettings from './pages/users/student/settings/StudentSettings';
 
 /*Coordinator*/
 import CoordinatorDashboard from './pages/users/coordinator/dashBoard/DashBoard';
@@ -15,6 +14,7 @@ import CoordinatorSubmissionWindow from './pages/users/coordinator/submissionWin
 
 /*Manager*/
 import ManagerDashboard from './pages/users/manager/dashBoard/DashBoard';
+import ManagerViewSubmission from './pages/users/manager/viewSelectedSubmission/ViewSelectedSubmission';
 
 /*Admin*/
 import AdminDashboard from './pages/users/admin/dashBoard/DashBoard';
@@ -94,6 +94,7 @@ const App = () => {
 
         {/*Manager*/}
         <Route path="/manager/dashboard" element={<ManagerDashboard/>} />
+        <Route path="/manager/viewsubmission" element={<ManagerViewSubmission/>} />
 
 
         {/*Admin*/}

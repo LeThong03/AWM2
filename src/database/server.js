@@ -273,6 +273,66 @@ app.post('/createSubmissionWindow', async (req, res) => {
   }
 });
 
+// Route to update a submission
+app.put('/updateSubmission/:id', async (req, res) => {
+  const submissionId = req.params.id;
+  const { submissionStatus, comment } = req.body;
+
+  try {
+    // Find the submission by its ID
+    const submission = await Submission.findById(submissionId);
+
+    if (!submission) {
+      return res.status(404).json({ message: 'Submission not found' });
+    }
+
+    // Update the submission status and comment
+    submission.submissionStatus = submissionStatus;
+    submission.comment = comment;
+
+    // Save the updated submission
+    await submission.save();
+
+    // Respond with the updated submission
+    res.status(200).json(submission);
+  } catch (error) {
+    console.error('Error updating submission:', error);
+    res.status(500).json({ message: 'An unexpected error occurred. Please try again later.' });
+  }
+});
+
+app.delete('/deleteSubmission/:Id', async (req, res) => {
+  const submissionId = req.params.submissionId;
+
+  try {
+    // Make a database call to delete the submission by submissionId
+    await Submission.findByIdAndDelete(submissionId);
+
+    // Reset the status back to default (Pending) and delete the comment
+    const updatedSubmission = await Submission.findByIdAndUpdate(submissionId, {
+      submissionStatus: 'pending',
+      comment: ''
+    }, { new: true });
+
+    res.status(200).json(updatedSubmission);
+  } catch (error) {
+    console.error('Error deleting submission:', error);
+    res.status(500).json({ error: 'Error deleting submission' });
+  }
+});
+
+// Define a route to fetch submissions with the status "Approved for Publication"
+app.get('/approvedSubmissions', async (req, res) => {
+  try {
+    // Query the database to find submissions with the status "Approved for Publication"
+    const submissions = await Submission.find({ submissionStatus: 'Approved for Publication' }).populate('faculty');
+    res.json(submissions);
+  } catch (error) {
+    console.error('Error fetching approved submissions:', error);
+    res.status(500).json({ message: 'An unexpected error occurred. Please try again later.' });
+  }
+});
+
 // Start the server
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);

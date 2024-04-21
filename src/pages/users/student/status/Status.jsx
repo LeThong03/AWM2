@@ -77,7 +77,7 @@ const Status = () => {
                   </td>
                   <td>{formatSubmissionDate(submission.submissionDate)}</td> {/* Convert submission date to Hanoi timezone */}
                   <td>{submission.submissionStatus}</td> {/* Adjust with the actual field name from your database */}
-                  <td>{submission.Comment}</td>
+                  <td>{submission.comment}</td>
                   <td><button className="edit-button" onClick={() => handleEdit(submission._id)}><FontAwesomeIcon icon={faEdit} /></button></td>
                 </tr>
               ))}

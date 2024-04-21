@@ -67,7 +67,7 @@ const SubmissionForm = () => {
             coverImage: null,
             document: null,
             submissionDate: new Date().toISOString(), // Reset submission date to current date
-            submissionStatus: 'pending' // Reset submission status to pending
+            submissionStatus: 'Pending' // Reset submission status to pending
           });
         } else {
           console.error('Failed to submit magazine:', response.statusText);
