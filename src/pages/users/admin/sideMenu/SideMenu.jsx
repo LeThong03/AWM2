@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { FaHome, FaNewspaper, FaEye, FaCog, FaSignOutAlt, FaUser } from 'react-icons/fa';
+import { FaHome, FaSignOutAlt, FaUser } from 'react-icons/fa';
 import { IoMdPersonAdd } from "react-icons/io";
+import { BsWindowPlus } from "react-icons/bs";
+
 import './sideMenu.css';
 
 const SideMenu = () => {
@@ -42,6 +44,11 @@ const SideMenu = () => {
         <li>
           <Link to={`/admin/dashboard?username=${username}`}>
             {collapsed ? <FaHome /> : <span>Dashboard</span>}
+          </Link>
+        </li>
+        <li>
+          <Link to={`/admin/submissionwindow?username=${username}`}>
+            {collapsed ? <BsWindowPlus /> : <span>Portal</span>}
           </Link>
         </li>
         <li>

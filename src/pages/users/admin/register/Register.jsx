@@ -200,7 +200,7 @@ class Register extends Component {
                 <option key={faculty._id} value={faculty.name}>{faculty.name}</option>
               ))}
             </select>
-            <button type="submit">{isEditing ? 'Edit' : 'Add'}</button>
+            <button type="submit">{isEditing ? 'Update' : 'Add'} </button>
             <button type="button" onClick={isEditing ? this.handleCancelEdit : this.handleCancelAdd}>Cancel</button>
           </form>
         </div>

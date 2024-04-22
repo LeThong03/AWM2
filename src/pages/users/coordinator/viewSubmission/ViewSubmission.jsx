@@ -168,10 +168,10 @@ const ViewSubmission = () => {
                       </div>
                     ) : (
                       <div>
-                        <button className="edit-button" onClick={() => handleEdit(submission._id)}>
+                        <button className="edit-button" onClick={() => handleEdit(submission._id)} style={{ color:'blue'}}>
                           <FontAwesomeIcon icon={faEdit} /> Edit
                         </button>
-                        <button className="delete-button" onClick={() => handleDeleteSubmission(submission._id)}>
+                        <button className="delete-button" onClick={() => handleDeleteSubmission(submission._id)} style={{ color:'red'}}>
                           <FontAwesomeIcon icon={faTrashAlt} /> Delete
                         </button>
                       </div>

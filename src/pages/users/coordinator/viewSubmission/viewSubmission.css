@@ -48,13 +48,13 @@
 
 .edit-button:hover,
 .save-button:hover {
-  background-color: #4caf50;
+  background-color: transparent;
   color: white;
 }
 
 .delete-button:hover,
 .cancel-button:hover {
-  background-color: #f44336;
+  background-color: transparent;
   color: white;
 }
 

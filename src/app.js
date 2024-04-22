@@ -19,6 +19,7 @@ import ManagerViewSubmission from './pages/users/manager/viewSelectedSubmission/
 /*Admin*/
 import AdminDashboard from './pages/users/admin/dashBoard/DashBoard';
 import AdminRegister from './pages/users/admin/register/Register';
+import AdminSubmissionWindow from './pages/users/admin/submissionWindow/SubmissionWindow'
 
 import './app.css';
 
@@ -100,6 +101,7 @@ const App = () => {
         {/*Admin*/}
         <Route path="/admin/dashboard" element={<AdminDashboard/>} />
         <Route path="/admin/register" element={<AdminRegister/>} />
+        <Route path="/admin/submissionwindow" element={<AdminSubmissionWindow/>} />
         
         <Route path='*' element={<NoPage />} />
       </Routes>

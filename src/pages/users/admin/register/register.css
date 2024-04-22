@@ -47,6 +47,7 @@ cursor: pointer;
   margin-top: 20px;
   width: 80%; /* Adjust the width of the form */
   max-width: 500px; /* Set a maximum width for the form */
+  padding: 1;
 }
 
 .add-user-form input,
@@ -83,3 +84,77 @@ cursor: pointer;
 }
 
 /* SideMenu CSS can be added here if needed */
+.user-table-container {
+  background-color: #fff;
+  color: #000;
+  padding: 20px;
+  max-width: 1500px;
+  margin: 0 auto;
+}
+
+.user-table-container h2 {
+  color: #000;
+  text-align: center;
+}
+
+.user-table-container form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.user-table-container input,
+.user-table-container select,
+.user-table-container button {
+  margin-bottom: 10px;
+  padding: 5px;
+  border: none;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.user-table-container button[type="submit"],
+.user-table-container button[type="button"] {
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.user-table-container table {
+  width: 100%;
+  margin-top: 20px;
+  border-collapse: collapse;
+}
+
+.user-table-container th,
+.user-table-container td {
+  padding: 10px;
+  border: 1px solid white;
+}
+
+.user-table-container th {
+  background-color: #fff;
+}
+
+.user-table-container tbody tr:nth-child(even) {
+  background-color: #fff;
+}
+
+.user-table-container tbody tr:hover {
+  background-color: #999999;
+}
+
+.user-table-container button {
+  border: none;
+  cursor: pointer;
+}
+
+.user-table-container button:hover {
+  opacity: 0.8;
+}
+
+.user-table-container button.edit-button,
+.user-table-container button.delete-button {
+  background-color: rgba(0, 0, 0, 0.5); /* Translucent background */
+  color: #fff; /* Font color */
+}
