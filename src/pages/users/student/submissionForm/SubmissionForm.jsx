@@ -3,7 +3,7 @@ import './submissionForm.css'; // Import your CSS file for styling
 import SideMenu from '../sideMenu/SideMenu';
 
 const SubmissionForm = () => {
-  // State for form fields and errors
+  // State for form fields, errors, and agreement to terms
   const [formData, setFormData] = useState({
     studentName: '',
     faculty: '',
@@ -15,11 +15,12 @@ const SubmissionForm = () => {
     submissionStatus: 'pending' // Default submission status
   });
   const [formErrors, setFormErrors] = useState({});
+  const [agreedToTerms, setAgreedToTerms] = useState(false);
 
   // Function to handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Validate form fields
+    // Validate form fields and agreement to terms
     const errors = {};
     if (!formData.studentName.trim()) {
       errors.studentName = 'Student name is required';
@@ -35,6 +36,9 @@ const SubmissionForm = () => {
     }
     if (!formData.document) {
       errors.document = 'Document is required';
+    }
+    if (!agreedToTerms) {
+      errors.terms = 'You must agree to the terms and conditions';
     }
     if (Object.keys(errors).length === 0) {
       try {
@@ -229,6 +233,20 @@ const SubmissionForm = () => {
             readOnly // Make the input field read-only
           />
         </div>
+        <div className="form-group">
+         <label className="checkbox-label">
+          <input
+          type="checkbox"
+          checked={agreedToTerms}
+          onChange={(e) => setAgreedToTerms(e.target.checked)}
+          required // Make the checkbox required
+        />
+          I agree to the terms and conditions
+        </label>
+           {formErrors.terms && (
+           <span className="error">{formErrors.terms}</span>
+          )}
+         </div>
         <input type="hidden" name="submissionStatus" value={formData.submissionStatus} />
         <button type="submit">Submit</button>
       </form>

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { FaHome, FaNewspaper, FaEye, FaCog, FaSignOutAlt, FaUser } from 'react-icons/fa';
+import { FaHome, FaNewspaper, FaSignOutAlt, FaUser } from 'react-icons/fa';
+import { MdOutlineUploadFile } from "react-icons/md";
+
 import './sideMenu.css';
 
 const SideMenu = () => {
@@ -50,7 +52,7 @@ const SideMenu = () => {
         </li>
         <li>
           <Link to={`/Student/check-publish-status?username=${username}`}>
-            {collapsed ? <FaEye /> : <span>View Submission</span>}
+            {collapsed ? <MdOutlineUploadFile /> : <span>View Submission</span>}
           </Link>
         </li>
         <li>

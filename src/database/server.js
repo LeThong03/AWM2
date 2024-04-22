@@ -94,6 +94,17 @@ app.get('/fetchSubmission', async (req, res) => {
   }
 });
 
+app.get('/selectedSubmissions', async (req, res) => {
+  try {
+    // Fetch selected submissions with status 'Approved For Publication'
+    const submissions = await Submission.find({ submissionStatus: 'Approved For Publication' });
+    res.status(200).json(submissions);
+  } catch (error) {
+    console.error('Error fetching selected submissions:', error);
+    res.status(500).json({ message: 'An unexpected error occurred. Please try again later.' });
+  }
+});
+
 // Route to fetch submission based on username Faculty
 app.get('/coordinatorFetchSubmission', async (req, res) => {
   try {

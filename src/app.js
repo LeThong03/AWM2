@@ -15,6 +15,8 @@ import CoordinatorSubmissionWindow from './pages/users/coordinator/submissionWin
 /*Manager*/
 import ManagerDashboard from './pages/users/manager/dashBoard/DashBoard';
 import ManagerViewSubmission from './pages/users/manager/viewSelectedSubmission/ViewSelectedSubmission';
+import ManagerPublishSubmission from './pages/users/manager/publishSelectedSubmission/PublishSelectedSubmission';
+
 
 /*Admin*/
 import AdminDashboard from './pages/users/admin/dashBoard/DashBoard';
@@ -96,7 +98,7 @@ const App = () => {
         {/*Manager*/}
         <Route path="/manager/dashboard" element={<ManagerDashboard/>} />
         <Route path="/manager/viewsubmission" element={<ManagerViewSubmission/>} />
-
+        <Route path="/manager/publishSubmission" element={<ManagerPublishSubmission/>} />
 
         {/*Admin*/}
         <Route path="/admin/dashboard" element={<AdminDashboard/>} />

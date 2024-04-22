@@ -104,3 +104,11 @@
     background-color: #0056b3;
   }
   
+  .checkbox-label {
+  align-items: normal;
+}
+
+.checkbox-label input[type="checkbox"] {
+  transform: scale(1.5); /* Make the checkbox 50% bigger */
+  align-self: flex-start; /* Align the checkbox to the left */
+}
