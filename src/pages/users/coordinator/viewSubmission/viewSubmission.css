@@ -66,3 +66,23 @@
 .document-link:hover {
   text-decoration: underline;
 }
+
+/* Style save button */
+.save-button {
+  background-color: blue; /* Blue color for save button */
+  color: white !important; /* Text color */
+  padding: 8px 16px; /* Adjust padding as needed */
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* Style cancel button */
+.cancel-button {
+  background-color: red; /* Red color for cancel button */
+  color: white !important; /* Text color */
+  padding: 8px 16px; /* Adjust padding as needed */
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}

@@ -163,8 +163,10 @@ const ViewSubmission = () => {
                           <option value="Approved For Publication">Approved For Publication</option>
                         </select>
                         <textarea value={editedSubmission.comment} onChange={handleCommentChange} />
-                        <button className="save-button" onClick={handleSubmitEdit}>Save</button>
-                        <button className="cancel-button" onClick={handleCancelEdit}>Cancel</button>
+
+                        <button className="save-button" onClick={handleSubmitEdit}>Save </button>
+                        <button className="cancel-button" onClick={handleCancelEdit}>Cancel </button>
+                        
                       </div>
                     ) : (
                       <div>

@@ -49,7 +49,7 @@ const SideMenu = () => {
         </li>
         <li>
           <Link to={`/coordinator/submissionwindow?username=${username}`}>
-            {collapsed ? <BsWindowPlus /> : <span>Portal</span>}
+            {collapsed ? <BsWindowPlus /> : <span>Submissions Window</span>}
           </Link>
         </li>
         <li>

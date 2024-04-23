@@ -49,7 +49,7 @@ const SideMenu = () => {
           </Link>
         </li>
         <li>
-          <Link to={`/manager/view-published-contributions?username=${username}`}>
+          <Link to={`/manager/publishSubmission?username=${username}`}>
             {collapsed ? <FaChartBar /> : <span>Publish</span>}
           </Link>
         </li>

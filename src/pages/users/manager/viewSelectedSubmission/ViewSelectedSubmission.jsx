@@ -1,21 +1,21 @@
+// ViewSelectedSubmission.jsx
+
 import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {faFilePdf } from '@fortawesome/free-solid-svg-icons';
+import { faFilePdf, faCheck } from '@fortawesome/free-solid-svg-icons'; 
 
-import './viewSelectedSubmission.css'; // Import your CSS file for styling
+import './viewSelectedSubmission.css'; 
 import SideMenu from '../sideMenu/SideMenu';
 
 const ViewSelectedSubmission = () => {
   const [submissions, setSubmissions] = useState([]);
 
   useEffect(() => {
-    // Fetch selected submissions from the backend
     fetchSelectedSubmissions();
   }, []);
 
   const fetchSelectedSubmissions = async () => {
     try {
-      // Fetch data from the backend
       const response = await fetch('http://localhost:5000/selectedSubmissions');
       if (response.ok) {
         const data = await response.json();
@@ -28,11 +28,28 @@ const ViewSelectedSubmission = () => {
     }
   };
 
+  const handleApproveSubmission = async (submissionId) => {
+    try {
+      const response = await fetch(`http://localhost:5000/approveSubmission/${submissionId}`, {
+        method: 'PUT',
+      });
+      if (response.ok) {
+        // Remove the approved submission from the state
+        setSubmissions((prevSubmissions) => prevSubmissions.filter((submission) => submission._id !== submissionId));
+        console.log('Submission approved successfully');
+      } else {
+        console.error('Failed to approve submission:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error approving submission:', error);
+    }
+  };
+
   return (
-    <div className="view-selected-submission"> {/* Add unique class name */}
-      <h2 className="submission-title">Selected Submissions</h2> {/* Add class name for submission title */}
+    <div className="view-selected-submission">
+      <h2 className="submission-title">Selected Submissions</h2>
       <SideMenu/>
-      <table className="submission-table"> {/* Add class name for submission table */}
+      <table className="submission-table">
         <thead>
           <tr>
             <th>No</th>
@@ -41,6 +58,7 @@ const ViewSelectedSubmission = () => {
             <th>Magazine Title</th>
             <th>Document</th>
             <th>Comment</th>
+            <th>Action</th>
           </tr>
         </thead>
         <tbody>
@@ -51,11 +69,16 @@ const ViewSelectedSubmission = () => {
               <td>{submission.faculty}</td>
               <td>{submission.magazineTitle}</td>
               <td>
-                    <a href={`http://localhost:5000/uploads/${submission.document}`} target="_blank" rel="noopener noreferrer" className="document-link">
-                      <FontAwesomeIcon icon={faFilePdf} /> Download PDF
-                    </a>
-                  </td>
+                <a href={`http://localhost:5000/uploads/${submission.document}`} target="_blank" rel="noopener noreferrer" className="document-link">
+                  <FontAwesomeIcon icon={faFilePdf} /> Download PDF
+                </a>
+              </td>
               <td>{submission.comment}</td>
+              <td>
+                <button onClick={() => handleApproveSubmission(submission._id)}>
+                  <FontAwesomeIcon icon={faCheck} /> Approve
+                </button>
+              </td>
             </tr>
           ))}
         </tbody>
