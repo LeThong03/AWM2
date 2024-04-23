@@ -54,7 +54,7 @@ const PublishSelectedSubmission = () => {
 
   return (
     <div className="publish-selected-submission">
-      <h2 className="submission-title">Selected Submissions</h2>
+      <h2 className="submission-title">Public Submissions</h2>
       <SideMenu />
       <table className="submission-table">
         <thead>
