@@ -39,7 +39,7 @@ const NavbarLogined = () => {
             {/* Pass the username as a query parameter in the URL */}
             {userusername && <Link to={`/Student/dashboard?username=${userusername}`}>My Dashboard</Link>}
           </p>
-          <p><Link to="/library">Faculties</Link></p>
+          <p><Link to="/publicmagazine">Faculties</Link></p>
         </div>
       </div>
 
@@ -70,7 +70,7 @@ const NavbarLogined = () => {
                 {/* Pass the username as a query parameter in the URL */}
                 {userusername && <Link to={`/Student/dashboard?username=${userusername}`}>My Dashboard</Link>}
               </p>
-              <p><Link to="/library">Faculties</Link></p>
+              <p><Link to="/publicmagazine">Faculties</Link></p>
             </div>
 
             <div className="magazine__navbar-menu_container-links-sign">

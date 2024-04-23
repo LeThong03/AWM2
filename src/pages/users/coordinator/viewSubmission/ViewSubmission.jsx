@@ -157,16 +157,12 @@ const ViewSubmission = () => {
                     {editingSubmission && editingSubmission._id === submission._id ? (
                       <div>
                         <select value={editedSubmission.submissionStatus} onChange={handleStatusChange}>
-                          <option value="Pending">Pending</option>
                           <option value="Accepted">Accepted</option>
                           <option value="Rejected">Rejected</option>
-                          <option value="Approved For Publication">Approved For Publication</option>
                         </select>
                         <textarea value={editedSubmission.comment} onChange={handleCommentChange} />
-
-                        <button className="save-button" onClick={handleSubmitEdit}>Save </button>
-                        <button className="cancel-button" onClick={handleCancelEdit}>Cancel </button>
-                        
+                        <button className="save-button" onClick={handleSubmitEdit}>Save</button>
+                        <button className="cancel-button" onClick={handleCancelEdit}>Cancel</button>
                       </div>
                     ) : (
                       <div>

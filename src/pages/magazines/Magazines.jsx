@@ -1,44 +1,47 @@
-import React from 'react';
-import { FaArrowLeft } from 'react-icons/fa'; // Import the FaArrowLeft icon
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Cosmos, Space1 } from './imports'; // Importing the Cosmos image from the imports folder
+import NavbarLogined from './navbarLogined/NavbarLogin';
 import './magazines.css';
 
 const Library = () => {
-  const navigate = useNavigate(); // Use the useNavigate hook to get the navigate function
+  const navigate = useNavigate();
+  const [submissions, setSubmissions] = useState([]);
+
+  useEffect(() => {
+    const fetchSubmissions = async () => {
+      try {
+        const response = await fetch('http://localhost:5000/fetchSubmissions');
+        if (response.ok) {
+          const data = await response.json();
+          setSubmissions(data);
+        } else {
+          console.error('Failed to fetch submissions:', response.statusText);
+        }
+      } catch (error) {
+        console.error('Error fetching submissions:', error);
+      }
+    };
+    fetchSubmissions();
+  }, []);
+
+  const openDetail = (submissionId) => {
+    navigate(`/publicmagazine/detail?submissionId=${submissionId}`);
+  };
 
   return (
     <div className="library">
-      <div className="header">
-        <button className="back-button" onClick={() => navigate('/home')}>
-          <FaArrowLeft />
-        </button>
-        <h2>Library</h2>
-      </div>
-      <div className="magazine-container">
-        {/* Example magazines */}
-        <div className="magazine">
-          <img src={Cosmos} alt="Magazine 1" />
-          <div className="magazine-info">
-            <h3>Quantum Computer Chronicles:</h3>
-            <p>Faculty: Faculty of Engineering</p>
-            <p>Author: LeDangThong</p>
+      <NavbarLogined />
+      <div className="submission-container">
+        {submissions.map((submission) => (
+          <div key={submission._id} className="submission-card" onClick={() => openDetail(submission._id)}>
+                <img src={`http://localhost:5000/uploads/${submission.coverImage}`} alt={`Image for ${submission.magazineTitle}`} className="submission-image" />
+            <div className="submission-info">
+              <h3>{submission.magazineTitle}</h3>
+              <p>Student Name: {submission.studentName}</p>
+              <p>Faculty: {submission.faculty}</p>
+            </div>
           </div>
-        </div>
-        <div className="magazine">
-          <img src={Space1} alt="Magazine 2" />
-          <div className="magazine-info">
-            <h3>Space the final frontier:</h3>
-            <p>Category: Faculty of Engineering</p>
-            <p>Author: LeDangThong</p>
-          </div>
-        </div>
-        {/* Add more magazines here */}
-      </div>
-      <div className="form-container">
-        <form className="form">
-          {/* Add form fields here */}
-        </form>
+        ))}
       </div>
     </div>
   );

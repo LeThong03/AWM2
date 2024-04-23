@@ -94,14 +94,24 @@ app.get('/fetchSubmission', async (req, res) => {
   }
 });
 
-app.get('/selectedSubmissions', async (req, res) => {
+app.get('/fetchSubmissions', async (req, res) => {
   try {
-    // Fetch selected submissions with status 'Approved For Publication'
-    const submissions = await Submission.find({ submissionStatus: 'Approved For Publication' });
-    res.status(200).json(submissions);
+    // Fetch submissions from the database or wherever they are stored
+    const submissions = await Submission.find({ submissionStatus: "Approved For Publication" });
+    res.json(submissions);
+  } catch (error) {
+    console.error('Error fetching submissions:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+app.get('/selectedSubmissionsExceptRejectedAndPending', async (req, res) => {
+  try {
+    const submissions = await Submission.find({ status: { $nin: ['Rejected', 'Pending'] } });
+    res.json(submissions);
   } catch (error) {
     console.error('Error fetching selected submissions:', error);
-    res.status(500).json({ message: 'An unexpected error occurred. Please try again later.' });
+    res.status(500).json({ error: 'Internal server error' });
   }
 });
 
@@ -332,17 +342,7 @@ app.delete('/deleteSubmission/:Id', async (req, res) => {
   }
 });
 
-// Define a route to fetch submissions with the status "Approved for Publication"
-app.get('/approvedSubmissions', async (req, res) => {
-  try {
-    // Query the database to find submissions with the status "Approved for Publication"
-    const submissions = await Submission.find({ submissionStatus: 'Approved for Publication' }).populate('faculty');
-    res.json(submissions);
-  } catch (error) {
-    console.error('Error fetching approved submissions:', error);
-    res.status(500).json({ message: 'An unexpected error occurred. Please try again later.' });
-  }
-});
+
 
 // Start the server
 app.listen(port, () => {

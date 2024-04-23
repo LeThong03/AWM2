@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; // Import Routes component
-import { Login, Register, Error404, RegisterSuccess, Home, Magazines } from './pages/';
+import { Login, Register, Error404, RegisterSuccess, Home, Magazines, MagazineDetail } from './pages/';
 
 /*Student*/
 import StudentDashboard from './pages/users/student/dashBoard/DashBoard';
@@ -15,8 +15,6 @@ import CoordinatorSubmissionWindow from './pages/users/coordinator/submissionWin
 /*Manager*/
 import ManagerDashboard from './pages/users/manager/dashBoard/DashBoard';
 import ManagerViewSubmission from './pages/users/manager/viewSelectedSubmission/ViewSelectedSubmission';
-import ManagerPublishSubmission from './pages/users/manager/publishSelectedSubmission/PublishSelectedSubmission';
-
 
 /*Admin*/
 import AdminDashboard from './pages/users/admin/dashBoard/DashBoard';
@@ -57,10 +55,18 @@ const RegisterSuccessPage = () => {
   );
 };
 
-const Library = () => {
+const MagazinePage = () => {
   return (
     <div>
       <Magazines/>
+    </div>
+  );
+};
+
+const MagazineDetailOage = () => {
+  return (
+    <div>
+      <MagazineDetail/>
     </div>
   );
 };
@@ -83,7 +89,8 @@ const App = () => {
         <Route path='/login' element={<LoginPage />} />
         <Route path='/signup' element={<RegisterPage />} />
         <Route path='/signupsuccess' element={<RegisterSuccessPage />} />
-        <Route path="/library" element={<Library />} />
+        <Route path="/publicmagazine" element={<MagazinePage />} />
+        <Route path="/publicmagazine/detail" element={<MagazineDetailOage />} />
 
         {/*Student*/}
         <Route path="/student/dashboard" element={<StudentDashboard />} />
@@ -98,7 +105,6 @@ const App = () => {
         {/*Manager*/}
         <Route path="/manager/dashboard" element={<ManagerDashboard/>} />
         <Route path="/manager/viewsubmission" element={<ManagerViewSubmission/>} />
-        <Route path="/manager/publishSubmission" element={<ManagerPublishSubmission/>} />
 
         {/*Admin*/}
         <Route path="/admin/dashboard" element={<AdminDashboard/>} />

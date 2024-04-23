@@ -1,87 +1,79 @@
-.library {
-  margin: 20px;
-}
-.library h2{
-  margin: 20px;
-  color: white;
-}
-.magazine-container {
-  display: flex;
-  flex-wrap: nowrap; /* Ensure the magazines don't wrap to the next line */
-  overflow-x: auto; /* Enable horizontal scrolling */
-  gap: 20px; /* Spacing between magazines */
+/* magazines.css */
+
+/* Global Styles */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f8f9fa; /* Light gray background */
 }
 
-.magazine {
-  flex: 0 0 auto; /* Ensure magazines don't shrink */
-  width: 250px; /* Set a fixed width for each magazine */
-  padding: 10px;
-  background-color: #f0f0f0;
+/* Header Styles */
+.header {
+  background-color: #007bff; /* Docsity blue */
+  color: #fff;
+  padding: 20px;
+  text-align: center;
+}
+
+.header h2 {
+  margin: 0;
+}
+
+/* Back Button Styles */
+.back-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #fff;
+}
+
+/* Submission Container Styles */
+.submission-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  grid-gap: 20px;
+  padding: 20px;
+}
+
+/* Submission Card Styles */
+.submission-card {
+  background-color: #fff;
   border-radius: 8px;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.3s ease;
+  cursor: pointer; /* Add cursor pointer */
 }
 
-.magazine img {
+.submission-card:hover {
+  transform: translateY(-5px);
+}
+
+.submission-card img {
   width: 100%;
   height: auto;
-  border-radius: 8px;
+  border-radius: 8px 8px 0 0;
 }
 
-.magazine-info h3 {
-  margin-top: 0;
+.submission-info {
+  padding: 20px;
 }
 
-.magazine-info p {
-  margin: 5px 0;
-}
-
-.form-container {
-  margin-top: 20px;
-}
-
-.form {
-  /* Add form styles here */
-}
-.back-button {
-  background: none;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  color: #333;
-  font-size: 1.5rem;
-  margin-bottom: 10px;
-}
-
-.back-button:focus {
-  outline: none;
-}
-
-.back-button:hover {
-  color: #555;
-}
-.header {
-  display: flex;
-  align-items: center;
-}
-
-.back-button {
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: #333;
-  font-size: 1.5rem;
-  margin-right: 10px; /* Add margin to separate the button from the h2 */
-}
-
-.back-button:focus {
-  outline: none;
-}
-
-.back-button:hover {
-  color: #555;
-}
-
-h2 {
+.submission-info h3 {
   margin: 0;
+  font-size: 18px;
+  color: #333;
+}
+
+.submission-info p {
+  margin: 5px 0;
+  color: #666;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .submission-container {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
 }

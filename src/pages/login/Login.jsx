@@ -57,7 +57,7 @@ const Login = () => {
             navigate(`/coordinator/dashboard?username=${encodeURIComponent(formData.username)}`);
             break;
           case 'guest':
-            navigate(`/library?username=${encodeURIComponent(formData.username)}`);
+            navigate(`/publicmagazine?username=${encodeURIComponent(formData.username)}`);
             break;
           default:
             // Handle unknown roles or other cases

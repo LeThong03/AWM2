@@ -4,3 +4,4 @@ export { default as RegisterSuccess } from './registerSuccess/RegisterSuccess';
 export { default as Home } from './home/Home';
 export { default as Error404 } from './notfound/Error404';
 export { default as Magazines} from './magazines/Magazines';
+export { default as MagazineDetail} from './magazinesDetail/MagazineDetail';

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { FaHome, FaSignOutAlt, FaUser, FaChartBar, FaNewspaper } from 'react-icons/fa';
+import { FaHome, FaSignOutAlt, FaUser, FaNewspaper } from 'react-icons/fa';
 import './sideMenu.css';
 
 const SideMenu = () => {
@@ -46,11 +46,6 @@ const SideMenu = () => {
         <li>
           <Link to={`/manager/viewsubmission?username=${username}`}>
             {collapsed ? <FaNewspaper /> : <span>View Contributions</span>}
-          </Link>
-        </li>
-        <li>
-          <Link to={`/manager/publishSubmission?username=${username}`}>
-            {collapsed ? <FaChartBar /> : <span>Publish</span>}
           </Link>
         </li>
         <li>
