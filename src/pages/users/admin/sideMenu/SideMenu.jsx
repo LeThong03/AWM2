@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { FaHome, FaSignOutAlt, FaUser } from 'react-icons/fa';
 import { IoMdPersonAdd } from "react-icons/io";
 import { BsWindowPlus } from "react-icons/bs";
+import { GrAdd } from "react-icons/gr";
 
 import './sideMenu.css';
 
@@ -54,6 +55,11 @@ const SideMenu = () => {
         <li>
           <Link to={`/admin/register?username=${username}`}>
             {collapsed ? <IoMdPersonAdd /> : <span>Registration</span>}
+          </Link>
+        </li>
+        <li>
+          <Link to={`/admin/faculty?username=${username}`}>
+            {collapsed ? <GrAdd  /> : <span>Faculties</span>}
           </Link>
         </li>
         <li>

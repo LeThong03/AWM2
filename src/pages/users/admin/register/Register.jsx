@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { FaEdit, FaTrash } from 'react-icons/fa';
+import { FaEdit, FaTrash, FaPlus } from 'react-icons/fa';
 
 import './register.css';
 import SideMenu from '../sideMenu/SideMenu';
@@ -200,8 +200,8 @@ class Register extends Component {
                 <option key={faculty._id} value={faculty.name}>{faculty.name}</option>
               ))}
             </select>
-            <button type="submit">{isEditing ? 'Update' : 'Add'} </button>
-            <button type="button" onClick={isEditing ? this.handleCancelEdit : this.handleCancelAdd}>Cancel</button>
+            <button type="submit" style={{ color: 'white', marginTop: '10px', marginBottom: '10px' }}>{isEditing ? 'Update' : 'Add'}</button>
+            <button type="button" onClick={isEditing ? this.handleCancelEdit : this.handleCancelAdd} style={{ color: 'white', marginTop: '10px', marginBottom: '10px' }}>Cancel</button>
           </form>
         </div>
       );
@@ -211,8 +211,10 @@ class Register extends Component {
       <div className="user-table-container">
         <SideMenu />
         <h2>User Management</h2>
-        <button onClick={() => this.setState({ isAdding: true })}>Add</button>
-        <table className="user-table">
+        <button onClick={() => this.setState({ isAdding: true })} style={{ backgroundColor: '#0000FF', color: 'white', padding: '10px 16px', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>
+          <FaPlus /> {/* Add icon */}
+          </button>        
+          <table className="user-table">
           <thead>
             <tr>
               <th>No</th>

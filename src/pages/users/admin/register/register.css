@@ -1,25 +1,24 @@
-/* register.css */
+/* user-management-container */
 .user-management-container {
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background-color: #f4f4f4; /* Light gray background */
+  background-color: #f4f4f4;
 }
 
+/* user-table-container */
 .user-table-container {
   max-width: 1090px;
   width: 100%;
-  background-color: #ffffff; /* White background */
+  background-color: #ffffff;
   border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Shadow for depth */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   padding: 20px;
-  margin: 20px auto; /* Center horizontally */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  margin: 20px auto;
 }
 
+/* user-table */
 .user-table {
   width: 100%;
   border-collapse: collapse;
@@ -27,27 +26,38 @@
 
 .user-table th,
 .user-table td {
-  padding: 12px 16px; /* Increased padding for better spacing */
-  border: 1px solid #e0e0e0; /* Light gray border */
+  padding: 12px 16px;
+  border: 1px solid #e0e0e0;
   text-align: left;
 }
 
 .user-table th {
-  background-color: #f8f8f8; /* Lighter gray background for headers */
+  background-color: #f8f8f8;
 }
 
-.user-table button{
-background-color: transparent;
-border: none;
-cursor: pointer;
+/* Button Styles */
+.user-table button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
 }
 
+.user-table button.edit-button,
+.user-table button.delete-button {
+  background-color: rgba(0, 0, 0, 0.5);
+  color: #fff;
+}
+
+.user-table button:hover {
+  opacity: 0.8;
+}
+
+/* Form Styles */
 .add-user-form,
 .edit-user-form {
   margin-top: 20px;
-  width: 80%; /* Adjust the width of the form */
-  max-width: 500px; /* Set a maximum width for the form */
-  padding: 1;
+  width: 80%;
+  max-width: 500px;
 }
 
 .add-user-form input,
@@ -55,43 +65,27 @@ cursor: pointer;
 .add-user-form button,
 .edit-user-form button {
   margin-bottom: 10px;
-  margin-right: 10px; /* Add right margin to create a gap between input elements */
-  padding: 10px 16px; /* Increased padding */
-  border-radius: 4px; /* Rounded corners */
-  border: 1px solid #dddddd; /* Light gray border */
-  font-size: 14px; /* Font size adjustment */
+  padding: 10px 16px;
+  border-radius: 4px;
+  border: 1px solid #dddddd;
+  font-size: 14px;
+  width: 100%;
 }
 
 .add-user-form input[type="text"],
 .edit-user-form input[type="text"],
 .add-user-form input[type="email"],
 .edit-user-form input[type="email"] {
-  width: calc(50% - 5px); /* Adjust the width to fit two inputs in a row with gap */
+  width: calc(50% - 5px);
 }
 
 .add-user-form button,
 .edit-user-form button {
-  background-color: #4CAF50;
   color: white;
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.3s; /* Smooth hover transition */
+  transition: background-color 0.3s;
 }
 
-.add-user-form button:hover,
-.edit-user-form button:hover {
-  background-color: #45a049;
-}
-
-/* SideMenu CSS can be added here if needed */
-.user-table-container {
-  background-color: #fff;
-  color: #000;
-  padding: 20px;
-  max-width: 1500px;
-  margin: 0 auto;
-}
-
+/* Additional Styling */
 .user-table-container h2 {
   color: #000;
   text-align: center;
@@ -103,27 +97,9 @@ cursor: pointer;
   align-items: center;
 }
 
-.user-table-container input,
-.user-table-container select,
-.user-table-container button {
-  margin-bottom: 10px;
-  padding: 5px;
-  border: none;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-.user-table-container button[type="submit"],
-.user-table-container button[type="button"] {
-  width: 50%;
-  margin-left: auto;
-  margin-right: auto;
-}
-
 .user-table-container table {
   width: 100%;
   margin-top: 20px;
-  border-collapse: collapse;
 }
 
 .user-table-container th,
@@ -153,8 +129,9 @@ cursor: pointer;
   opacity: 0.8;
 }
 
-.user-table-container button.edit-button,
-.user-table-container button.delete-button {
-  background-color: rgba(0, 0, 0, 0.5); /* Translucent background */
-  color: #fff; /* Font color */
+.user-table-container button[type="submit"],
+.user-table-container button[type="button"] {
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
 }

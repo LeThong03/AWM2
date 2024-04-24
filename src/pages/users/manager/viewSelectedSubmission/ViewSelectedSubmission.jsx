@@ -74,28 +74,6 @@ const ViewSelectedSubmission = () => {
     });
   };
 
-  const handleDeleteSubmission = async (submissionId) => {
-    try {
-      // Make API call to delete the submission
-      await fetch(`http://localhost:5000/deleteSubmission/${submissionId}`, {
-        method: 'DELETE',
-      });
-      // Reset the status back to default (Pending) and delete the comment
-      const updatedSubmissions = submissions.map(submission => {
-        if (submission._id === submissionId) {
-          return {
-            ...submission,
-            submissionStatus: 'pending',
-          };
-        }
-        return submission;
-      });
-      setSubmissions(updatedSubmissions);
-    } catch (error) {
-      console.error('Error deleting submission:', error);
-    }
-  };
-
   useEffect(() => {
     const fetchSelectedSubmissions = async () => {
       try {
@@ -166,9 +144,6 @@ const ViewSelectedSubmission = () => {
                       <div>
                         <button className="edit-button" onClick={() => handleEdit(submission._id)} style={{ color:'blue'}}>
                           <FontAwesomeIcon icon={faEdit} /> Edit
-                        </button>
-                        <button className="delete-button" onClick={() => handleDeleteSubmission(submission._id)} style={{ color:'red'}}>
-                          <FontAwesomeIcon icon={faTrashAlt} /> Delete
                         </button>
                       </div>
                     )}

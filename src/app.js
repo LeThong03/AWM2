@@ -20,6 +20,7 @@ import ManagerViewSubmission from './pages/users/manager/viewSelectedSubmission/
 import AdminDashboard from './pages/users/admin/dashBoard/DashBoard';
 import AdminRegister from './pages/users/admin/register/Register';
 import AdminSubmissionWindow from './pages/users/admin/submissionWindow/SubmissionWindow'
+import AdminFaculty from './pages/users/admin/faculty/Faculty';
 
 import './app.css';
 
@@ -110,8 +111,10 @@ const App = () => {
         <Route path="/admin/dashboard" element={<AdminDashboard/>} />
         <Route path="/admin/register" element={<AdminRegister/>} />
         <Route path="/admin/submissionwindow" element={<AdminSubmissionWindow/>} />
+        <Route path="/admin/faculty" element={<AdminFaculty/>} />
         
         <Route path='*' element={<NoPage />} />
+
       </Routes>
     </Router>
   );

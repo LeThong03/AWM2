@@ -8,7 +8,7 @@ const submissionSchema = new mongoose.Schema({
   coverImage: String,
   document: String,
   submissionDate: { type: Date, default: Date.now }, // Default submission date to current date
-  submissionStatus: { type: String, default: 'pending' }, // Default submission status to 'pending'
+  submissionStatus: { type: String, default: 'Pending' }, // Default submission status to 'pending'
   comment: String,
 });
 

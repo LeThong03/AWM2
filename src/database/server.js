@@ -105,16 +105,6 @@ app.get('/fetchSubmissions', async (req, res) => {
   }
 });
 
-app.get('/selectedSubmissionsExceptRejectedAndPending', async (req, res) => {
-  try {
-    const submissions = await Submission.find({ status: { $nin: ['Rejected', 'Pending'] } });
-    res.json(submissions);
-  } catch (error) {
-    console.error('Error fetching selected submissions:', error);
-    res.status(500).json({ error: 'Internal server error' });
-  }
-});
-
 // Route to fetch submission based on username Faculty
 app.get('/coordinatorFetchSubmission', async (req, res) => {
   try {
@@ -151,6 +141,33 @@ app.get('/getFaculty', async (req, res) => {
   }
 });
 
+// {Faculty Functions}
+app.post('/addFaculty', async (req, res) => {
+  try {
+    const { name } = req.body;
+    const newFaculty = new Faculty({ name });
+    await newFaculty.save();
+    res.status(201).json({ message: 'Faculty added successfully' });
+  } catch (error) {
+    console.error('Error adding faculty:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// Delete Faculty
+app.delete('/deleteFaculty/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    await Faculty.findByIdAndDelete(id);
+    res.status(200).json({ message: 'Faculty deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting faculty:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// {Regester Functions}
+
 // Route to add a new user
 app.post('/addUser', async (req, res) => {
   try {
@@ -186,6 +203,8 @@ app.delete('/deleteUser/:id', async (req, res) => {
     res.status(500).json({ message: 'An unexpected error occurred. Please try again later.' });
   }
 });
+
+// {Submission}
 
 // Configure Multer for file upload
 const storage = multer.diskStorage({
@@ -226,6 +245,8 @@ app.post('/submitMagazine', upload.fields([{ name: 'coverImage', maxCount: 1 }, 
     res.status(500).json({ message: 'An unexpected error occurred. Please try again later.' });
   }
 });
+
+// {Submission Window}
 
 app.get('/submissionWindow/:faculty', async (req, res) => {
   const faculty = req.params.faculty;
@@ -322,6 +343,7 @@ app.put('/updateSubmission/:id', async (req, res) => {
   }
 });
 
+// {Delete Submission Comment and Status}
 app.delete('/deleteSubmission/:Id', async (req, res) => {
   const submissionId = req.params.submissionId;
 
@@ -337,11 +359,67 @@ app.delete('/deleteSubmission/:Id', async (req, res) => {
 
     res.status(200).json(updatedSubmission);
   } catch (error) {
-    console.error('Error deleting submission:', error);
-    res.status(500).json({ error: 'Error deleting submission' });
+    console.error('Error deleting submission comment and status:', error);
+    res.status(500).json({ error: 'Error deleting submission comment and status' });
   }
 });
 
+// {Selected Submission ExceptRejected And Pending}
+app.get('/selectedSubmissionsExceptRejectedAndPending', async (req, res) => {
+  try {
+    const submissions = await Submission.find({ status: { $nin: ['Rejected', 'Pending'] } });
+    res.json(submissions);
+  } catch (error) {
+    console.error('Error fetching selected submissions:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// {statistical analysis}
+// Route to fetch total users
+
+app.get('/totalUsers', async (req, res) => {
+  try {
+    const managersCount = await User.countDocuments({ role: 'manager' });
+    const coordinatorsCount = await User.countDocuments({ role: 'coordinator' });
+    const studentsCount = await User.countDocuments({ role: 'student' });
+
+    const totalUsers = {
+      managers: managersCount,
+      coordinators: coordinatorsCount,
+      students: studentsCount
+    };
+
+    res.status(200).json(totalUsers);
+  } catch (error) {
+    console.error('Error fetching total users:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// Route to fetch total submissions
+app.get('/totalSubmissions', async (req, res) => {
+  try {
+    const acceptedCount = await Submission.countDocuments({ submissionStatus: 'Accepted' });
+    const pendingCount = await Submission.countDocuments({ submissionStatus: 'Pending' });
+    const rejectedCount = await Submission.countDocuments({ submissionStatus: 'Rejected' });
+    const rejectedForPublishCount = await Submission.countDocuments({ submissionStatus: 'Rejected For Publish' });
+    const approvedForPublishCount = await Submission.countDocuments({ submissionStatus: 'Approved for Publish' });
+
+    const totalSubmissions = {
+      accepted: acceptedCount,
+      pending: pendingCount,
+      rejected: rejectedCount,
+      rejectedForPublish: rejectedForPublishCount,
+      approvedForPublish: approvedForPublishCount
+    };
+
+    res.status(200).json(totalSubmissions);
+  } catch (error) {
+    console.error('Error fetching total submissions:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
 
 
 // Start the server
