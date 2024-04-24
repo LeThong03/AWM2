@@ -455,7 +455,7 @@ app.delete('/deleteSubmission/:Id', async (req, res) => {
 // {Selected Submission ExceptRejected And Pending}
 app.get('/selectedSubmissionsExceptRejectedAndPending', async (req, res) => {
   try {
-    const submissions = await Submission.find({ status: { $nin: ['Rejected', 'Pending'] } });
+    const submissions = await Submission.find({ submissionStatus: { $nin: ['Rejected', 'Pending', 'pending'] } });
     res.json(submissions);
   } catch (error) {
     console.error('Error fetching selected submissions:', error);
