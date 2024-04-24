@@ -111,6 +111,7 @@ app.get('/fetchSubmission', async (req, res) => {
   }
 });
 
+// Route to fetch submission by id for Deatail of submission
 app.get('/submissions/:id', async (req, res) => {
   const { id } = req.params;
 
@@ -282,6 +283,57 @@ app.post('/submitMagazine', upload.fields([{ name: 'coverImage', maxCount: 1 }, 
   }
 });
 
+// Route to handle updating a magazine submission
+app.put('/updateMagazine/:id', upload.fields([{ name: 'coverImage', maxCount: 1 }, { name: 'document', maxCount: 1 }]), async (req, res) => {
+  try {
+    const { studentName, faculty, magazineTitle, magazineContent } = req.body;
+    const coverImage = req.files['coverImage'][0].filename;
+    const document = req.files['document'][0].filename;
+    const submissionId = req.params.id;
+
+    // Check if the submission exists
+    const existingSubmission = await Submission.findById(submissionId);
+    if (!existingSubmission) {
+      return res.status(404).json({ message: 'Submission not found' });
+    }
+
+    // Update the existing submission with the new data
+    existingSubmission.studentName = studentName;
+    existingSubmission.faculty = faculty;
+    existingSubmission.magazineTitle = magazineTitle;
+    existingSubmission.magazineContent = magazineContent;
+    existingSubmission.coverImage = coverImage;
+    existingSubmission.document = document;
+
+    // Save the updated submission to the database
+    await existingSubmission.save();
+
+    res.status(200).json({ message: 'Magazine updated successfully' });
+  } catch (error) {
+    console.error('Error updating magazine:', error);
+    res.status(500).json({ message: 'An unexpected error occurred. Please try again later.' });
+  }
+});
+
+// Route to update submission
+app.put('/updateSubmission/:submissionId', async (req, res) => {
+  const submissionId = req.params.submissionId;
+  try {
+    const updatedSubmission = await Submission.findByIdAndUpdate(
+      submissionId,
+      req.body,
+      { new: true }
+    );
+    if (!updatedSubmission) {
+      return res.status(404).json({ error: 'Submission not found' });
+    }
+    res.json({ message: 'Submission updated successfully', submission: updatedSubmission });
+  } catch (error) {
+    console.error('Error updating submission:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 // {Submission Window}
 
 app.get('/submissionWindow/:faculty', async (req, res) => {
@@ -351,7 +403,7 @@ app.post('/createSubmissionWindow', async (req, res) => {
   }
 });
 
-// Route to update a submission
+// Route to update a coment and status of submission
 app.put('/updateSubmission/:id', async (req, res) => {
   const submissionId = req.params.id;
   const { submissionStatus, comment } = req.body;
