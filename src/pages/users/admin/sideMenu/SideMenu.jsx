@@ -4,12 +4,14 @@ import { FaHome, FaSignOutAlt, FaUser } from 'react-icons/fa';
 import { IoMdPersonAdd } from "react-icons/io";
 import { BsWindowPlus } from "react-icons/bs";
 import { GrAdd } from "react-icons/gr";
+import { MdPublishedWithChanges } from "react-icons/md";
 
 import './sideMenu.css';
 
 const SideMenu = () => {
   const [collapsed, setCollapsed] = useState(true);
   const [username, setUsername] = useState('');
+  const [userRole, setUserRole] = useState('');
   const location = useLocation();
   const navigate = useNavigate(); // Initialize useNavigate hook
 
@@ -18,8 +20,26 @@ const SideMenu = () => {
     const usernameParam = searchParams.get('username');
     if (usernameParam) {
       setUsername(usernameParam);
+      // Fetch user role based on the username
+      fetchUserRole(usernameParam);
     }
   }, [location]);
+
+  // Function to fetch user role based on username
+  const fetchUserRole = async (username) => {
+    try {
+      // Make an API call to fetch the user's role
+      const response = await fetch(`http://localhost:5000/fetchRoleBaseOnUsername?username=${username}`);
+      if (response.ok) {
+        const data = await response.json();
+        setUserRole(data.role); // Assuming the response contains the user's role
+      } else {
+        console.error('Failed to fetch user role:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error fetching user role:', error);
+    }
+  };
 
   const toggle = () => {
     setCollapsed(!collapsed);
@@ -28,6 +48,7 @@ const SideMenu = () => {
   const handleLogout = () => {
     // Clear user information
     setUsername('');
+    setUserRole('');
     // Navigate to the login page
     navigate('/login');
   };
@@ -42,26 +63,35 @@ const SideMenu = () => {
         )}
       </div>
       <ul className="menu">
-        <li>
-          <Link to={`/admin/dashboard?username=${username}`}>
-            {collapsed ? <FaHome /> : <span>Dashboard</span>}
-          </Link>
-        </li>
-        <li>
-          <Link to={`/admin/submissionwindow?username=${username}`}>
-            {collapsed ? <BsWindowPlus /> : <span>Submission Window</span>}
-          </Link>
-        </li>
-        <li>
-          <Link to={`/admin/register?username=${username}`}>
-            {collapsed ? <IoMdPersonAdd /> : <span>Registration</span>}
-          </Link>
-        </li>
-        <li>
-          <Link to={`/admin/faculty?username=${username}`}>
-            {collapsed ? <GrAdd  /> : <span>Faculties</span>}
-          </Link>
-        </li>
+        {userRole === 'admin' && (
+          <>
+            <li>
+              <Link to={`/admin/dashboard?username=${username}`}>
+                {collapsed ? <FaHome /> : <span>Dashboard</span>}
+              </Link>
+            </li>
+            <li>
+              <Link to={`/admin/submissionwindow?username=${username}`}>
+                {collapsed ? <BsWindowPlus /> : <span>Submission Window</span>}
+              </Link>
+            </li>
+            <li>
+              <Link to={`/admin/register?username=${username}`}>
+                {collapsed ? <IoMdPersonAdd /> : <span>Registration</span>}
+              </Link>
+            </li>
+            <li>
+              <Link to={`/admin/faculty?username=${username}`}>
+                {collapsed ? <GrAdd  /> : <span>Faculties</span>}
+              </Link>
+            </li>
+            <li>
+            <Link to={`/publicmagazine?username=${username}&userRole=${userRole}`}>
+                {collapsed ? <MdPublishedWithChanges /> : <span>Submissions</span>}
+              </Link>
+            </li>
+          </>
+        )}
         <li>
           <Link to="/login" onClick={handleLogout}>
             {collapsed ? <FaSignOutAlt /> : <span>Logout</span>}

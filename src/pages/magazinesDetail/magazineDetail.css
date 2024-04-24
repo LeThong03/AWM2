@@ -1,45 +1,49 @@
-/* DocumentDetail.css */
+.submission-detail-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
 
-.document-detail {
-    padding: 20px;
-  }
-  
-  .document-detail-header {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
-  }
-  
-  .document-detail-cover {
-    width: 150px;
-    height: auto;
-    margin-right: 20px;
-  }
-  
-  .document-detail-info {
-    flex: 1;
-  }
-  
-  .document-detail-info h2 {
-    margin: 0;
-    font-size: 24px;
-    color: #333;
-  }
-  
-  .document-detail-info p {
-    margin: 5px 0;
-    font-size: 16px;
-    color: #666;
-  }
-  
-  .document-detail-pdf {
-    border: 1px solid #ddd;
-    padding: 20px;
-  }
-  
-  .pdf-viewer {
-    width: 100%;
-    height: 500px;
-    border: none;
-  }
-  
+.submission-detail-header {
+  display: flex;
+  align-items: center;
+}
+
+.submission-detail-cover {
+  width: 200px;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-right: 20px;
+}
+
+.submission-detail-info {
+  flex: 1;
+}
+
+.student-name {
+  font-weight: bold;
+}
+
+.faculty {
+  font-style: italic;
+}
+
+.pdf-viewer {
+  width: 100%;
+  height: 500px;
+  border: none;
+}
+
+.submission-details {
+  margin-top: 20px;
+}
+
+.loading {
+  text-align: center;
+  margin-top: 50px;
+  font-size: 18px;
+}

@@ -1,34 +1,56 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import './dashBoard.css'; // Import your CSS file for styling
-import { FaUser, FaChartBar, FaBell } from 'react-icons/fa'; // Import icons from react-icons library
+import './dashBoard.css';
+import { FaUser } from 'react-icons/fa';
 import SideMenu from '../sideMenu/SideMenu';
+import { VictoryBar, VictoryChart, VictoryAxis, VictoryTheme } from 'victory';
 
-const DashBoard = () => {
+const Dashboard = () => {
   const [totalUsers, setTotalUsers] = useState({});
-  const [totalSubmissions, setTotalSubmissions] = useState({});
 
   useEffect(() => {
     fetchTotalUsers();
-    fetchTotalSubmissions();
   }, []);
 
   const fetchTotalUsers = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/getUserCountsByRole');
+      const response = await axios.get('http://localhost:5000/totalUsers');
       setTotalUsers(response.data);
     } catch (error) {
       console.error('Error fetching total users:', error);
     }
   };
 
-  const fetchTotalSubmissions = async () => {
-    try {
-      const response = await axios.get('http://localhost:5000/totalSubmissions');
-      setTotalSubmissions(response.data);
-    } catch (error) {
-      console.error('Error fetching total submissions:', error);
-    }
+  const renderTotalUsersChart = () => {
+    return (
+      <div className="box">
+        <FaUser className="icon" />
+        <h3>Total Users</h3>
+        <VictoryChart
+          domainPadding={20}
+          theme={VictoryTheme.material}
+        >
+          <VictoryAxis
+            tickValues={['Managers', 'Coordinators', 'Students', 'Guest']}
+          />
+          <VictoryAxis
+            dependentAxis
+            tickFormat={(x) => `${x}`}
+          />
+          <VictoryBar
+            data={[
+              { x: 'Managers', y: totalUsers.managers || 0 },
+              { x: 'Coordinators', y: totalUsers.coordinators || 0 },
+              { x: 'Students', y: totalUsers.students || 0 },
+              { x: 'Guest', y: totalUsers.guests || 0 } // Use totalUsers.guest instead of totalUsers.guests
+            ]}
+            style={{
+              data: { fill: 'rgba(255, 99, 132, 0.6)' }
+            }}
+          />
+        </VictoryChart>
+      </div>
+    );
   };
 
   return (
@@ -37,26 +59,11 @@ const DashBoard = () => {
       <div className="dashboard">
         <h2>Static Analysis Dashboard</h2>
         <div className="box-container">
-          <div className="box">
-            <FaUser className="icon" />
-            <h3>Total Users</h3>
-            <p>Managers: {totalUsers.managers}</p>
-            <p>Coordinators: {totalUsers.coordinators}</p>
-            <p>Students: {totalUsers.students}</p>
-          </div>
-          <div className="box">
-            <FaChartBar className="icon" />
-            <h3>Total Submissions</h3>
-            <p>Accepted: {totalSubmissions.accepted}</p>
-            <p>Pending: {totalSubmissions.pending}</p>
-            <p>Rejected: {totalSubmissions.rejected}</p>
-            <p>Rejected for Publish: {totalSubmissions.rejectedForPublish}</p>
-            <p>Approved for Publish: {totalSubmissions.approvedForPublish}</p>
-          </div>
+          {renderTotalUsersChart()}
         </div>
       </div>
     </div>
   );
 };
 
-export default DashBoard;
+export default Dashboard;

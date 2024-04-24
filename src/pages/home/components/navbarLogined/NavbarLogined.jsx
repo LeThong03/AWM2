@@ -1,59 +1,63 @@
-// NavbarLogined.js
-
 import React, { useEffect, useState } from 'react';
 import { RiMenu3Line, RiCloseLine } from 'react-icons/ri';
-import { Link, useLocation, useNavigate } from 'react-router-dom'; // Import Link, useLocation, and useNavigate
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import './navbarLogined.css';
 
 const NavbarLogined = () => {
   const [toggleMenu, setToggleMenu] = useState(false);
-  const navigate = useNavigate(); // Initialize useNavigate hook
-  const location = useLocation(); // Initialize useLocation hook
-  const [userusername, setUserusername] = useState('');
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [username, setUsername] = useState('');
+  const [userRole, setUserRole] = useState('');
 
-  // Extract username from URL query parameter
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
     const usernameParam = searchParams.get('username');
+    const userRoleParam = searchParams.get('userRole');
     if (usernameParam) {
-      setUserusername(usernameParam);
+      setUsername(usernameParam);
+    }
+    if (userRoleParam) {
+      setUserRole(userRoleParam);
     }
   }, [location]);
 
-  // Handle logout
   const handleLogout = () => {
-    // Implement logout functionality here
-
-    // After logout, navigate to the login page
     navigate('/login');
   };
 
   return (
     <div className="magazine__navbar">
       <div className="magazine__navbar-links">
-        <div className="magazine__navbar-links_logo">
-        </div>
-
+        <div className="magazine__navbar-links_logo"></div>
         <div className="magazine__navbar-links_container">
           <p>
-            {/* Pass the username as a query parameter in the URL */}
-            {userusername && <Link to={`/Student/dashboard?username=${userusername}`}>My Dashboard</Link>}
+            <Link to={`/?username=${username}&userRole=${userRole}`}>Home</Link>
           </p>
-          <p><Link to="/publicmagazine">Faculties</Link></p>
+          <p>
+            <Link to={`/publicmagazine?username=${username}&userRole=${userRole}`}>Faculties</Link>
+          </p>
+          {username && userRole && (
+            <p>
+              <Link to={`/${userRole}/dashboard?username=${username}`}>My Dashboard</Link>
+            </p>
+          )}
         </div>
       </div>
 
-      {userusername && ( // Display only if userusername is available
+      {username && (
         <div className="magazine__navbar-user">
-          <p className="user-username">{userusername}</p> {/* Add class to the <p> element */}
+          <p className="user-username">{username}</p>
         </div>
       )}
 
       <div className="magazine__navbar-sign">
-        {userusername ? (
+        {username ? (
           <button type="button" onClick={handleLogout}>Logout</button>
         ) : (
-          <button type="button"><Link to="/login">Sign in</Link></button>
+          <button type="button">
+            <Link to="/login">Sign in</Link>
+          </button>
         )}
       </div>
 
@@ -66,18 +70,26 @@ const NavbarLogined = () => {
         {toggleMenu && (
           <div className="magazine__navbar-menu_container scale-up-center">
             <div className="magazine__navbar-menu_container-links">
+              {username && userRole && (
+                <p>
+                  <Link to={`/${userRole}/dashboard?username=${username}`}>My Dashboard</Link>
+                </p>
+              )}
               <p>
-                {/* Pass the username as a query parameter in the URL */}
-                {userusername && <Link to={`/Student/dashboard?username=${userusername}`}>My Dashboard</Link>}
+                <Link to={`/publicmagazine?username=${username}&userRole=${userRole}`}>Faculties</Link>
               </p>
-              <p><Link to="/publicmagazine">Faculties</Link></p>
+              <p>
+                <Link to={`/?username=${username}&userRole=${userRole}`}>Home</Link>
+              </p>
             </div>
 
             <div className="magazine__navbar-menu_container-links-sign">
-              {userusername ? (
+              {username ? (
                 <button type="button" onClick={handleLogout}>Logout</button>
               ) : (
-                <button type="button"><Link to="/login">Sign in</Link></button>
+                <button type="button">
+                  <Link to="/login">Sign in</Link>
+                </button>
               )}
             </div>
           </div>

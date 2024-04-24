@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import NavbarLogined from './navbarLogined/NavbarLogin';
 import './magazines.css';
 
 const Library = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [submissions, setSubmissions] = useState([]);
+  const [username, setUsername] = useState('');
+  const [userRole, setUserRole] = useState('');
+
 
   useEffect(() => {
     const fetchSubmissions = async () => {
@@ -22,10 +26,25 @@ const Library = () => {
       }
     };
     fetchSubmissions();
-  }, []);
+
+    const searchParams = new URLSearchParams(location.search);
+    const usernameParam = searchParams.get('username');
+    const userRoleParam = searchParams.get('userRole');
+
+    if (usernameParam) {
+      setUsername(usernameParam);
+    }
+    if (userRoleParam) {
+      setUserRole(userRoleParam);
+    }
+  }, [location]);
 
   const openDetail = (submissionId) => {
-    navigate(`/publicmagazine/detail?submissionId=${submissionId}`);
+    if (username) {
+      navigate(`/publicmagazine/detail?submissionId=${submissionId}&username=${username}&userRole=${userRole}`);
+    } else {
+      navigate('/login');
+    }
   };
 
   return (
@@ -34,7 +53,7 @@ const Library = () => {
       <div className="submission-container">
         {submissions.map((submission) => (
           <div key={submission._id} className="submission-card" onClick={() => openDetail(submission._id)}>
-                <img src={`http://localhost:5000/uploads/${submission.coverImage}`} alt={`Image for ${submission.magazineTitle}`} className="submission-image" />
+            <img src={`http://localhost:5000/uploads/${submission.coverImage}`} alt={`Image for ${submission.magazineTitle}`} className="submission-image" />
             <div className="submission-info">
               <h3>{submission.magazineTitle}</h3>
               <p>Student Name: {submission.studentName}</p>

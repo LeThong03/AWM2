@@ -112,3 +112,12 @@
   transform: scale(1.5); /* Make the checkbox 50% bigger */
   align-self: flex-start; /* Align the checkbox to the left */
 }
+.edit-heading {
+  /* Add your styles for editing heading here */
+  color: black !important;
+}
+
+.submit-heading {
+  /* Add your styles for submitting heading here */
+  color: green; /* For example: change color to green */
+}

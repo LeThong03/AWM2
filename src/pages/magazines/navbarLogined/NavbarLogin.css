@@ -1,71 +1,74 @@
-.navbar {
-  background-color: #eeeeee;
-  color: #000000;
+.magazine__navbar {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  justify-content: flex-start; /* Change to align links to the left */
-  align-items: center;
-  padding: 2rem 6rem;
+  background-color: #0000002f;
+  color: #fff;
+  padding: 10px 20px;
 }
 
-.navbar-links {
+.magazine__navbar-links {
   display: flex;
-  margin-right: auto; /* Add margin-right: auto to push user section to the right */
+  align-items: center;
 }
 
-.navbar-link {
-  color: #000000;
+.magazine__navbar-links_container p {
+  margin: 0;
+  padding: 0 10px;
+}
+
+.magazine__navbar-links_container p:last-child {
+  margin-right: 0;
+}
+
+.magazine__navbar-links_container p a {
   text-decoration: none;
-  margin-right: 20px;
-  font-size: 16px;
+  color: #fff;
 }
 
-.navbar-user {
+.magazine__navbar-user,
+.magazine__navbar-sign {
   display: flex;
   align-items: center;
 }
 
-.user-username {
-  margin-right: 10px;
-}
-
-.navbar-button {
-  background: black;
+.magazine__navbar-user,
+.magazine__navbar-sign button {
+  background-color: transparent;
+  color: #fff;
   border: none;
   cursor: pointer;
-  color: White;
-  font-size: 16px;
 }
 
-.navbar-menu-toggle {
+.magazine__navbar-menu {
   display: none;
 }
 
-.navbar-menu {
+.magazine__navbar-menu_container {
   position: absolute;
   top: 100%;
-  right: 20px;
-  background-color: #007bff;
-  border-radius: 5px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  padding: 10px 0;
+  left: 0;
+  background-color: #333;
+  width: 100%;
 }
 
-@media (max-width: 768px) {
-  .navbar-links {
+.magazine__navbar-menu_container-links p {
+  margin: 0;
+  padding: 10px;
+}
+
+.magazine__navbar-menu_container-links p a {
+  color: #fff;
+  text-decoration: none;
+}
+
+/* Responsive Styles */
+@media screen and (max-width: 768px) {
+  .magazine__navbar-links {
     display: none;
   }
 
-  .navbar-menu-toggle {
+  .magazine__navbar-menu {
     display: block;
-    cursor: pointer;
-  }
-
-  .navbar-menu {
-    display: block;
-  }
-
-  .navbar-menu-toggle svg {
-    margin-right: 10px;
   }
 }

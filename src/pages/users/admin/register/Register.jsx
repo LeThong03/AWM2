@@ -153,7 +153,13 @@ class Register extends Component {
 
   render() {
     const { users, formData, isEditing, isAdding, roles, faculties } = this.state;
-
+  
+    // Group users by role
+    const groupedUsers = {};
+    roles.forEach(role => {
+      groupedUsers[role] = users.filter(user => user.role === role);
+    });
+  
     if (isAdding || isEditing) {
       return (
         <div className="user-table-container">
@@ -206,47 +212,50 @@ class Register extends Component {
         </div>
       );
     }
-
+  
     return (
       <div className="user-table-container">
         <SideMenu />
         <h2>User Management</h2>
         <button onClick={() => this.setState({ isAdding: true })} style={{ backgroundColor: '#0000FF', color: 'white', padding: '10px 16px', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>
           <FaPlus /> {/* Add icon */}
-          </button>        
-          <table className="user-table">
-          <thead>
-            <tr>
-              <th>No</th>
-              <th>Username</th>
-              <th>Email</th>
-              <th>Password</th>
-              <th>Role</th>
-              <th>Faculty</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {users.map((user, index) => (
-              <tr key={user._id}>
-                <td>{index + 1}</td>
-                <td>{user.username}</td>
-                <td>{user.email}</td>
-                <td>{user.password}</td> {/* Display password */}
-                <td>{user.role}</td>
-                <td>{user.faculty}</td>
-                <td>
-                <button onClick={() => this.handleEditUser(user)} style={{ color:'blue'}}> 
-                <FaEdit /> Edit
-                </button>                  
-                <button onClick={() => this.handleDelete(user._id)} style={{ color: 'red' }}>
-                  <FaTrash /> Delete
-                  </button>                
-                  </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        </button>
+        {Object.keys(groupedUsers).map(role => (
+          <React.Fragment key={role}>
+            <h3>{role}</h3>
+            <table className="user-table">
+              <thead>
+                <tr>
+                  <th>No</th>
+                  <th>Username</th>
+                  <th>Email</th>
+                  <th>Role</th>
+                  <th>Faculty</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {groupedUsers[role].map((user, index) => (
+                  <tr key={user._id}>
+                    <td>{index + 1}</td>
+                    <td>{user.username}</td>
+                    <td>{user.email}</td>
+                    <td>{user.role}</td>
+                    <td>{user.faculty}</td>
+                    <td>
+                      <button onClick={() => this.handleEditUser(user)} style={{ color:'blue'}}> 
+                        <FaEdit /> Edit
+                      </button>                  
+                      <button onClick={() => this.handleDelete(user._id)} style={{ color: 'red' }}>
+                        <FaTrash /> Delete
+                      </button>                
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </React.Fragment>
+        ))}
       </div>
     );
   }  

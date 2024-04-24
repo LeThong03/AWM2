@@ -32,11 +32,13 @@ const CoordinatorSubmissionWindow = () => {
       const response = await fetch(`http://localhost:5000/submissionWindow/${selectedFaculty}`);
       if (response.ok) {
         const data = await response.json();
-        setStartTime(data.startTime);
-        setEndTime(data.endTime);
+        setStartTime(formatDateTime(data.startTime));
+        setEndTime(formatDateTime(data.endTime));
         setSubmissionWindowExists(true);
       } else if (response.status === 404) {
         setSubmissionWindowExists(false);
+        setStartTime('');
+        setEndTime('');
       } else {
         throw new Error('Failed to fetch submission window');
       }
@@ -44,6 +46,11 @@ const CoordinatorSubmissionWindow = () => {
       console.error('Error fetching submission window:', error);
     }
   };
+
+  const formatDateTime = (dateTime) => {
+    return dateTime.replace('T', ' ').slice(0, -5); // Remove 'T' and timezone offset
+  };
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -92,15 +99,18 @@ const CoordinatorSubmissionWindow = () => {
     }
   };
 
+  useEffect(() => {
+    if (faculty) {
+      fetchSubmissionWindow(faculty);
+    }
+  }, [faculty]);
+
   return (
     <div className="submission-window-container">
       <h2>Submission Window</h2>
       <div>
         <label htmlFor="faculty"> Select Faculty:</label>
-        <select value={faculty} onChange={(e) => {
-          setFaculty(e.target.value);
-          fetchSubmissionWindow(e.target.value);
-        }}>
+        <select value={faculty} onChange={(e) => setFaculty(e.target.value)}>
           <option value="">Select Faculty</option>
           {faculties.map((faculty) => (
             <option key={faculty._id} value={faculty.name}>{faculty.name}</option>
@@ -109,9 +119,9 @@ const CoordinatorSubmissionWindow = () => {
       </div>
       <form onSubmit={handleSubmit}>
         <label>Start Date & Time:</label>
-        <input type="datetime-local" value={startTime ? new Date(startTime).toISOString().slice(0, 16) : ''} onChange={(e) => setStartTime(e.target.value)} required />
+        <input type="datetime-local" value={startTime} onChange={(e) => setStartTime(e.target.value)} required />
         <label>End Date & Time:</label>
-        <input type="datetime-local" value={endTime ? new Date(endTime).toISOString().slice(0, 16) : ''} onChange={(e) => setEndTime(e.target.value)} required />
+        <input type="datetime-local" value={endTime} onChange={(e) => setEndTime(e.target.value)} required />
         <button type="submit">
           {submissionWindowExists ? 'Update Submission Window' : 'Add New Submission Window'}
         </button>

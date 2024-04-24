@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { RiMenu3Line, RiCloseLine } from 'react-icons/ri';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import './NavbarLogin.css';
+import './navbarLogin.css';
 
 const NavbarLogined = () => {
   const [toggleMenu, setToggleMenu] = useState(false);

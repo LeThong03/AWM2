@@ -203,7 +203,9 @@ return (
     <SideMenu />
     {showForm ? (
       <>
-        <h2>{submissionToEdit ? 'Edit Your Magazine' : 'Submit Your Magazine'}</h2>
+        <h2 className={submissionToEdit ? 'edit-heading' : 'submit-heading'}>
+                   {submissionToEdit ? 'Edit Your Magazine' : 'Submit Your Magazine'}
+        </h2>
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <label htmlFor="studentName">Username:</label>
@@ -308,7 +310,6 @@ return (
             )}
           </div>
           <button type="submit">{submissionToEdit ? 'Update' : 'Submit'}</button>
-          <button type="button" onClick={handleCancel}>Cancel</button> {/* Cancel button */}
         </form>
       </>
     ) : (

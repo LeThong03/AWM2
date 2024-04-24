@@ -40,6 +40,23 @@ app.get('/getAllUsers', async (req, res) => {
   }
 });
 
+// Fetch Role Based On Username
+app.get('/fetchRoleBaseOnUsername', async (req, res) => {
+  const { username } = req.query;
+  try {
+    // Find the user by username in the database
+    const user = await User.findOne({ username });
+    if (user) {
+      res.json({ role: user.role });
+    } else {
+      res.status(404).json({ error: 'User not found' });
+    }
+  } catch (error) {
+    console.error('Error fetching user:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 // Route to handle user login
 app.post('/login', async (req, res) => {
   const { username, password } = req.body;
@@ -94,6 +111,25 @@ app.get('/fetchSubmission', async (req, res) => {
   }
 });
 
+app.get('/submissions/:id', async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    // Find the submission in the database by ID
+    const submission = await Submission.findById(id);
+    
+    if (!submission) {
+      return res.status(404).json({ error: 'Submission not found' });
+    }
+
+    res.json(submission); // Return the submission data
+  } catch (error) {
+    console.error('Error fetching submission data:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// Route to fetch submissions to display
 app.get('/fetchSubmissions', async (req, res) => {
   try {
     // Fetch submissions from the database or wherever they are stored
@@ -377,50 +413,105 @@ app.get('/selectedSubmissionsExceptRejectedAndPending', async (req, res) => {
 
 // {statistical analysis}
 // Route to fetch total users
-
 app.get('/totalUsers', async (req, res) => {
   try {
-    const managersCount = await User.countDocuments({ role: 'manager' });
-    const coordinatorsCount = await User.countDocuments({ role: 'coordinator' });
-    const studentsCount = await User.countDocuments({ role: 'student' });
+    const users = await User.aggregate([
+      {
+        $group: {
+          _id: '$role',
+          count: { $sum: 1 }
+        }
+      }
+    ]);
 
     const totalUsers = {
-      managers: managersCount,
-      coordinators: coordinatorsCount,
-      students: studentsCount
+      managers: 0,
+      coordinators: 0,
+      students: 0,
+      guests: 0
     };
 
-    res.status(200).json(totalUsers);
+    users.forEach(user => {
+      if (user._id === 'manager') {
+        totalUsers.managers = user.count;
+      } else if (user._id === 'coordinator') {
+        totalUsers.coordinators = user.count;
+      } else if (user._id === 'student') {
+        totalUsers.students = user.count;
+      } else if (user._id === 'guest') {
+        totalUsers.guests = user.count;
+      }
+    });
+
+    res.json(totalUsers);
   } catch (error) {
     console.error('Error fetching total users:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    res.status(500).json({ message: 'An unexpected error occurred. Please try again later.' });
   }
 });
 
-// Route to fetch total submissions
-app.get('/totalSubmissions', async (req, res) => {
+// Route to fetch total number of users by role
+app.get('/totalUsers', async (req, res) => {
   try {
-    const acceptedCount = await Submission.countDocuments({ submissionStatus: 'Accepted' });
-    const pendingCount = await Submission.countDocuments({ submissionStatus: 'Pending' });
-    const rejectedCount = await Submission.countDocuments({ submissionStatus: 'Rejected' });
-    const rejectedForPublishCount = await Submission.countDocuments({ submissionStatus: 'Rejected For Publish' });
-    const approvedForPublishCount = await Submission.countDocuments({ submissionStatus: 'Approved for Publish' });
+    const users = await User.aggregate([
+      {
+        $group: {
+          _id: '$role',
+          count: { $sum: 1 }
+        }
+      }
+    ]);
 
-    const totalSubmissions = {
-      accepted: acceptedCount,
-      pending: pendingCount,
-      rejected: rejectedCount,
-      rejectedForPublish: rejectedForPublishCount,
-      approvedForPublish: approvedForPublishCount
+    const totalUsers = {
+      managers: 0,
+      coordinators: 0,
+      students: 0,
+      guest: 0
     };
 
-    res.status(200).json(totalSubmissions);
+    users.forEach(user => {
+      if (user._id === 'manager') {
+        totalUsers.managers = user.count;
+      } else if (user._id === 'coordinator') {
+        totalUsers.coordinators = user.count;
+      } else if (user._id === 'student') {
+        totalUsers.students = user.count;
+      } else if (user._id === 'guest') {
+        totalUsers.guest = user.count; // Update the count for the guest role
+      }
+    });
+
+    res.json(totalUsers);
   } catch (error) {
-    console.error('Error fetching total submissions:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error('Error fetching total users:', error);
+    res.status(500).json({ message: 'An unexpected error occurred. Please try again later.' });
   }
 });
 
+// Route to fetch total number of users by faculty
+app.get('/totalUsersByFaculty', async (req, res) => {
+  try {
+    const users = await User.aggregate([
+      {
+        $group: {
+          _id: '$faculty',
+          count: { $sum: 1 }
+        }
+      }
+    ]);
+
+    const totalUsersByFaculty = {};
+
+    users.forEach(user => {
+      totalUsersByFaculty[user._id] = user.count;
+    });
+
+    res.json(totalUsersByFaculty);
+  } catch (error) {
+    console.error('Error fetching total users by faculty:', error);
+    res.status(500).json({ message: 'An unexpected error occurred. Please try again later.' });
+  }
+});
 
 // Start the server
 app.listen(port, () => {
