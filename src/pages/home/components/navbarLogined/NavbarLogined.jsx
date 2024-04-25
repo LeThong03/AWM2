@@ -37,7 +37,8 @@ const NavbarLogined = () => {
           <p>
             <Link to={`/publicmagazine?username=${username}&userRole=${userRole}`}>Faculties</Link>
           </p>
-          {username && userRole && (
+          {/* Conditionally render My Dashboard link based on userRole */}
+          {username && userRole && userRole !== 'guest' && (
             <p>
               <Link to={`/${userRole}/dashboard?username=${username}`}>My Dashboard</Link>
             </p>
@@ -70,7 +71,8 @@ const NavbarLogined = () => {
         {toggleMenu && (
           <div className="magazine__navbar-menu_container scale-up-center">
             <div className="magazine__navbar-menu_container-links">
-              {username && userRole && (
+              {/* Conditionally render My Dashboard link in mobile menu based on userRole */}
+              {username && userRole && userRole !== 'guest' && (
                 <p>
                   <Link to={`/${userRole}/dashboard?username=${username}`}>My Dashboard</Link>
                 </p>

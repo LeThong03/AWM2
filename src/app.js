@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; // Import Routes component
-import { Login, Register, Error404, RegisterSuccess, Home, Magazines, MagazineDetail } from './pages/';
+import { Login, Register, Error404, RegisterSuccess, Home, Magazines, MagazineDetail, NotAuthen } from './pages/';
 
 /*Student*/
 import StudentDashboard from './pages/users/student/dashBoard/DashBoard';
@@ -80,6 +80,14 @@ const NoPage = () => {
   );
 };
 
+const NoAuthen = () => {
+  return (
+    <div className='gradient_bg'>
+      <NotAuthen/>
+    </div>
+  );
+};
+
 const App = () => {
   return (
     <Router>
@@ -113,6 +121,7 @@ const App = () => {
         <Route path="/admin/submissionwindow" element={<AdminSubmissionWindow/>} />
         <Route path="/admin/faculty" element={<AdminFaculty/>} />
         
+        <Route path='/guest/dashboard' element={<NoAuthen />} />
         <Route path='*' element={<NoPage />} />
 
       </Routes>

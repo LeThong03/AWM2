@@ -52,7 +52,7 @@ body {
 
 .submission-card img {
   width: 100%;
-  height: auto;
+  height: 350px;
   border-radius: 8px 8px 0 0;
 }
 
@@ -61,12 +61,13 @@ body {
 }
 
 .submission-info h3 {
-  margin: 0;
+  margin-bottom: 10px;
   font-size: 18px;
   color: #333;
 }
 
 .submission-info p {
+  margin-top: auto;
   margin: 5px 0;
   color: #666;
 }

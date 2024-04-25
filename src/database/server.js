@@ -565,6 +565,25 @@ app.get('/totalUsersByFaculty', async (req, res) => {
   }
 });
 
+app.get('/totalSubmissions', async (req, res) => {
+  try {
+    // Extract the username from the request query parameters
+    const { username } = req.query;
+
+    // Log the username to the console
+    console.log('Username:', username);
+
+    // Query the database to count the total number of submissions for the given username
+    const totalSubmissions = await Submission.countDocuments({ studentName: username });
+
+    // Send the total number of submissions as a response
+    res.status(200).json({ totalSubmissions });
+  } catch (error) {
+    console.error('Error fetching total submissions:', error);
+    res.status(500).json({ error: 'An error occurred while fetching total submissions.' });
+  }
+});
+
 // Start the server
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);

@@ -1,22 +1,40 @@
 import React, { useState, useEffect } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom'; // Import Link component and hooks
 import './dashBoard.css'; // Import your CSS file for styling
-import { FaNewspaper, FaChartBar, FaBell } from 'react-icons/fa'; // Import icons from react-icons library
+import { FaNewspaper } from 'react-icons/fa'; // Import icons from react-icons library
 import SideMenu from '../sideMenu/SideMenu';
 
 const ManagerDashboard = () => {
-  // Mock data for submitted magazines (replace with actual data from backend)
-  const [magazines, setMagazines] = useState([]);
+  const [username, setUsername] = useState('');
+  const [userRole, setUserRole] = useState('');
+  const location = useLocation();
+  const navigate = useNavigate(); // Initialize useNavigate hook
 
   useEffect(() => {
-    // Fetch data from backend or API
-    // Example of mock data
-    const mockData = [
-      { id: 1, title: 'Magazine 1', status: 'Approved' },
-      { id: 2, title: 'Magazine 2', status: 'Pending' },
-      { id: 3, title: 'Magazine 3', status: 'Rejected' }
-    ];
-    setMagazines(mockData);
-  }, []);
+    const searchParams = new URLSearchParams(location.search);
+    const usernameParam = searchParams.get('username');
+    if (usernameParam) {
+      setUsername(usernameParam);
+      // Fetch user role based on the username
+      fetchUserRole(usernameParam);
+    }
+  }, [location]);
+
+  // Function to fetch user role based on username
+  const fetchUserRole = async (username) => {
+    try {
+      // Make an API call to fetch the user's role
+      const response = await fetch(`http://localhost:5000/fetchRoleBaseOnUsername?username=${username}`);
+      if (response.ok) {
+        const data = await response.json();
+        setUserRole(data.role); // Assuming the response contains the user's role
+      } else {
+        console.error('Failed to fetch user role:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error fetching user role:', error);
+    }
+  };
 
   return (
     <div>
@@ -28,16 +46,13 @@ const ManagerDashboard = () => {
             <FaNewspaper className="icon" />
             <h3>View Contributions</h3>
             <p>View and manage all selected contributions</p>
+            <Link to={`/manager/viewsubmission?username=${username}`}>View Contributions</Link> {/* Pass username to link */}
           </div>
           <div className="box">
-            <FaChartBar className="icon" />
-            <h3>Statistical Analysis</h3>
-            <p>Access statistical analysis related to contributions</p>
-          </div>
-          <div className="box">
-            <FaBell className="icon" />
-            <h3>Notifications</h3>
-            <p>Receive notifications about new contributions</p>
+            <FaNewspaper className="icon" />
+            <h3>View Published Magazine</h3>
+            <p>View and all published contributions</p>
+            <Link to={`/publicmagazine?username=${username}&userRole=${userRole}`}>View Published Contributions</Link> {/* Pass username to link */}
           </div>
         </div>
       </div>
