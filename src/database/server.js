@@ -142,6 +142,19 @@ app.get('/fetchSubmissions', async (req, res) => {
   }
 });
 
+// Route to fetch submissions base on Faculty
+app.get('/fetchSubmissionsByFaculty', async (req, res) => {
+  try {
+    const { faculty } = req.query;
+    const submissions = await Submission.find({ faculty, submissionStatus: "Approved For Publication"});
+    res.json(submissions);
+  } catch (error) {
+    console.error('Error fetching submissions by faculty:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+
 // Route to fetch submission based on username Faculty
 app.get('/coordinatorFetchSubmission', async (req, res) => {
   try {
@@ -315,25 +328,42 @@ app.put('/updateMagazine/:id', upload.fields([{ name: 'coverImage', maxCount: 1 
   }
 });
 
-// Route to update submission
-app.put('/updateSubmission/:submissionId', async (req, res) => {
-  const submissionId = req.params.submissionId;
+// PUT endpoint to update a submission
+app.put('/updateSubmissions/:submissionId', upload.fields([{ name: 'coverImage', maxCount: 1 }, { name: 'document', maxCount: 1 }]), async (req, res) => {
+  const { submissionId } = req.params;
+  const { magazineTitle, magazineContent, submissionStatus, comment } = req.body;
+  const coverImage = req.files['coverImage'] ? req.files['coverImage'][0].filename : null;
+  const document = req.files['document'] ? req.files['document'][0].filename : null;
+
   try {
-    const updatedSubmission = await Submission.findByIdAndUpdate(
-      submissionId,
-      req.body,
-      { new: true }
-    );
-    if (!updatedSubmission) {
-      return res.status(404).json({ error: 'Submission not found' });
+    // Find the submission by ID
+    let submission = await Submission.findById(submissionId);
+
+    if (!submission) {
+      return res.status(404).json({ message: 'Submission not found' });
     }
-    res.json({ message: 'Submission updated successfully', submission: updatedSubmission });
+
+    // Update the submission fields
+    submission.magazineTitle = magazineTitle;
+    submission.magazineContent = magazineContent;
+    submission.submissionStatus = submissionStatus;
+    submission.comment = comment;
+    if (coverImage) {
+      submission.coverImage = coverImage;
+    }
+    if (document) {
+      submission.document = document;
+    }
+
+    // Save the updated submission
+    await submission.save();
+
+    res.status(200).json({ message: 'Submission updated successfully', submission });
   } catch (error) {
     console.error('Error updating submission:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    res.status(500).json({ message: 'Internal server error' });
   }
 });
-
 
 // Delete Submission
 // Define a route to handle the deletion of submissions

@@ -80,7 +80,7 @@ const ViewSelectedSubmission = () => {
     // Navigate to the view detail submission route with submissionId parameter
     const params = new URLSearchParams(window.location.search);
     const username = params.get("username");
-    navigate(`/viewdetailsubmission/${submissionId}?username=${username}`);
+    navigate(`/manager/viewdetailsubmission/${submissionId}?username=${username}`);
   };
   
   useEffect(() => {
@@ -141,8 +141,8 @@ const ViewSelectedSubmission = () => {
                     {editingSubmission && editingSubmission._id === submission._id ? (
                       <div>
                         <select value={editedSubmission.submissionStatus} onChange={handleStatusChange}>
-                          <option value="Rejected For Publication">Rejected For Publication</option>
                           <option value="Approved For Publication">Approved For Publication</option>
+                          <option value="Rejected For Publication">Rejected For Publication</option>
                         </select>
 
                         <button className="save-button" onClick={handleSubmitEdit}>Save </button>
@@ -151,10 +151,6 @@ const ViewSelectedSubmission = () => {
                       </div>
                     ) : (
                       <div>
-                        <button className="edit-button" onClick={() => handleEdit(submission._id)} style={{ color:'blue'}}>
-                          <FontAwesomeIcon icon={faEdit} />
-                        </button>
-                        {/* Add view button */}
                         <button className="view-button" onClick={() => handleView(submission._id)} style={{ color:'blue'}}>
                           <FontAwesomeIcon icon={faEye} />
                         </button>

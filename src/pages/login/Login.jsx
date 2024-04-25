@@ -57,7 +57,8 @@ const Login = () => {
             navigate(`/coordinator/dashboard?username=${encodeURIComponent(formData.username)}`);
             break;
             case 'guest':
-              navigate(`/publicmagazine?username=${encodeURIComponent(formData.username)}&userRole=guest`);
+              const faculty = data.user.faculty; // Assuming faculty information is available in the response
+              navigate(`/publicmagazine?username=${encodeURIComponent(formData.username)}&userRole=guest&faculty=${encodeURIComponent(faculty)}`);
               break;
           default:
             break;

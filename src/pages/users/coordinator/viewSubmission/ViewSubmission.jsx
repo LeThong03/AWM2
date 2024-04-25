@@ -124,7 +124,7 @@ const ViewSubmission = () => {
     // Navigate to the view detail submission route with submissionId parameter
     const params = new URLSearchParams(window.location.search);
     const username = params.get("username");
-    navigate(`/viewdetailsubmission/${submissionId}?username=${username}`);
+    navigate(`/coordinator/viewdetailsubmission/${submissionId}?username=${username}`);
   };
 
   return (
@@ -168,8 +168,10 @@ const ViewSubmission = () => {
                     {editingSubmission && editingSubmission._id === submission._id ? (
                       <div>
                         <select value={editedSubmission.submissionStatus} onChange={handleStatusChange}>
-                          <option value="Accepted">Accepted</option>
-                          <option value="Rejected">Rejected</option>
+                        <option value="Accepted">Accepted</option>
+                        <option value="Rejected">Rejected</option>
+                        <option value="Rejected For Publication">Rejected For Publication</option>
+                        <option value="Approved For Publication">Approved For Publication</option>
                         </select>
                         <textarea value={editedSubmission.comment} onChange={handleCommentChange} />
                         <button className="save-button" onClick={handleSubmitEdit}>Save</button>
@@ -182,9 +184,6 @@ const ViewSubmission = () => {
                         </button>
                         <button className="view-button" onClick={() => handleView(submission._id)} style={{ color:'blue'}}>
                           <FontAwesomeIcon icon={faEye} />
-                        </button>
-                        <button className="delete-button" onClick={() => handleDeleteSubmission(submission._id)} style={{ color:'red'}}>
-                          <FontAwesomeIcon icon={faTrashAlt} /> 
                         </button>
                       </div>
                     )}
