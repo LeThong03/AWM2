@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import './viewSelectedSubmission.css';
 import SideMenu from '../sideMenu/SideMenu';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit, faFilePdf, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faFilePdf, faEye } from '@fortawesome/free-solid-svg-icons'; // Import the view icon
+import { useNavigate } from 'react-router-dom';
 
 const ViewSelectedSubmission = () => {
   const [submissions, setSubmissions] = useState([]);
@@ -11,6 +12,8 @@ const ViewSelectedSubmission = () => {
     submissionStatus: '',
     comment: ''
   });
+
+  const navigate = useNavigate(); // Initialize useNavigate hook
 
   const handleEdit = (submissionId) => {
     // Find the submission to edit
@@ -73,7 +76,13 @@ const ViewSelectedSubmission = () => {
       submissionStatus: '',
     });
   };
-
+  const handleView = (submissionId) => {
+    // Navigate to the view detail submission route with submissionId parameter
+    const params = new URLSearchParams(window.location.search);
+    const username = params.get("username");
+    navigate(`/viewdetailsubmission/${submissionId}?username=${username}`);
+  };
+  
   useEffect(() => {
     const fetchSelectedSubmissions = async () => {
       try {
@@ -116,8 +125,8 @@ const ViewSelectedSubmission = () => {
                 <tr key={submission._id}>
                   <td>{index + 1}</td>
                   <td>
-                <img src={`http://localhost:5000/uploads/${submission.coverImage}`} alt={`Image for ${submission.magazineTitle}`} className="submission-image" />
-                 </td>
+                    <img src={`http://localhost:5000/uploads/${submission.coverImage}`} alt={`Image for ${submission.magazineTitle}`} className="submission-image" />
+                  </td>
                   <td>{submission.studentName}</td>
                   <td>{submission.faculty}</td>
                   <td>{submission.magazineTitle}</td>
@@ -143,7 +152,11 @@ const ViewSelectedSubmission = () => {
                     ) : (
                       <div>
                         <button className="edit-button" onClick={() => handleEdit(submission._id)} style={{ color:'blue'}}>
-                          <FontAwesomeIcon icon={faEdit} /> Edit
+                          <FontAwesomeIcon icon={faEdit} />
+                        </button>
+                        {/* Add view button */}
+                        <button className="view-button" onClick={() => handleView(submission._id)} style={{ color:'blue'}}>
+                          <FontAwesomeIcon icon={faEye} />
                         </button>
                       </div>
                     )}
