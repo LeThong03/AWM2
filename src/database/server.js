@@ -334,6 +334,36 @@ app.put('/updateSubmission/:submissionId', async (req, res) => {
   }
 });
 
+
+// Delete Submission
+// Define a route to handle the deletion of submissions
+app.delete('/deleteSubmission', async (req, res) => {
+  try {
+    // Extract the submission ID from the request query parameters
+    const { id } = req.query;
+
+    // Check if the submission exists
+    const submission = await Submission.findById(id);
+    if (!submission) {
+      return res.status(404).json({ error: 'Submission not found.' });
+    }
+
+    // Check if the submission status is "Approved For Publication"
+    if (submission.submissionStatus === 'Approved For Publication') {
+      return res.status(403).json({ error: 'Cannot delete submission that is approved for publication.' });
+    }
+
+    // Delete the submission from the database
+    await Submission.findByIdAndDelete(id);
+
+    // Send a success response
+    res.status(200).json({ message: 'Submission deleted successfully.' });
+  } catch (error) {
+    console.error('Error deleting submission:', error);
+    res.status(500).json({ error: 'An error occurred while deleting submission.' });
+  }
+});
+
 // {Submission Window}
 
 app.get('/submissionWindow/:faculty', async (req, res) => {

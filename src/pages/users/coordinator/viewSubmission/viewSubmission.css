@@ -75,6 +75,12 @@
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  transition: background-color 0.3s; /* Smooth transition effect */
+}
+
+/* Hover effect for save button */
+.save-button:hover {
+  background-color: darkblue; /* Darker shade of blue on hover */
 }
 
 /* Style cancel button */
@@ -85,4 +91,11 @@
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  transition: background-color 0.3s; /* Smooth transition effect */
 }
+
+/* Hover effect for cancel button */
+.cancel-button:hover {
+  background-color: darkred; /* Darker shade of red on hover */
+}
+

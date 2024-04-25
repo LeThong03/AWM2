@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './status.css';
 import SideMenu from '../sideMenu/SideMenu';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit, faFilePdf } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faFilePdf, faTrash } from '@fortawesome/free-solid-svg-icons';
 import SubmissionForm from '../submissionForm/SubmissionForm'; // Import the SubmissionForm component
 
 const Status = () => {
@@ -60,6 +60,29 @@ const Status = () => {
     }
   };
   
+  const handleDelete = async (submissionId, submissionStatus) => {
+    if (submissionStatus !== "Approved For Publication") {
+      // If the submission status is not "Approved For Publication", proceed with deletion
+      try {
+        const response = await fetch(`http://localhost:5000/deleteSubmission?id=${submissionId}`, {
+          method: 'DELETE'
+        });
+        if (response.ok) {
+          // Remove the deleted submission from the state
+          setSubmissions(submissions.filter(submission => submission._id !== submissionId));
+          alert(`Submission with ID ${submissionId} deleted successfully.`);
+        } else {
+          console.error('Failed to delete submission:', response.statusText);
+        }
+      } catch (error) {
+        console.error('Error deleting submission:', error);
+      }
+    } else {
+      // Submission is already approved for publication, cannot delete
+      alert(`Submission with ID ${submissionId} is already approved for publication. Cannot delete.`);
+    }
+  };
+
   const handleCancelEdit = () => {
     // Cancel editing by resetting the editSubmission state
     setEditSubmission(null);
@@ -109,6 +132,9 @@ const Status = () => {
                     <td>
                       <button className="edit-button" onClick={() => handleEdit(submission._id, submission.submissionDate, submission.submissionStatus, submission.magazineTitle, submission.magazineContent, submission.comment, submission.studentName, submission.faculty)}>
                         <FontAwesomeIcon icon={faEdit} />
+                      </button>
+                      <button className="delete-button" onClick={() => handleDelete(submission._id, submission.submissionStatus)}>
+                        <FontAwesomeIcon icon={faTrash}  style={{ color: 'red' }}/>
                       </button>
                     </td>
                   </tr>

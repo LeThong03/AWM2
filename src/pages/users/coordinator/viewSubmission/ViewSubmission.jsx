@@ -104,7 +104,7 @@ const ViewSubmission = () => {
         if (submission._id === submissionId) {
           return {
             ...submission,
-            submissionStatus: 'pending',
+            submissionStatus: 'Pending',
             comment: ''
           };
         }
