@@ -73,7 +73,7 @@ const SideMenu = () => {
           </li>
         )}
         <li>
-          <Link to={`/manager/viewsubmission?username=${username}`}>
+          <Link to={`/manager/viewsubmission?username=${username}&userRole=${userRole}`}>
             {collapsed ? <FaNewspaper /> : <span>View Contributions</span>}
           </Link>
         </li>

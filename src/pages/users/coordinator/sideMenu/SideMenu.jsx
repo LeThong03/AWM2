@@ -87,7 +87,7 @@ const SideMenu = () => {
           </>
         )}
         <li>
-          <Link to={`/coordinator/viewsubmission?username=${username}`}>
+          <Link to={`/coordinator/viewsubmission?username=${username}&userRole=${userRole}`}>
             {collapsed ? <MdComment /> : <span>View Submissions</span>}
           </Link>
         </li>

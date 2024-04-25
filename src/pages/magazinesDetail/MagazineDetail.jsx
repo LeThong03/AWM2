@@ -55,7 +55,6 @@ const SubmissionDetail = () => {
       <div className="submission-details">
         <p className="status">Submission Status: {submission.submissionStatus}</p>
         <p className="date">Submission Date: {new Date(submission.submissionDate).toLocaleString()}</p>
-        <p className="comment">Comment: {submission.comment}</p>
         </div>
       </div>
     </div>

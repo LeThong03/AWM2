@@ -244,10 +244,10 @@ class Register extends Component {
                     <td>{user.faculty}</td>
                     <td>
                       <button onClick={() => this.handleEditUser(user)} style={{ color:'blue'}}> 
-                        <FaEdit /> Edit
+                        <FaEdit />
                       </button>                  
                       <button onClick={() => this.handleDelete(user._id)} style={{ color: 'red' }}>
-                        <FaTrash /> Delete
+                        <FaTrash />
                       </button>                
                     </td>
                   </tr>

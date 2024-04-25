@@ -2,15 +2,19 @@ import React, { useState, useEffect } from 'react';
 import './viewSubmission.css';
 import SideMenu from '../sideMenu/SideMenu';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit, faFilePdf, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faFilePdf, faTrashAlt, faEye } from '@fortawesome/free-solid-svg-icons';
+import { useNavigate } from 'react-router-dom';
 
 const ViewSubmission = () => {
   const [submissions, setSubmissions] = useState([]);
+  const [userRole, setUserRole] = useState('');
   const [editingSubmission, setEditingSubmission] = useState(null);
   const [editedSubmission, setEditedSubmission] = useState({
     submissionStatus: '',
     comment: ''
   });
+
+  const navigate = useNavigate(); // Initialize useNavigate hook
 
   useEffect(() => {
     const fetchSubmissions = async () => {
@@ -116,6 +120,13 @@ const ViewSubmission = () => {
     }
   };
 
+  const handleView = (submissionId) => {
+    // Navigate to the view detail submission route with submissionId parameter
+    const params = new URLSearchParams(window.location.search);
+    const username = params.get("username");
+    navigate(`/viewdetailsubmission/${submissionId}?username=${username}`);
+  };
+
   return (
     <div className="status-page">
       <SideMenu />
@@ -167,10 +178,13 @@ const ViewSubmission = () => {
                     ) : (
                       <div>
                         <button className="edit-button" onClick={() => handleEdit(submission._id)} style={{ color:'blue'}}>
-                          <FontAwesomeIcon icon={faEdit} /> Edit
+                          <FontAwesomeIcon icon={faEdit} /> 
+                        </button>
+                        <button className="view-button" onClick={() => handleView(submission._id)} style={{ color:'blue'}}>
+                          <FontAwesomeIcon icon={faEye} />
                         </button>
                         <button className="delete-button" onClick={() => handleDeleteSubmission(submission._id)} style={{ color:'red'}}>
-                          <FontAwesomeIcon icon={faTrashAlt} /> Delete
+                          <FontAwesomeIcon icon={faTrashAlt} /> 
                         </button>
                       </div>
                     )}

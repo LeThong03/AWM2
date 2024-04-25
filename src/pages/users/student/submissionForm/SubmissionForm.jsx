@@ -259,7 +259,7 @@ const SubmissionForm = ({ submissionToEdit }) => {
                 onChange={handleChange}
               />
               {formData.coverImage && (
-                <img src={URL.createObjectURL(formData.coverImage)} alt="Cover preview" className="preview" />
+                <img src={URL.createObjectURL(formData.coverImage)} alt="Cover preview" width="75%" height="500px" className="preview" />
               )}
               {formErrors.coverImage && (
                 <span className="error">{formErrors.coverImage}</span>
@@ -306,7 +306,7 @@ const SubmissionForm = ({ submissionToEdit }) => {
                 <span className="error">{formErrors.terms}</span>
               )}
             </div>
-            <button type="submit">{submissionToEdit ? 'Update' : 'Submit'}</button>
+            <button type="submit" style={{ color: 'white' }}>{submissionToEdit ? 'Update' : 'Submit'}</button>
           </form>
         </>
       ) : (

@@ -99,3 +99,7 @@
   background-color: darkred; /* Darker shade of red on hover */
 }
 
+.magazine-table th:last-child,
+.magazine-table td:last-child {
+  width: 150px; /* Adjust the width as needed */
+}
