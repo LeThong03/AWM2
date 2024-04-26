@@ -196,18 +196,20 @@ class Register extends Component {
                 <option key={role} value={role}>{role}</option>
               ))}
             </select>
-            <select
-              name="faculty"
-              value={formData.faculty}
-              onChange={this.handleInputChange}
-            >
-              <option value="">Select Faculty</option>
-              {faculties.map(faculty => (
-                <option key={faculty._id} value={faculty.name}>{faculty.name}</option>
-              ))}
-            </select>
-            <button type="submit" style={{ color: 'white', marginTop: '10px', marginBottom: '10px' }}>{isEditing ? 'Update' : 'Add'}</button>
-            <button type="button" onClick={isEditing ? this.handleCancelEdit : this.handleCancelAdd} style={{ color: 'white', marginTop: '10px', marginBottom: '10px' }}>Cancel</button>
+            {!['manager', 'admin'].includes(formData.role) && (
+                <select
+                  name="faculty"
+                  value={formData.faculty}
+                  onChange={this.handleInputChange}
+                >
+                  <option value="">Select Faculty</option>
+                  {faculties.map(faculty => (
+                    <option key={faculty._id} value={faculty.name}>{faculty.name}</option>
+                  ))}
+                </select>
+              )}
+              <button type="submit" style={{ color: 'white', marginTop: '10px', marginBottom: '10px' }}>{isEditing ? 'Update' : 'Add'}</button>
+              <button type="button" onClick={isEditing ? this.handleCancelEdit : this.handleCancelAdd} style={{ color: 'white', marginTop: '10px', marginBottom: '10px' }}>Cancel</button>
           </form>
         </div>
       );

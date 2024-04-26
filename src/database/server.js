@@ -513,12 +513,12 @@ app.delete('/deleteSubmission/:Id', async (req, res) => {
 });
 
 // {Selected Submission ExceptRejected And Pending}
-app.get('/selectedSubmissionsExceptRejectedAndPending', async (req, res) => {
+app.get('/allSelectedSubmissions', async (req, res) => {
   try {
-    const submissions = await Submission.find({ submissionStatus: { $nin: ['Rejected', 'Pending', 'pending'] } });
+    const submissions = await Submission.find();
     res.json(submissions);
   } catch (error) {
-    console.error('Error fetching selected submissions:', error);
+    console.error('Error fetching submissions:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
 });
@@ -643,6 +643,7 @@ app.get('/totalSubmissions', async (req, res) => {
     res.status(500).json({ error: 'An error occurred while fetching total submissions.' });
   }
 });
+
 
 // Start the server
 app.listen(port, () => {

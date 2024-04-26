@@ -58,7 +58,7 @@ const ViewSelectedSubmission = () => {
       });
 
       // Refetch submissions to reflect the changes
-      const response = await fetch('http://localhost:5000/selectedSubmissionsExceptRejectedAndPending');
+      const response = await fetch('http://localhost:5000/allSelectedSubmissions');
       if (response.ok) {
         const data = await response.json();
         setSubmissions(data);
@@ -86,7 +86,7 @@ const ViewSelectedSubmission = () => {
   useEffect(() => {
     const fetchSelectedSubmissions = async () => {
       try {
-        const response = await fetch('http://localhost:5000/selectedSubmissionsExceptRejectedAndPending');
+        const response = await fetch('http://localhost:5000/allSelectedSubmissions');
         if (response.ok) {
           const data = await response.json();
           setSubmissions(data);
@@ -111,7 +111,7 @@ const ViewSelectedSubmission = () => {
               <tr>
                 <th>No</th>
                 <th>Cover Image</th>
-                <th>Student Name</th>
+                <th>Student Name</th> 
                 <th>Faculty</th>
                 <th>Title</th>
                 <th>Document</th>
