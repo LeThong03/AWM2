@@ -1,3 +1,6 @@
+const path = require('path');
+require('dotenv').config({ path: path.resolve(__dirname, '../../.env') });
+
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
@@ -10,20 +13,13 @@ const Submission = require('./Submission');
 const SubmissionWindow = require('./SubmissionWindow')
 
 const app = express();
-const port = 5000;
+const port = process.env.MONGODB_PORT || 5000;
 
-// Connect to MongoDB
-const MONGODB_URI = "mongodb+srv://unravengundam:22122003@test1.9oqrrcu.mongodb.net/";
-mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => {
-    console.log('Connected to MongoDB');
-  })
+mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log('Connected to MongoDB'))
   .catch(err => console.error(err));
 
-// Middleware
 app.use(bodyParser.json());
-
-// Enable CORS
 app.use(cors());
 
 // Serve uploaded files statically
